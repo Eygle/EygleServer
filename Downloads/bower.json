@@ -1,0 +1,20 @@
+{
+  "name": "eygle",
+  "description": "Downloads Web app used to manage and share the medias available on the server",
+  "main": "server.js",
+  "authors": [
+    "Eygle <cavalec.johan@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/Eygle/EygleServer",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "^1.1.4"
+  }
+}
