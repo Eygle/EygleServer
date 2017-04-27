@@ -1,10 +1,11 @@
 <md-toolbar md-colors="::{background: 'default-primary-800'}">
-    <h1 class="md-toolbar-tools">Sidenav Left</h1>
+    <h1 class="md-toolbar-tools" translate="APP_NAME"></h1>
 </md-toolbar>
 <ul>
-    <li ng-repeat="p in vm.parts">
-        <md-icon md-font-icon="{{p.icon}}" aria-label="p.label"></md-icon>
-        <i class="material-icons">{{p.icon}}</i>
-        <span>{{p.label}}</span>
+    <li ng-repeat="p in vm.parts | orderBy: 'weight'" ng-class="{'selected': vm.$state.current.name === p.name}">
+        <a ui-sref="{{p.name}}()">
+            <md-icon md-font-icon="{{p.icon}}" aria-label="icon"></md-icon>
+            <span translate="{{p.translate}}"></span>
+        </a>
     </li>
 </ul>

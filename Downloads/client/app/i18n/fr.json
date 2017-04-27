@@ -1,0 +1,12 @@
+{
+  "APP_NAME": "Eygle Downloads",
+  "HOME": {
+    "TITLE": "Accueil"
+  },
+  "TV_SHOWS": {
+    "TITLE": "Séries"
+  },
+  "MOVIES": {
+    "TITLE": "Films"
+  }
+}

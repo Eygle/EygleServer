@@ -1,12 +1,14 @@
 class NavigationController {
-    public parts: Array;
+    public parts: Array<any>;
 
-    constructor() {
-        this.parts = [
-            {icon: 'icon-home', label: 'Accueil', state: 'eygle.home'},
-            {icon: 'icon-home', label: 'Séries', state: 'eygle.tvshow'},
-            {icon: 'icon-home', label: 'Films', state: 'eygle.movies'},
-        ];
+    constructor(public $state) {
+        this.parts = [];
+
+        for (let s of $state.get()) {
+            if (s.weight) {
+                this.parts.push(s);
+            }
+        }
     }
 }
 

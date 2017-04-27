@@ -4,7 +4,6 @@
 
 class HomeController {
     constructor() {
-        console.log("inside home ctrl");
     }
 
     $onInit() {}

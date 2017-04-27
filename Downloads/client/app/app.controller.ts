@@ -7,8 +7,6 @@ class AppController {
     constructor(private $scope: any) {
         this.login = false;
 
-        console.log("inside app controller");
-
         // $scope.$on('$locationChangeStart', function (next, current) {
         //     vm.login = !(!Auth.user || !Auth.user.id || Auth.user.id == "" || Auth.user.role.title == "public");
         // });

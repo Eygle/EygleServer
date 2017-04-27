@@ -1,0 +1,12 @@
+{
+  "APP_NAME": "Eygle Downloads",
+  "HOME": {
+    "TITLE": "Home"
+  },
+  "TV_SHOWS": {
+    "TITLE": "TV Shows"
+  },
+  "MOVIES": {
+    "TITLE": "Movies"
+  }
+}

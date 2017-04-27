@@ -29,11 +29,8 @@ class RunBlock {
             stateChangeSuccessEvent();
         });
 
-        console.log("Inside app run");
-
         //REDIRECT
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState) {
-            console.log("state change start");
             // if (toState.url != "/first-connect" && this.Access.isNotActivated() && !this.Access.CGUisAccepted()) {
             //     event.preventDefault();
             //     $state.go('eygle.first-connection');

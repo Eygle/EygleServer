@@ -29,7 +29,7 @@
     "moment": "^2.17.1",
     "perfect-scrollbar": "0.6.11",
     "ng-contextmenu": "https://github.com/MaPUILabs/ngContextMenu.git#master",
-    "jquery": "^3.2.1"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "angular-mocks": "1.5.7"
@@ -40,7 +40,6 @@
         "min/moment-with-locales.js"
       ]
     },
-
     "perfect-scrollbar": {
       "main": [
         "css/perfect-scrollbar.css",

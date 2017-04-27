@@ -2,10 +2,26 @@
  * Created by eygle on 4/27/17.
  */
 
-const saveFiles = "./list-of-files.json";
+const saveFiles = __dirname + "/list-of-files.json";
 const fs = require("fs");
-const files = require("../server/modules/listDirectory")(".");
-const oldFilesTxt = fs.readFileSync(saveFiles);
-const oldFiles = oldFilesTxt ? Json.parse(oldFilesTxt) : [];
+let files = require("../server/modules/listDirectory")("/home/eygle/downnloads");
 
-fs.writeFileSync(saveFiles, JSON.stringify(files));
+// if (files) {
+    let oldFiles;
+    if (fs.existsSync(saveFiles)) {
+        const oldFilesTxt = fs.readFileSync(saveFiles);
+        oldFiles = oldFilesTxt ? Json.parse(oldFilesTxt) : [];
+    } else {
+        oldFiles = oldFilesTxt ? Json.parse(oldFilesTxt) : [];
+    }
+
+    for (let f of loadFileList2Process(files, oldFiles)) {
+        // TODO process file
+    }
+
+    fs.writeFileSync(saveFiles, JSON.stringify(files));
+// }
+
+const loadFileList2Process = (files, oldFiles) => {
+    return oldFiles; // TODO RM
+};
