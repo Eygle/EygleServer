@@ -30,7 +30,6 @@ class RunBlock {
         });
 
         console.log("Inside app run");
-        // $state.go('eygle.home');
 
         //REDIRECT
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState) {

@@ -40,11 +40,7 @@
         "min/moment-with-locales.js"
       ]
     },
-    "angular-material": {
-      "main": [
-        "angular-material.js"
-      ]
-    },
+
     "perfect-scrollbar": {
       "main": [
         "css/perfect-scrollbar.css",

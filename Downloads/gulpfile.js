@@ -24,23 +24,6 @@ const conf = {
     }
 };
 
-// inject bower components
-gulp.task('wiredep', () => {
-    const injectOption = {
-        ignorePath: [conf.serve],
-        addRootSlash: false
-    };
-
-    const injectScripts = gulp.src([conf.serve + "**/*.js"])
-        .pipe($.angularFilesort()).on('error', conf.errorHandler('AngularFilesort'));
-
-    gulp.src(conf.src + 'index.html')
-        .pipe($.inject(injectScripts, injectOption))
-        .pipe($.inject(gulp.src([conf.serve + "**/*.css"]), injectOption))
-        .pipe(wiredep({}))
-        .pipe(gulp.dest(conf.serve));
-});
-
 gulp.task('styles', () => {
     return gulp.src(conf.src + '**/*.scss', {base: 'client'})
         .pipe($.plumber())
@@ -73,10 +56,27 @@ gulp.task('misc', () => {
         .pipe(reload({stream: true}));
 });
 
+// inject bower components
+gulp.task('wiredep', ['styles', 'scripts', 'misc'], () => {
+    const injectOption = {
+        ignorePath: [conf.serve],
+        addRootSlash: false
+    };
+
+    const injectScripts = gulp.src([conf.serve + "**/*.js"])
+        .pipe($.angularFilesort()).on('error', conf.errorHandler('AngularFilesort'));
+
+    gulp.src(conf.src + 'index.html')
+        .pipe($.inject(injectScripts, injectOption))
+        .pipe($.inject(gulp.src([conf.serve + "**/*.css"]), injectOption))
+        .pipe(wiredep({}))
+        .pipe(gulp.dest(conf.serve));
+});
+
 gulp.task('clean', del.bind(null, [dist]));
 
 gulp.task('serve:local', () => {
-    runSequence(['clean'], ['styles', 'scripts', 'misc'], 'wiredep', () => {
+    runSequence('clean', 'wiredep', () => {
         browserSync.init({
             notify: false,
             port: 9000,
@@ -89,14 +89,13 @@ gulp.task('serve:local', () => {
             }
         });
 
-        gulp.watch([
-            conf.serve + '**/*.html',
-            conf.serve + '**/*.css',
-            conf.serve + '**/*.js',
-            conf.serve + 'assets/images/**/*'
-        ]).on('change', reload);
+        // gulp.watch([
+        //     conf.serve + '**/*.html',
+        //     conf.serve + '**/*.css',
+        //     conf.serve + '**/*.js',
+        //     conf.serve + 'assets/images/**/*'
+        // ]).on('change', reload);
 
-        gulp.watch(conf.src + '/**/*.scss', ['styles']);
-        gulp.watch(conf.src + '/**/*.ts', ['scripts']);
+        gulp.watch(conf.src + '/**/*.*', ['wiredep']);
     });
 });

@@ -1,9 +1,0 @@
-{
-  "globalDependencies": {
-    "angular": "registry:dt/angular#1.5.0+20160709055139",
-    "jquery": "registry:dt/jquery#1.10.0+20160704162008",
-    "moment": "registry:dt/moment#2.11.1+20161010105546",
-    "moment-timezone": "registry:dt/moment-timezone#0.2.5+20160329220348",
-    "q": "registry:dt/q#0.0.0+20160613154756"
-  }
-}
