@@ -14,9 +14,8 @@
   },
   "homepage": "https://github.com/Eygle/EygleServer#readme",
   "scripts": {
-
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "bower install && typings install"
+    "postinstall": "bower installs"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",
@@ -50,6 +49,11 @@
     "wiredep": "^4.0.0"
   },
   "dependencies": {
+    "@types/angular": "^1.6.16",
+    "@types/jquery": "^2.0.41",
+    "@types/moment": "^2.13.0",
+    "@types/moment-timezone": "^0.2.34",
+    "@types/q": "^1.0.0",
     "angular": "^1.6.4",
     "angular-animate": "^1.6.4",
     "angular-aria": "^1.6.4",

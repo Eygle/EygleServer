@@ -29,17 +29,21 @@ class RunBlock {
             stateChangeSuccessEvent();
         });
 
+        console.log("Inside app run");
+        // $state.go('eygle.home');
+
         //REDIRECT
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState) {
-            if (toState.url != "/first-connect" && this.Access.isNotActivated() && !this.Access.CGUisAccepted()) {
-                event.preventDefault();
-                $state.go('mapui.first-connection');
-            }
-            else if (!('data' in toState) || !('access' in toState.data)) {
-                $rootScope.error = "Access undefined for this state";
-                $rootScope.loadingProgress = false;
-                // event.preventDefault();
-            }
+            console.log("state change start");
+            // if (toState.url != "/first-connect" && this.Access.isNotActivated() && !this.Access.CGUisAccepted()) {
+            //     event.preventDefault();
+            //     $state.go('eygle.first-connection');
+            // }
+            // else if (!('data' in toState) || !('access' in toState.data)) {
+            //     $rootScope.error = "Access undefined for this state";
+            //     $rootScope.loadingProgress = false;
+            //     // event.preventDefault();
+            // }
             // else if (!Auth.authorize(toState.data.access)) {
             //     /*$rootScope.error = "Vous n'avez pas les droits pour cet accès...";*/
             //     event.preventDefault();

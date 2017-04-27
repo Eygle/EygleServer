@@ -20,7 +20,7 @@ class RouteConfig {
 
         $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.otherwise('/error-404');
+        //$urlRouterProvider.otherwise('/error-404');
 
         // FIX for trailing slashes. Gracefully "borrowed" from https://github.com/angular-ui/ui-router/issues/50
 

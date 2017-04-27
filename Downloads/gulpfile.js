@@ -14,7 +14,14 @@ const conf = {
     distServer: dist + "/server/",
 
     src: "client/",
-    dev: true
+    dev: true,
+
+    errorHandler: (title) => {
+        return (err) => {
+            gutil.log(gutil.colors.red('[' + title + ']'), err.toString());
+            this.emit('end');
+        };
+    }
 };
 
 // inject bower components
@@ -24,9 +31,12 @@ gulp.task('wiredep', () => {
         addRootSlash: false
     };
 
+    const injectScripts = gulp.src([conf.serve + "**/*.js"])
+        .pipe($.angularFilesort()).on('error', conf.errorHandler('AngularFilesort'));
+
     gulp.src(conf.src + 'index.html')
+        .pipe($.inject(injectScripts, injectOption))
         .pipe($.inject(gulp.src([conf.serve + "**/*.css"]), injectOption))
-        .pipe($.inject(gulp.src([conf.serve + "**/*.js"]), injectOption))
         .pipe(wiredep({}))
         .pipe(gulp.dest(conf.serve));
 });

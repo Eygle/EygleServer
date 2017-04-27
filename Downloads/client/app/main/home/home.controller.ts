@@ -3,7 +3,9 @@
  */
 
 class HomeController {
-    constructor() {}
+    constructor() {
+        console.log("inside home ctrl");
+    }
 
     $onInit() {}
 }
