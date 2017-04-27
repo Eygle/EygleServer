@@ -2,10 +2,11 @@
  * Created by eygle on 4/26/17.
  */
 class AppConfig {
-    constructor(private $translateProvider: any,
-                private $translatePartialLoaderProvider: any,
-                private $windowProvider: any) {
-        var $window = this.$windowProvider.$get();
+    constructor($translateProvider: any,
+                $translatePartialLoaderProvider: any,
+                $windowProvider: any,
+                $mdThemingProvider: any) {
+        var $window = $windowProvider.$get();
         var lang = $window.navigator.language || $window.navigator.userLanguage;
 
         $translateProvider.useLoader('$translatePartialLoader', {
@@ -20,6 +21,10 @@ class AppConfig {
         $translateProvider.useSanitizeValueStrategy(null);
         $translateProvider.useCookieStorage();
         $translatePartialLoaderProvider.addPart('app');
+
+        $mdThemingProvider.theme('default')
+            .primaryPalette('blue-grey')
+            .accentPalette('amber');
     }
 }
 

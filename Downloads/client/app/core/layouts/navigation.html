@@ -1,8 +1,10 @@
-<md-toolbar class="md-theme-indigo">
+<md-toolbar md-colors="::{background: 'default-primary-800'}">
     <h1 class="md-toolbar-tools">Sidenav Left</h1>
 </md-toolbar>
 <ul>
-    <li>Accueil</li>
-    <li>Séries</li>
-    <li>Films</li>
+    <li ng-repeat="p in vm.parts">
+        <md-icon md-font-icon="{{p.icon}}" aria-label="p.label"></md-icon>
+        <i class="material-icons">{{p.icon}}</i>
+        <span>{{p.label}}</span>
+    </li>
 </ul>
