@@ -1,14 +1,32 @@
 {
   "APP_NAME": "Eygle Downloads",
-  "HOME": {
-    "TITLE": "Home",
-    "LAST_ADDED": "Last added",
-    "AWAITING_DELETION": "Soon to be removed"
+
+  "GENERAL": {
+    "HOME": {
+      "TITLE": "Home",
+      "LAST_ADDED": "Last added",
+      "AWAITING_DELETION": "Soon to be removed"
+    },
+    "TV_SHOWS": {
+      "TITLE": "TV Shows"
+    },
+    "MOVIES": {
+      "TITLE": "Movies"
+    }
   },
-  "TV_SHOWS": {
-    "TITLE": "TV Shows"
+
+  "PROFILE": {
+    "MY_ACCOUNT": {
+      "TITLE": "My account"
+    },
+    "SETTINGS": {
+      "TITLE": "Settings"
+    }
   },
-  "MOVIES": {
-    "TITLE": "Movies"
+
+  "ADMIN": {
+    "PANEL": {
+      "TITLE": "Panel admin"
+    }
   }
 }

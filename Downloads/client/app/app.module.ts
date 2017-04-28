@@ -2,9 +2,9 @@
  * Created by eygle on 4/26/17.
  */
 angular.module('eygle', [
-    'eygle.home',
-    'eygle.tv-shows',
-    'eygle.movies',
+    'eygle.general',
+    'eygle.profile',
+    'eygle.admin',
     'eygle.services',
 
     'ngMaterial',

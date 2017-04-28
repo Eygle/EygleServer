@@ -35,6 +35,7 @@
     "gulp-if": "^2.0.2",
     "gulp-imagemin": "^3.0.1",
     "gulp-inject": "^4.2.0",
+    "gulp-livereload": "^3.8.1",
     "gulp-load-plugins": "^1.2.4",
     "gulp-nodemon": "^2.2.1",
     "gulp-plumber": "^1.0.1",
@@ -51,12 +52,13 @@
     "resty": "0.0.3",
     "run-sequence": "^1.2.2",
     "typescript": "^2.2.2",
+    "underscore": "^1.8.3",
     "url": "^0.11.0",
+    "util": "^0.10.3",
     "wiredep": "^4.0.0"
   },
   "dependencies": {
     "@types/angular": "^1.6.16",
-    "@types/jquery": "^2.0.41",
     "@types/moment": "^2.13.0",
     "@types/moment-timezone": "^0.2.34",
     "@types/q": "^1.0.0",
@@ -70,6 +72,7 @@
     "express": "^4.15.2",
     "fs": "0.0.1-security",
     "mongoose": "^4.9.6",
+    "parse-torrent-name": "^0.5.4",
     "path": "^0.12.7",
     "underscore": "^1.8.3"
   }

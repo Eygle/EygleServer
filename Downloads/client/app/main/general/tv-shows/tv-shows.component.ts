@@ -10,7 +10,7 @@ class TVShowsComponent {
     constructor() {
         this.controller = 'TVShowsController';
         this.controllerAs = 'vm';
-        this.templateUrl = 'app/main/tv-shows/tv-shows.html';
+        this.templateUrl = 'app/main/general/tv-shows/tv-shows.html';
     }
 }
 

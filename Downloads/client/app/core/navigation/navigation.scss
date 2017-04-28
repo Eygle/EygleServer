@@ -1,15 +1,21 @@
 @import "../../common.scss";
 
-$navbar-background: $dark-grey;
-$navbar-color: #dedede;
-$navbar-highlight: #FFD740;
+$width: 250px;
+$margin-sides: 20px;
+$items-margin: 20px;
+$font-size: 16px;
+$icon-size: $font-size + 3px;
+
+$bg-color: $dark-grey;
+$color: #999;
+$highlight: #FFD740;
 
 #vertical-navigation {
-  width: 250px;
-  background-color: $navbar-background;
+  width: $width;
+  background-color: $bg-color;
 
   md-toolbar {
-    background-color: darken($navbar-background, 5%);
+    background-color: darken($bg-color, 5%);
     height: 100px;
 
     h1 {
@@ -19,29 +25,43 @@ $navbar-highlight: #FFD740;
 
   ul {
     padding: 0;
-    margin: 0;
+    margin: $items-margin / 2 0 0 0;
 
     & > li {
-      padding: 15px 20px;
+      padding: $items-margin / 2 $margin-sides;
 
-      &.selected {
-        background-color: lighten($navbar-background, 5%);
+      &.selected > a {
+        color: $highlight;
+        & > span {
+          color: white;
+        }
+      }
+
+      &.separator {
+        padding: 0;
+        margin: $items-margin $margin-sides;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       & > a {
-        color: $navbar-color;
+        color: $color;
+        font-size: $font-size;
+        vertical-align: middle;
 
-        &:hover {
-          color: $navbar-highlight;
-
-          & > md-icon {
-            color: $navbar-highlight;
-          }
+        &:hover > span {
+          color: white;
         }
 
         & > md-icon {
-          color: $navbar-color;
+          color: inherit;
           margin-right: 10px;
+          font-size: $icon-size;
+          width: $icon-size;
+          height: $icon-size;
+          min-width: $icon-size;
+          min-height: $icon-size;
+          line-height: $icon-size;
+          vertical-align: top;
         }
       }
     }

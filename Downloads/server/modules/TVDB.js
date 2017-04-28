@@ -55,7 +55,7 @@ const getSerieInfo = (id) => {
 };
 
 const getSerieEpisodes = (id, page) => {
-    return doRequest('/series/' + id + '/episodes');
+    return doRequest('/series/' + id + '/episodes?page=' + page);
 };
 
 const getSerieEpisodesSummary = (id) => {
@@ -82,23 +82,24 @@ module.exports.getSerieImages = getSerieImages;
 module.exports.getSerieActors = getSerieActors;
 module.exports.getEpisodeInfo = getEpisodeInfo;
 
+const util = require("util");
 search("fargo").then(res => {
     const fargo = res[0];
+    console.log(util.inspect(fargo, false, null));
 
-    console.log(fargo.seriesName);
-    console.log(fargo.overview);
-
+    // console.log(fargo.seriesName);
+    // console.log(fargo.overview);
+    //
     getSerieEpisodesSummary(fargo.id).then(res => {
-        console.log("Saisons: ", res.airedSeasons.length, "Episodes: ", res.airedEpisodes);
+        console.log(util.inspect(res, false, null));
 
         getSerieEpisodes(fargo.id).then(res => {
             for (let e of res) {
+                console.log(util.inspect(e, false, null));
+                break;
                 // console.log(e); break;
-                console.log("Saison " + e.airedSeason + " Episode " + e.airedEpisodeNumber);
+                // console.log("Saison " + e.airedSeason + " Episode " + e.airedEpisodeNumber);
             }
         }).catch(err => console.log(err));
     }).catch(err => console.log(err));
-
-
-
 }).catch(err => console.log(err));

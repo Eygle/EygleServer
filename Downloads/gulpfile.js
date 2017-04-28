@@ -3,10 +3,8 @@ const gulp = require('gulp'),
     runSequence = require('run-sequence'),
     del = require('del'),
     path = require('path'),
-    browserSync = require('browser-sync').create(),
-    $ = require('gulp-load-plugins')();
-
-const reload = browserSync.reload;
+    $ = require('gulp-load-plugins')(),
+    livereload = require("gulp-livereload");
 
 const dist = ".dist";
 const conf = {
@@ -36,35 +34,31 @@ gulp.task('styles', () => {
         }).on('error', $.sass.logError))
         .pipe($.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
         .pipe($.if(conf.dev, $.sourcemaps.write()))
-        .pipe(gulp.dest(conf.serve))
-        .pipe(reload({stream: true}));
+        .pipe(gulp.dest(conf.serve));
 });
 
 gulp.task('scripts', () => {
     return gulp.src(conf.src + '**/*.ts', {base: 'client'})
         .pipe($.typescript({removeComments: false, target: 'es5'}))
-        .pipe(gulp.dest(conf.serve))
-        .pipe(reload({stream: true}));
+        .pipe(gulp.dest(conf.serve));
 });
 
 gulp.task('server', () => {
     return gulp.src([conf.server + "**/*"], {base: 'server'})
-        .pipe(gulp.dest(conf.distServer))
-        .pipe(reload({stream: true}));
+        .pipe(gulp.dest(conf.distServer));
 });
 
 gulp.task('misc', () => {
     return gulp.src([
-        conf.src + '**/*.html',
+        conf.src + 'app/**/*.html',
         conf.src + '/**/i18n/*.json',
         conf.src + 'assets/**'
     ], {base: 'client'})
-        .pipe(gulp.dest(conf.serve))
-        .pipe(reload({stream: true}));
+        .pipe(gulp.dest(conf.serve));
 });
 
 // inject bower components
-gulp.task('wiredep', ['styles', 'scripts', 'misc'], () => {
+gulp.task('inject', ['styles', 'scripts', 'misc'], () => {
     const injectOption = {
         ignorePath: [conf.serve],
         addRootSlash: false
@@ -80,35 +74,40 @@ gulp.task('wiredep', ['styles', 'scripts', 'misc'], () => {
         .pipe(gulp.dest(conf.serve));
 });
 
+gulp.task('watch', () => {
+    gulp.watch(conf.src + '/**/*.ts', (ev) => {
+        runSequence(ev.type === 'changed' ? 'scripts' : 'inject', () => {
+            livereload.reload();
+        });
+    });
+
+    gulp.watch(conf.src + '/**/*.scss', (ev) => {
+        runSequence(ev.type === 'changed' ? 'styles' : 'inject', () => {
+            livereload.reload();
+        });
+    });
+
+    gulp.watch([
+        conf.src + '/app/**/*.html',
+        conf.src + '/app/**/*.json',
+        conf.src + '/assets/**/*',
+    ], (ev) => {
+        runSequence(ev.type === 'changed' ? 'misc' : 'inject', () => {
+            livereload.reload();
+        });
+    });
+
+    gulp.watch([conf.server + '/**/*'], ['server']);
+});
+
 gulp.task('clean', del.bind(null, [dist]));
 
 gulp.task('serve:local', () => {
-    runSequence('clean', ['wiredep', 'server'], () => {
-        // browserSync.init({
-        //     notify: false,
-        //     port: 9000,
-        //     open: false,
-        //     server: {
-        //         baseDir: [conf.serve],
-        //         routes: {
-        //             '/bower_components': 'bower_components'
-        //         }
-        //     }
-        // });
-
-        // gulp.watch([
-        //     conf.serve + '**/*.html',
-        //     conf.serve + '**/*.css',
-        //     conf.serve + '**/*.js',
-        //     conf.serve + 'assets/images/**/*'
-        // ]).on('change', reload);
-
-        gulp.watch(conf.src + '/**/*.*', ['wiredep']).on('change', reload);
-
-        $.nodemon( { script: conf.distServer + 'server.js', ext: 'html js', env: { 'NODE_ENV': 'development' }, ignore: [] })
+    runSequence('clean', ['inject', 'server'], 'watch', () => {
+        $.nodemon({script: conf.distServer + 'server.js', ext: 'html js', env: {'NODE_ENV': 'development'}, ignore: [conf.serve + '**/*', conf.src + "**/*"]})
             .on('restart', function () {
                 console.log('restarted!')
             });
-        // livereload.listen();
+        livereload.listen();
     });
 });

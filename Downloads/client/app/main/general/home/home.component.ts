@@ -1,18 +1,18 @@
 /**
  * Created by eygle on 4/26/17.
  */
-class MoviesComponent {
+class HomeComponent {
     public controller : string;
     public controllerAs : string;
     public templateUrl : string;
     public bindings : any;
 
     constructor() {
-        this.controller = 'MoviesController';
+        this.controller = 'HomeController';
         this.controllerAs = 'vm';
-        this.templateUrl = 'app/main/movies/movies.html';
+        this.templateUrl = 'app/main/general/home/home.html';
     }
 }
 
-angular.module('eygle.movies')
-    .component('movies', new MoviesComponent());
+angular.module('eygle.home')
+    .component('home', new HomeComponent());
