@@ -14,6 +14,7 @@ const conf = {
     distServer: dist + "/server/",
 
     src: "client/",
+    server: "server/",
     dev: true,
 
     errorHandler: (title) => {
@@ -43,6 +44,12 @@ gulp.task('scripts', () => {
     return gulp.src(conf.src + '**/*.ts', {base: 'client'})
         .pipe($.typescript({removeComments: false, target: 'es5'}))
         .pipe(gulp.dest(conf.serve))
+        .pipe(reload({stream: true}));
+});
+
+gulp.task('server', () => {
+    return gulp.src([conf.server + "**/*"], {base: 'server'})
+        .pipe(gulp.dest(conf.distServer))
         .pipe(reload({stream: true}));
 });
 
@@ -76,18 +83,18 @@ gulp.task('wiredep', ['styles', 'scripts', 'misc'], () => {
 gulp.task('clean', del.bind(null, [dist]));
 
 gulp.task('serve:local', () => {
-    runSequence('clean', 'wiredep', () => {
-        browserSync.init({
-            notify: false,
-            port: 9000,
-            open: false,
-            server: {
-                baseDir: [conf.serve],
-                routes: {
-                    '/bower_components': 'bower_components'
-                }
-            }
-        });
+    runSequence('clean', ['wiredep', 'server'], () => {
+        // browserSync.init({
+        //     notify: false,
+        //     port: 9000,
+        //     open: false,
+        //     server: {
+        //         baseDir: [conf.serve],
+        //         routes: {
+        //             '/bower_components': 'bower_components'
+        //         }
+        //     }
+        // });
 
         // gulp.watch([
         //     conf.serve + '**/*.html',
@@ -96,6 +103,12 @@ gulp.task('serve:local', () => {
         //     conf.serve + 'assets/images/**/*'
         // ]).on('change', reload);
 
-        gulp.watch(conf.src + '/**/*.*', ['wiredep']);
+        gulp.watch(conf.src + '/**/*.*', ['wiredep']).on('change', reload);
+
+        $.nodemon( { script: conf.distServer + 'server.js', ext: 'html js', env: { 'NODE_ENV': 'development' }, ignore: [] })
+            .on('restart', function () {
+                console.log('restarted!')
+            });
+        // livereload.listen();
     });
 });

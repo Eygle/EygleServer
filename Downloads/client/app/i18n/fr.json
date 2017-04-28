@@ -1,7 +1,9 @@
 {
   "APP_NAME": "Eygle Downloads",
   "HOME": {
-    "TITLE": "Accueil"
+    "TITLE": "Accueil",
+    "LAST_ADDED": "Derniers ajouts",
+    "AWAITING_DELETION": "Bientôt supprimés"
   },
   "TV_SHOWS": {
     "TITLE": "Séries"

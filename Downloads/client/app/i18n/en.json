@@ -1,7 +1,9 @@
 {
   "APP_NAME": "Eygle Downloads",
   "HOME": {
-    "TITLE": "Home"
+    "TITLE": "Home",
+    "LAST_ADDED": "Last added",
+    "AWAITING_DELETION": "Soon to be removed"
   },
   "TV_SHOWS": {
     "TITLE": "TV Shows"

@@ -1,0 +1,49 @@
+@import "../../common.scss";
+
+$navbar-background: $dark-grey;
+$navbar-color: #dedede;
+$navbar-highlight: #FFD740;
+
+#vertical-navigation {
+  width: 250px;
+  background-color: $navbar-background;
+
+  md-toolbar {
+    background-color: darken($navbar-background, 5%);
+    height: 100px;
+
+    h1 {
+      text-align: center;
+    }
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+
+    & > li {
+      padding: 15px 20px;
+
+      &.selected {
+        background-color: lighten($navbar-background, 5%);
+      }
+
+      & > a {
+        color: $navbar-color;
+
+        &:hover {
+          color: $navbar-highlight;
+
+          & > md-icon {
+            color: $navbar-highlight;
+          }
+        }
+
+        & > md-icon {
+          color: $navbar-color;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}

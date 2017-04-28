@@ -34,7 +34,7 @@ class RouteConfig {
                         controller: 'MainController as vm'
                     },
                     'navigation@eygle': {
-                        templateUrl: 'app/core/layouts/navigation.html',
+                        templateUrl: 'app/core/navigation/navigation.html',
                         controller: 'NavigationController as vm'
                     }
                 }
