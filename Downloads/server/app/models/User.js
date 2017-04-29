@@ -21,6 +21,7 @@ const UserSchema = new Schema({
 
     valid: { type : Boolean, default : false },
     access: Number,
+  superUser: {type: Boolean, default: false},
 
     creationDate: { type : Date, default : Date.now },
     updateDate: { type : Date, default : Date.now }

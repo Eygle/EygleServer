@@ -1,6 +1,7 @@
 /**
  * Created by eygle on 4/26/17.
  */
+
 angular
     .module('eygle.home', ['ui.router'])
     .config(($stateProvider) => {

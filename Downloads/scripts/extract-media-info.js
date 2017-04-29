@@ -1,31 +1,17 @@
 /**
  * Created by eygle on 4/27/17.
  */
-const fs = require("fs");
-const _ = require("underscore");
-const ptn = require('parse-torrent-name');
-const util = require("util");
-const path = require("path");
-
-const DL = "/home/eygle/downloads";
-const SAVE_FILES = __dirname + "/list-of-files.json";
-
-const importPreviousFileList = () => {
-    if (!fs.existsSync(SAVE_FILES)) {
-        return [];
-    }
-
-    const json = fs.readFileSync(SAVE_FILES);
-    return json ? JSON.parse(json) : [];
-};
-
-const saveFileList = (files) => {
-    fs.writeFileSync(SAVE_FILES, JSON.stringify(files));
-};
+const fs = require("fs")
+  , _ = require("underscore")
+  , ptn = require('parse-torrent-name')
+  , util = require("util")
+  , path = require("path")
+  , dump = require("../server/modules/dumpDirectory")
+  , conf = require("../server/config/env");
 
 const extractFilesList = () => {
-    let files = require("../server/modules/listDirectory")(DL);
-    const previous = importPreviousFileList();
+  let files = require("../server/modules/listDirectory")(conf.downloadsDir);
+  const previous = dump.load();
     const toAdd = [];
     const toDelete = [];
 
@@ -125,15 +111,14 @@ const extractMediaFromFiles = (files) => {
     const [tvShows, movies] = groupTVShowAndMovies(files);
 
     console.log(util.inspect(tvShows, false, null));
-    // console.log(movies);
+  console.log(movies);
 };
 
 // Execute script
-// const {files, toAdd, toDelete} = extractFilesList();
-const files = importPreviousFileList(),
-    toAdd = files,
-    toDelete = [];
-console.log(util.inspect(toAdd, false, null));
+const {files, toAdd, toDelete} = extractFilesList();
+// const files = dump.load(),
+//     toAdd = files,
+//     toDelete = [];
 //extractMediaFromFiles(toAdd);
-removeFilesFromDatabase(toDelete);
-saveFileList(files);
+// removeFilesFromDatabase(toDelete);
+dump.save(files);

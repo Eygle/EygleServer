@@ -19,4 +19,10 @@ module.exports = {
     secrets: {
         session: 'eyg*lesec;retpEtit!lapinrose4238'
     },
+
+  // Directory containing all downloaded files
+  downloadsDir: "/home/eygle/downloads",
+
+  // File with a JSON representation of the downloadsDir architecture
+  dumpFile: path.normalize(`${__dirname}/../../../scripts/list-of-files.json`)
 };

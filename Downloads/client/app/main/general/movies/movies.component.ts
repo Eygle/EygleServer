@@ -5,7 +5,6 @@ class MoviesComponent {
     public controller : string;
     public controllerAs : string;
     public templateUrl : string;
-    public bindings : any;
 
     constructor() {
         this.controller = 'MoviesController';

@@ -6,4 +6,5 @@ angular
     'eygle.home',
     'eygle.tv-shows',
     'eygle.movies',
+  'eygle.files'
 ]);

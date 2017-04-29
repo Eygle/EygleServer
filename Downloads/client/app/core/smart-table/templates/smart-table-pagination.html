@@ -1,0 +1,34 @@
+<div class="smart-table-pagination">
+  <div class="page-select">
+    <div class="label" translate="MAPUI.TABLE.LABELS.PAGES"></div>
+    <md-select smart-virtual-page-select class="smart-table-select" ng-model="currentPage"
+               ng-change="selectPage(currentPage)" md-container-class="smart-pagination-select" aria-label="Page">
+      <md-content>
+        <md-option ng-repeat="page in vm.pages" ng-value="page">{{::page}}</md-option>
+      </md-content>
+    </md-select>
+  </div>
+  <div class="limit-select">
+    <div class="label" translate="MAPUI.TABLE.LABELS.ROWS"></div>
+    <md-input-container>
+      <md-select class="smart-table-select" ng-model="stItemsByPage" md-container-class="smart-pagination-select"
+                 aria-label="Per page">
+        <md-content>
+          <md-option ng-repeat="nb in [5, 10, 20, 50, 100]" ng-value="nb">{{::nb}}</md-option>
+        </md-content>
+      </md-select>
+    </md-input-container>
+  </div>
+  <div class="buttons">
+    <div class="label">{{currentPage * stItemsByPage - stItemsByPage + 1}} - {{currentPage * stItemsByPage}}
+      {{'MAPUI.TABLE.LABELS.OF' | translate}} {{totalItemCount}}
+    </div>
+    <md-button class="md-icon-button" type="button" ng-click="selectPage(currentPage - 1)" aria-label="Previous">
+      <md-icon md-font-icon="icon-chevron-left" class="app-list-toolbar-icon icon"></md-icon>
+    </md-button>
+    <md-button class="md-icon-button" type="button" ng-click="selectPage(currentPage + 1)" aria-label="Next">
+      <md-icon md-font-icon="icon-chevron-right" class="app-list-toolbar-icon icon"></md-icon>
+    </md-button>
+  </div>
+</div>
+

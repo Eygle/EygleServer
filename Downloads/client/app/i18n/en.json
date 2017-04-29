@@ -12,6 +12,37 @@
     },
     "MOVIES": {
       "TITLE": "Movies"
+    },
+    "FILES": {
+      "TITLE": "All downloads",
+      "LABELS": {
+        "FILENAME": "File",
+        "TYPE": "Type",
+        "SIZE": "Size",
+        "MODIFIED": "Modification date"
+      },
+      "TYPES": {
+        "DIRECTORY": "Dossier",
+        "FILE": "Fichier",
+        "IMAGE": "Image",
+        "VIDEO": "Video",
+        "AUDIO": "Audio",
+        "TEXT": "Text",
+        "DATABASE": "Database",
+        "WORD": "Microsoft Word",
+        "OPEN_OFFICE_WRITER": "Open Office Doc",
+        "AUTOCAD": "Autocad Draw",
+        "SYSTEM_IMAGE": "Disk image",
+        "JAVASCRIPT": "Javascript",
+        "PDF": "PDF",
+        "POWERPOINT": "PowerPoint",
+        "PHOTOSHOP_DOCUMENT": "Photoshop",
+        "EXCEL": "Microsoft Excel",
+        "OPEN_OFFICE_CALC": "Open Office Calc",
+        "WEB_DOCUMENT": "Web page",
+        "ARCHIVE": "Archive",
+        "WEB_STYLE": "Web page style"
+      }
     }
   },
 
