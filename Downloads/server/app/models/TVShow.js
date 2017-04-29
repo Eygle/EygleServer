@@ -1,10 +1,10 @@
 /**
  * Created by eygle on 4/28/17.
  */
-const mongoose     = require('mongoose');
-const Schema       = mongoose.Schema;
+const mongoose = require('mongoose')
+    , Schema = mongoose.Schema;
 
-const TVShowSchema   = new Schema({
+const TVShowSchema = new Schema({
     title: String,
 
     tvdbId: Number,
@@ -21,7 +21,10 @@ const TVShowSchema   = new Schema({
     episodes: Number,
     start: Date,
     end: Date,
-    network: String
+    network: String,
+
+    creationDate: {type: Date, default: Date.now},
+    updateDate: {type: Date, default: Date.now},
 });
 
 module.exports = mongoose.model('TVShow', TVShowSchema);

@@ -1,10 +1,10 @@
 /**
  * Created by eygle on 4/28/17.
  */
-const mongoose     = require('mongoose');
-const Schema       = mongoose.Schema;
+const mongoose = require('mongoose')
+    , Schema = mongoose.Schema;
 
-const VideoSchema   = new Schema({
+const VideoSchema = new Schema({
     filename: String,
     ext: String,
     size: String,
@@ -32,7 +32,12 @@ const VideoSchema   = new Schema({
 
     excess: [{
         type: String
-    }]
+    }],
+
+    creationDate: { type : Date, default : Date.now },
+    updateDate: { type : Date, default : Date.now },
+
+    deleted: { type : Boolean, default : false }
 });
 
 module.exports = mongoose.model('Video', VideoSchema);
