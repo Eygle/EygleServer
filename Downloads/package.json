@@ -80,6 +80,7 @@
     "express": "^4.15.2",
     "fs": "0.0.1-security",
     "mongoose": "^4.9.6",
+    "moviedb": "^0.2.8",
     "parse-torrent-name": "^0.5.4",
     "path": "^0.12.7",
     "underscore": "^1.8.3"

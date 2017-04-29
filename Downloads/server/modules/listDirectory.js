@@ -26,7 +26,6 @@ const listDirectory = (dir, parent = null) => {
     }
     list.push(file);
   }
-
   return list;
 };
 

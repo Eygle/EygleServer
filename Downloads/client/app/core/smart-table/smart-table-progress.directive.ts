@@ -27,7 +27,7 @@ class SmartTableProgressDirective implements ng.IDirective {
   };
 
   static factory = () => {
-    const directive = () => new SmartTableProgressDirective();
+    const directive: any = () => new SmartTableProgressDirective();
 
     directive.$inject = [];
     return directive;
