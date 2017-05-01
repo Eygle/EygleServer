@@ -1,7 +1,7 @@
 <md-content>
   <table
     class="table md-whiteframe-2dp"
-    st-table="vm.displayedFiles" st-safe-src="vm.files" smart-table smart-progress="vm.loading">
+    st-table="vm.displayedFiles" st-safe-src="vm.current" smart-table smart-progress="vm.loading">
     <thead>
     <tr>
       <th></th>
@@ -20,14 +20,14 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="f in vm.displayedFiles">
+    <tr ng-repeat="f in vm.displayedFiles" ng-dblclick="vm.loadFilesFrom(f)">
       <td>
         <md-icon md-font-icon="{{f.icon}}"></md-icon>
       </td>
       <td>{{f.filename}}</td>
       <td>{{f.typeLabel}}</td>
       <td>{{f.size | formatSize}}</td>
-      <td>-</td>
+      <td>{{f.mtime}}</td>
     </tr>
     </tbody>
   </table>

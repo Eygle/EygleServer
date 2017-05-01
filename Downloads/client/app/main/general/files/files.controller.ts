@@ -5,6 +5,8 @@
 class FilesController {
   public files: Array<IFile>;
 
+  public current: Array<IFile>;
+
   public isLoading: boolean;
 
   constructor(private Api: Api, private $translate: any) {
@@ -13,10 +15,18 @@ class FilesController {
 
   $onInit() {
     this.Api.files.get((res) => {
-      this.files = this._formatData(res);
+      this.files = res;
+      this.loadFilesFrom();
       this.isLoading = false;
     });
   }
+
+  public loadFilesFrom(file: IFile = null): void {
+    console.log("inside load from");
+    let files = !file ? this.files : (file.isDirectory ? file.children : null);
+    if (!files) return;
+    this.current = files.length && files[0].icon ? files : this._formatData(files);
+  };
 
   private _formatData(files: Array<IFile>): Array<IFile> {
     for (let f of files) {

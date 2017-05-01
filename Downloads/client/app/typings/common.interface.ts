@@ -9,6 +9,7 @@ interface IFile {
 
   extname?: string,
   size?: number,
+  mtime?: Date,
   children?: Array<IFile>,
 
   // Views attributes

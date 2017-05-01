@@ -26,7 +26,7 @@ class SmartTableSearchDirective implements ng.IDirective {
     };
 
     if (searchElem.length > 0) {
-      searchElem.on('keyup', (event) => {
+      searchElem.on('keyup', (event: any) => {
         if (!stTableCtrl.tableState().search.predicateObject)
           stTableCtrl.tableState().search.predicateObject = {};
         stTableCtrl.tableState().search.predicateObject.smartSearch = (value, index, array) => {
