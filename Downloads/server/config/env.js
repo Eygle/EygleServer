@@ -24,5 +24,5 @@ module.exports = {
   downloadsDir: "/home/eygle/downloads",
 
   // File with a JSON representation of the downloadsDir architecture
-  dumpFile: path.normalize(`${__dirname}/../../../scripts/list-of-files.json`)
+  dumpFile: path.normalize(`${__dirname}/../../scripts/list-of-files.json`)
 };

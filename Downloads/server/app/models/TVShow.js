@@ -2,7 +2,8 @@
  * Created by eygle on 4/28/17.
  */
 const mongoose = require('mongoose')
-    , Schema = mongoose.Schema;
+  , Schema = mongoose.Schema
+  , ObjectId = Schema.ObjectId;
 
 const TVShowSchema = new Schema({
     title: String,

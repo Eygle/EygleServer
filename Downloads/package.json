@@ -83,6 +83,7 @@
     "moviedb": "^0.2.8",
     "parse-torrent-name": "^0.5.4",
     "path": "^0.12.7",
+    "prompt": "^1.0.0",
     "underscore": "^1.8.3"
   }
 }

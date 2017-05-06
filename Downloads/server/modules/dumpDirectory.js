@@ -9,11 +9,15 @@ module.exports.save = (data) => {
   fs.writeFileSync(conf.dumpFile, JSON.stringify(data));
 };
 
-module.exports.load = () => {
-  if (!fs.existsSync(conf.dumpFile)) {
+module.exports.load = (dump = null) => {
+  if (!dump) {
+    dump = conf.dumpFile;
+  }
+
+  if (!fs.existsSync(dump)) {
     return [];
   }
 
-  const json = fs.readFileSync(conf.dumpFile);
+  const json = fs.readFileSync(dump);
   return json ? JSON.parse(json) : [];
 };

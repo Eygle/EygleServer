@@ -2,25 +2,27 @@
  * Created by eygle on 4/28/17.
  */
 const mongoose = require('mongoose')
-    , Schema = mongoose.Schema;
+  , Schema = mongoose.Schema
+  , ObjectId = Schema.ObjectId;
 
 const EpisodeSchema = new Schema({
-    title: String,
+  title: String,
 
-    tvdbId: Number,
-    tvdbSeasonId: Number,
+  tvdbId: Number,
+  tvdbSeasonId: Number,
 
-    _creator: { type: ObjectId, ref: 'TVShow' },
+  _tvShow: {type: ObjectId, ref: 'TVShow'},
+  _file: {type: ObjectId, ref: 'File'},
 
-    number: Number,
-    season: Number,
+  number: Number,
+  season: Number,
 
-    overview: String,
+  overview: String,
 
-    creationDate: {type: Date, default: Date.now},
-    updateDate: {type: Date, default: Date.now},
+  creationDate: {type: Date, default: Date.now},
+  updateDate: {type: Date, default: Date.now},
 
-    deleted: {type: Boolean, default: false}
+  deleted: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model('Episode', EpisodeSchema);

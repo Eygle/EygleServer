@@ -4,7 +4,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const listDirectory = (dir, parent = null) => {
+const listDirectory = (dir, parent = null, filePath = null) => {
   const files = fs.readdirSync(dir);
   const list = [];
 
@@ -15,10 +15,12 @@ const listDirectory = (dir, parent = null) => {
       filename: f,
       isDirectory: stats.isDirectory(),
       parent: parent,
-      mtime: stats.mtime
+      mtime: stats.mtime,
+      path: filePath
     };
     if (stats.isDirectory()) {
-      file.children = listDirectory(filename, f);
+      filePath = filePath ? filePath + '/' + f.filename : f.filename;
+      file.children = listDirectory(filename, f, filePath);
       file.size = calculateDirectorySize(file.children);
     } else {
       file.extname = path.extname(f);
