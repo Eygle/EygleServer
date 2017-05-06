@@ -11,7 +11,18 @@
       "TITLE": "Séries"
     },
     "MOVIES": {
-      "TITLE": "Films"
+      "TITLE": "Films",
+      "TEAM": "Équipe",
+      "SYNOPSIS": "Synopsis",
+      "CAST": "Casting",
+      "MORE_INFO": "Plus d'infos",
+      "GENRES": "Genres",
+      "ORIGINAL_TITLE": "Titre original",
+      "NATIONALITIES": "Nationalitées",
+      "RELEASE_DATE": "Date de sortie",
+      "DURATION": "Durée",
+      "BUDGET": "Budget",
+      "REVENUE": "Recettes"
     },
     "FILES": {
       "TITLE": "Tous les téléchargements",

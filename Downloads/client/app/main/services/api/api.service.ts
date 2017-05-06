@@ -16,8 +16,9 @@ class Api {
       get: {method: 'GET', isArray: true}
     });
 
-    this.movies = this.$resource('/api/movies/:id', {id: '@_id'}, {
-      get: {method: 'GET', isArray: true}
+    this.movies = this.$resource('/api/movies/:id', {id: '@id'}, {
+      get: {method: 'GET'},
+      all: {method: 'GET', isArray: true}
     });
 
     this.files = this.$resource('/api/files/:id', {id: '@_id'}, {

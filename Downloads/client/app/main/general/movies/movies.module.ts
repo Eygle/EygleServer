@@ -16,5 +16,14 @@ angular
             },
             resolve: {},
             bodyClass: 'movies'
+        }).state('eygle.movies.details', {
+            url: '/:id',
+            views: {
+                'content@eygle': {
+                    template: '<movie-details></movie-details>',
+                }
+            },
+            resolve: {},
+            bodyClass: 'movie-details'
         });
     });

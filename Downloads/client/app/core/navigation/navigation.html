@@ -2,7 +2,8 @@
     <h1 class="md-toolbar-tools" translate="APP_NAME"></h1>
 </md-toolbar>
 <ul>
-    <li ng-repeat="p in vm.parts | orderBy: 'weight'" ng-class="{'selected': vm.$state.current.name === p.name, 'separator': p.separator}">
+  <li ng-repeat="p in vm.parts | orderBy: 'weight'"
+      ng-class="{'selected': vm.$state.current.name.indexOf(p.name) === 0, 'separator': p.separator}">
         <a ui-sref="{{p.name}}()" ng-if="!p.separator">
             <md-icon md-font-icon="{{p.icon}}" aria-label="icon"></md-icon>
             <span translate="{{p.translate}}"></span>

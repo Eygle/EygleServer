@@ -20,6 +20,7 @@ const MovieSchema = new Schema({
   runtime: Number,
 
   poster: String,
+  posterThumb: String,
   backdrop: String,
 
   cast: [{

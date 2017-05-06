@@ -6,26 +6,27 @@ const mongoose = require('mongoose')
   , ObjectId = Schema.ObjectId;
 
 const TVShowSchema = new Schema({
-    title: String,
+  title: String,
 
-    tvdbId: Number,
-    imdbId: Number,
+  tvdbId: Number,
+  imdbId: Number,
 
-    banner: String,
-    poster: String,
-    genres: [{type: String}],
-    overview: String,
+  banner: String,
+  poster: String,
+  posterThumb: String,
+  genres: [{type: String}],
+  overview: String,
 
-    actors: [{type: ObjectId, ref: 'Actor'}],
+  actors: [{type: ObjectId, ref: 'Actor'}],
 
-    seasons: Number,
-    episodes: Number,
-    start: Date,
-    end: Date,
-    network: String,
+  seasons: Number,
+  episodes: Number,
+  start: Date,
+  end: Date,
+  network: String,
 
-    creationDate: {type: Date, default: Date.now},
-    updateDate: {type: Date, default: Date.now},
+  creationDate: {type: Date, default: Date.now},
+  updateDate: {type: Date, default: Date.now},
 });
 
 module.exports = mongoose.model('TVShow', TVShowSchema);

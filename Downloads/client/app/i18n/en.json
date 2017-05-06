@@ -11,7 +11,18 @@
       "TITLE": "TV Shows"
     },
     "MOVIES": {
-      "TITLE": "Movies"
+      "TITLE": "Movies",
+      "TEAM": "Team",
+      "CAST": "Casting",
+      "SYNOPSIS": "Synopsis",
+      "MORE_INFO": "More info",
+      "GENRES": "Genres",
+      "ORIGINAL_TITLE": "Original title",
+      "NATIONALITIES": "Nationalities",
+      "RELEASE_DATE": "Release date",
+      "DURATION": "Duration",
+      "BUDGET": "Budget",
+      "REVENUE": "Revenue"
     },
     "FILES": {
       "TITLE": "All downloads",

@@ -4,7 +4,6 @@
 
 const _ = require('underscore')
   , tmdb = require('moviedb')("22e2817ba73ca94f0b3971f847acefc6")
-  , normalize = require('../../server/modules/normalize')
   , files = require('./files')
   , db = require('../../server/modules/db');
 
@@ -46,7 +45,8 @@ const createMovieFromFileNTMDB = (file, m) => {
     voteAverage: m.vote_average,
     budget: m.budget,
     revenue: m.revenue,
-    poster: m.poster_path ? tmdbConfig.images.base_url + getSizeCloseTo('p', 154) + m.poster_path : null,
+    posterThumb: m.poster_path ? tmdbConfig.images.base_url + getSizeCloseTo('p', 154) + m.poster_path : null,
+    poster: m.poster_path ? tmdbConfig.images.base_url + getSizeCloseTo('p', 1000) + m.poster_path : null,
     backdrop: m.backdrop_path ? tmdbConfig.images.base_url + getSizeCloseTo('b', 2000) + m.backdrop_path : null,
     originalLanguage: m.original_language,
     countries: _.map(m.production_countries, (v) => {
@@ -60,7 +60,7 @@ const createMovieFromFileNTMDB = (file, m) => {
         tvdbId: v.id,
         name: v.name,
         character: v.character,
-        image: v.profile_path ? tmdbConfig.images.base_url + getSizeCloseTo('c', 45) + v.profile_path : null
+        image: v.profile_path ? tmdbConfig.images.base_url + getSizeCloseTo('c', 138) + v.profile_path : null
       }
     }),
     crew: _.map(_.filter(m.credits.crew, (v) => {
@@ -70,7 +70,7 @@ const createMovieFromFileNTMDB = (file, m) => {
         tvdbId: v.id,
         name: v.name,
         job: v.job,
-        image: v.profile_path ? tmdbConfig.images.base_url + getSizeCloseTo('c', 45) + v.profile_path : null
+        image: v.profile_path ? tmdbConfig.images.base_url + getSizeCloseTo('c', 138) + v.profile_path : null
       }
     }),
 
@@ -103,16 +103,6 @@ const createMovieFromFileNTMDB = (file, m) => {
   });
 };
 
-const createDBFile = (f) => {
-  return new db.models.File({
-    filename: f.filename,
-    ext: f.extname,
-    size: f.size,
-    path: f.path,
-    normalized: normalize(f.filename),
-  });
-};
-
 const createProposal = (file, fid, m) => {
   return new db.models.Proposal({
     title: m.title,
@@ -142,7 +132,7 @@ const fetchAllMovieInfo = (f, id, callback) => {
     .exec((err, item) => {
       if (err || !item) {
         tmdb.movieInfo({id: id, language: 'fr', append_to_response: 'credits,videos'}, (err, res) => {
-          const file = createDBFile(f);
+          const file = files.createDocument(f);
           const movie = createMovieFromFileNTMDB(f, res);
 
           file._movie = movie._id;
@@ -201,7 +191,7 @@ const searchMovieByTitle = (file, callback) => {
         }
       }
 
-      const dbFile = createDBFile(file);
+      const dbFile = files.createDocument(file);
       dbFile.save();
       saveProposals(res.results, file, dbFile.id, callback);
     }

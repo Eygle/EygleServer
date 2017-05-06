@@ -9,9 +9,10 @@ const mongoose = require('mongoose')
 const FileSchema = new Schema({
   filename: String,
   ext: String,
-  size: String,
+  size: Number,
   path: String,
   normalized: String,
+  mtime: Date,
 
   _episode: {type: ObjectId, ref: 'Episode'},
   _movie: {type: ObjectId, ref: 'Movie'},

@@ -4,7 +4,9 @@
 
 const _ = require("underscore")
   , path = require("path")
+  , normalize = require('../../server/modules/normalize')
   , dump = require("../../server/modules/dumpDirectory")
+  , db = require("../../server/modules/db")
   , conf = require("../../server/config/env")
   , filesToAdd = []
   , filesToDelete = [];
@@ -32,6 +34,17 @@ module.exports.synchronize = (autoDelete = true) => {
   if (autoDelete) {
     module.exports.deleteFromDB();
   }
+};
+
+module.exports.createDocument = (f) => {
+  return new db.models.File({
+    filename: f.filename,
+    ext: f.extname,
+    size: f.size,
+    path: f.path,
+    mtime: new Date(f.mtime),
+    normalized: normalize(f.filename),
+  });
 };
 
 /**
