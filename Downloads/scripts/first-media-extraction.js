@@ -21,8 +21,7 @@ const promptSchema = {
 
 const processMovies = (list) => {
   if (list.length > 0) {
-    const m = list[0];
-    list.shift();
+    const m = list.shift();
     console.info("Process " + m.filename);
     prompt.get(promptSchema, (err, res) => {
       if (!res.confirm || ['y', 'yes'].indexOf(res.confirm.toLowerCase()) !== -1) {

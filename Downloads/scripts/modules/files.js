@@ -16,7 +16,7 @@ let files;
  * @param autoDelete if true then delete all files that are not present anymore
  */
 module.exports.synchronize = (autoDelete = true) => {
-  files = require("../server/modules/listDirectory")(conf.downloadsDir);
+  files = require("../../server/modules/listDirectory")(conf.downloadsDir);
   const previous = dump.load();
 
   for (let f of files) {

@@ -8,4 +8,4 @@ files.synchronize();
 
 medias.loadFromFilesList(files.getNew());
 
-files.save();
+//files.save();

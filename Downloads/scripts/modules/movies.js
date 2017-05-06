@@ -23,7 +23,6 @@ const getSizeCloseTo = (type, width) => {
       break;
   }
 
-
   for (let s of tmdbConfig.images[type]) {
     if (parseInt(s.substr(1)) >= width) {
       return s;
@@ -141,6 +140,16 @@ const fetchAllMovieInfo = (f, id, callback) => {
     });
 };
 
+const saveProposals = (results, callback) => {
+  if (results.length && results[0]) {
+    const p = shift(results);
+    saveProposals(results, callback);
+  } else {
+    console.info("   Multi results add as proposals", res.results);
+    callback();
+  }
+};
+
 const searchMovieByTitle = (file, callback) => {
   tmdb.searchMovie({query: file.info.title, language: 'fr'}, (err, res) => {
     if (err || !res || !res.results || res.results.length === 0) {
@@ -149,8 +158,16 @@ const searchMovieByTitle = (file, callback) => {
     } else if (res.results.length === 1) {
       fetchAllMovieInfo(file, res.results[0].id, callback);
     } else {
-      // Try to find best suitable movie or save all as proposals
-      console.info("   Multi results add as proposals", res.results);
+      if (file.info.year) {
+        for (let r of res.results) {
+          if (r.release_date && new Date(r.release_date).getFullYear() === file.info.year) {
+            fetchAllMovieInfo(file, res.results[0].id, callback);
+            return;
+          }
+        }
+      }
+
+      saveProposals(res.results, callback);
     }
   });
 };
@@ -162,8 +179,7 @@ const searchMovieByTitle = (file, callback) => {
  */
 module.exports.processAll = (files, callback) => {
   if (files.length > 0) {
-    module.exports.process(files[0], () => {
-      files.shift();
+    module.exports.process(files.shift(), () => {
       module.exports.processAll(files);
     });
   } else {
