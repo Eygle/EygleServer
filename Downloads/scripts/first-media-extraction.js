@@ -9,6 +9,8 @@ const prompt = require('prompt'),
 
 medias.loadFromFilesList(newFiles);
 
+const usePrompt = false;
+
 prompt.start();
 const promptSchema = {
   properties: {
@@ -23,16 +25,25 @@ const processMovies = (list) => {
   if (list.length > 0) {
     const m = list.shift();
     console.info("Process " + m.filename);
-    prompt.get(promptSchema, (err, res) => {
-      if (!res.confirm || ['y', 'yes'].indexOf(res.confirm.toLowerCase()) !== -1) {
-        movies.process(m, () => {
+
+    if (usePrompt) {
+      prompt.get(promptSchema, (err, res) => {
+        if (!res.confirm || ['y', 'yes'].indexOf(res.confirm.toLowerCase()) !== -1) {
+          movies.process(m, () => {
+            processMovies(list);
+          });
+        } else {
+          console.info("  Skipped");
           processMovies(list);
-        });
-      } else {
-        console.info("  Skipped");
-        processMovies(list);
-      }
-    });
+        }
+      });
+    } else {
+      movies.process(m, () => {
+        setTimeout(() => {
+          processMovies(list);
+        }, 1000);
+      });
+    }
   } else {
     process.exit();
   }

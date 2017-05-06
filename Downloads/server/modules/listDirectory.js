@@ -19,7 +19,7 @@ const listDirectory = (dir, parent = null, filePath = null) => {
       path: filePath
     };
     if (stats.isDirectory()) {
-      file.children = listDirectory(filename, f, filePath ? filePath + '/' + f.filename : f.filename);
+      file.children = listDirectory(filename, f, filePath ? filePath + '/' + f : f);
       file.size = calculateDirectorySize(file.children);
     } else {
       file.extname = path.extname(f);

@@ -8,7 +8,14 @@ const mongoose = require('mongoose')
 
 let connected = false;
 let db = null;
-const models = {};
+const models = {
+  Episode: null,
+  File: null,
+  Movie: null,
+  Proposal: null,
+  TVShow: null,
+  User: null
+};
 
 const loadAllModels = (files, path) => {
   for (let f of files) {
@@ -32,6 +39,7 @@ const loadModels = (callback) => {
 
 module.exports.init = (callback) => {
   if (!connected) {
+    mongoose.Promise = global.Promise;
     mongoose.connect('mongodb://localhost/' + conf.db);
     db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));

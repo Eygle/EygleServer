@@ -103,22 +103,50 @@ const createMovieFromFileNTMDB = (file, m) => {
   });
 };
 
+const createDBFile = (f) => {
+  return new db.models.File({
+    filename: f.filename,
+    ext: f.extname,
+    size: f.size,
+    path: f.path,
+    normalized: normalize(f.filename),
+  });
+};
+
+const createProposal = (file, fid, m) => {
+  return new db.models.Proposal({
+    title: m.title,
+    originalTitle: m.original_title,
+    date: new Date(m.release_date),
+    overview: m.overview,
+    poster: m.poster_path ? tmdbConfig.images.base_url + getSizeCloseTo('p', 154) + m.poster_path : null,
+    tmdbId: m.id,
+    episode: file.info.episode,
+    season: file.info.season,
+    language: file.info.language,
+    resolution: file.info.resolution,
+    repack: file.info.repack,
+    quality: file.info.quality,
+    proper: file.info.proper,
+    hardcoded: file.info.hardcoded,
+    extended: file.info.extended,
+    codec: file.info.codec,
+    audio: file.info.audio,
+    group: file.info.group,
+    excess: file.info.excess
+  });
+};
+
 const fetchAllMovieInfo = (f, id, callback) => {
   db.models.Movie.findOne({tmdbId: id})
     .exec((err, item) => {
       if (err || !item) {
         tmdb.movieInfo({id: id, language: 'fr', append_to_response: 'credits,videos'}, (err, res) => {
-          const file = new db.models.File({
-            filename: f.filename,
-            ext: f.extname,
-            size: f.size,
-            path: f.path,
-            normalized: normalize(f.filename),
-          });
+          const file = createDBFile(f);
           const movie = createMovieFromFileNTMDB(f, res);
 
-          file._movie = movie._id.valueOf();
-          movie._file = file._id.valueOf();
+          file._movie = movie._id;
+          movie._file = file._id;
 
           file.save(err => {
             if (err)
@@ -135,17 +163,23 @@ const fetchAllMovieInfo = (f, id, callback) => {
           });
         });
       } else {
-        console.info('  Already exists');
+        console.info('  Skipped: Already exists');
+        callback();
       }
     });
 };
 
-const saveProposals = (results, callback) => {
+const saveProposals = (results, file, fid, callback) => {
   if (results.length && results[0]) {
-    const p = shift(results);
-    saveProposals(results, callback);
+    const proposal = createProposal(file, fid, results.shift());
+    proposal._file = fid;
+    proposal.save(err => {
+      if (err)
+        console.error(err);
+      console.info(`   Add proposal: ${proposal.title} (${proposal.date.getFullYear()})`);
+      saveProposals(results, file, fid, callback);
+    });
   } else {
-    console.info("   Multi results add as proposals", res.results);
     callback();
   }
 };
@@ -167,7 +201,9 @@ const searchMovieByTitle = (file, callback) => {
         }
       }
 
-      saveProposals(res.results, callback);
+      const dbFile = createDBFile(file);
+      dbFile.save();
+      saveProposals(res.results, file, dbFile.id, callback);
     }
   });
 };

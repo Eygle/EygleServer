@@ -20,6 +20,9 @@ const ProposalSchema = new Schema({
 
   tmdbId: Number,
 
+  episode: Number,
+  season: Number,
+
   language: String,
   resolution: String,
   repack: Boolean,
