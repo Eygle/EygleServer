@@ -23,14 +23,14 @@ class FilesController {
 
   public loadFilesFrom(file: IFile = null): void {
     console.log("inside load from");
-    let files = !file ? this.files : (file.isDirectory ? file.children : null);
+    let files = !file ? this.files : (file.directory ? file.children : null);
     if (!files) return;
     this.current = files.length && files[0].icon ? files : this._formatData(files);
   };
 
   private _formatData(files: Array<IFile>): Array<IFile> {
     for (let f of files) {
-      if (f.isDirectory) {
+      if (f.directory) {
         f.icon = "icon-folder";
         f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.DIRECTORY");
       } else {

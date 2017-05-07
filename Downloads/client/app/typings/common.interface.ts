@@ -4,7 +4,7 @@
 
 interface IFile {
   filename: string,
-  isDirectory: boolean,
+  directory: boolean,
   parent: string,
 
   extname?: string,

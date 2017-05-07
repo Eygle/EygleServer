@@ -2,7 +2,7 @@
  * Created by eygle on 5/7/17.
  */
 
-class DurationFilter {
+class DollarCurrencyFilter {
   public static filter() {
     return (total) => {
       const amount = total.toString();
@@ -23,4 +23,4 @@ class DurationFilter {
 }
 
 angular.module('eygle')
-  .filter("dollarCurrency", DurationFilter.filter);
+  .filter("dollarCurrency", DollarCurrencyFilter.filter);

@@ -13,7 +13,7 @@ const listDirectory = (dir, parent = null, filePath = null) => {
     const stats = fs.statSync(filename);
     const file = {
       filename: f,
-      isDirectory: stats.isDirectory(),
+      directory: stats.isDirectory(),
       parent: parent,
       mtime: stats.mtime,
       path: filePath

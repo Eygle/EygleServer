@@ -12,7 +12,7 @@ const EpisodeSchema = new Schema({
   tvdbSeasonId: Number,
 
   _tvShow: {type: ObjectId, ref: 'TVShow'},
-  _file: {type: ObjectId, ref: 'File'},
+  _files: [{type: ObjectId, ref: 'File'}],
 
   number: Number,
   season: Number,

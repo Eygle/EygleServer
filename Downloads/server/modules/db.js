@@ -19,7 +19,7 @@ const models = {
 
 const loadAllModels = (files, path) => {
   for (let f of files) {
-    if (f.isDirectory) {
+    if (f.directory) {
       loadAllModels(f.children, path + '/' + f.filename);
     } else {
       const model = f.extname ? f.filename.substr(0, f.filename.length - f.extname.length) : f.filename;

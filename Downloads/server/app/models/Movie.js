@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
   , ObjectId = Schema.ObjectId;
 
 const MovieSchema = new Schema({
-  _file: {type: ObjectId, ref: 'File'},
+  _files: [{type: ObjectId, ref: 'File'}],
 
   title: String,
   originalTitle: String,
@@ -48,21 +48,6 @@ const MovieSchema = new Schema({
 
   tmdbId: Number,
   imdbId: String,
-
-  language: String,
-  resolution: String,
-  repack: Boolean,
-  quality: String,
-  proper: Boolean,
-  hardcoded: Boolean,
-  extended: Boolean,
-  codec: String,
-  audio: String,
-  group: String,
-
-  excess: [{
-    type: String
-  }],
 
   creationDate: {type: Date, default: Date.now},
   updateDate: {type: Date, default: Date.now},

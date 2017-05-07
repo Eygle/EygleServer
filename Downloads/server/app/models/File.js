@@ -13,9 +13,33 @@ const FileSchema = new Schema({
   path: String,
   normalized: String,
   mtime: Date,
+  directory: Boolean,
 
+  _parent: {type: ObjectId, ref: 'File'},
   _episode: {type: ObjectId, ref: 'Episode'},
   _movie: {type: ObjectId, ref: 'Movie'},
+
+  mediaInfo: {
+    title: String,
+    season: Number,
+    episode: Number,
+    episodeName: String,
+    region: String,
+    year: Number,
+    language: String,
+    resolution: String,
+    repack: Boolean,
+    quality: String,
+    proper: Boolean,
+    hardcoded: Boolean,
+    extended: Boolean,
+    codec: String,
+    audio: String,
+    group: String,
+    excess: [{
+      type: String
+    }]
+  },
 
   creationDate: {type: Date, default: Date.now},
   updateDate: {type: Date, default: Date.now},

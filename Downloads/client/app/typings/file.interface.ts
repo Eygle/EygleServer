@@ -13,6 +13,29 @@ interface IFile {
   _episode: IEpisode,
   _movie: IMovie,
 
+  mediaInfo: {
+    title: string,
+    season: number,
+    episode: number,
+    episodeName: string,
+    year: number,
+    region: string,
+    language: string,
+    resolution: string,
+    repack: boolean,
+    quality: string,
+    proper: boolean,
+    hardcoded: boolean,
+    extended: boolean,
+    codec: string,
+    audio: string,
+    group: string,
+
+    excess: [{
+      type: string
+    }],
+  }
+
   creationDate: Date,
   updateDate: Date,
 

@@ -4,22 +4,32 @@
 
 const _ = require("underscore")
   , path = require("path")
+  , ptn = require('parse-torrent-name')
+  , q = require('q')
   , normalize = require('../../server/modules/normalize')
   , dump = require("../../server/modules/dumpDirectory")
   , db = require("../../server/modules/db")
   , conf = require("../../server/config/env")
   , filesToAdd = []
-  , filesToDelete = [];
+  , filesToDelete = []
+  , movies = []
+  , tvShows = [];
 
-let files;
+let files
+  , added = 0
+  , deleted = 0;
+
+
 
 /**
  * Compare current list of file with old list of files (from dump)
- * @param autoDelete if true then delete all files that are not present anymore
+ * Add all new files and directory with parse-torrent-name info is available
  */
-module.exports.synchronize = (autoDelete = true) => {
-  files = require("../../server/modules/listDirectory")(conf.downloadsDir);
-  const previous = dump.load();
+module.exports.synchronize = () => {
+  const defer = q.defer();
+
+  files = conf.env === 'development' ? dump.load() : require("../../server/modules/listDirectory")(conf.downloadsDir);
+  const previous = conf.env === 'development' ? [] : dump.load();
 
   for (let f of files) {
     const idx = _.findIndex(previous, {filename: f.filename, size: f.size, parent: f.parent});
@@ -31,30 +41,91 @@ module.exports.synchronize = (autoDelete = true) => {
     }
   }
 
-  if (autoDelete) {
-    module.exports.deleteFromDB();
-  }
+  q.allSettled([processFiles(filesToAdd), deleteFromDB()]).then(() => {
+    console.log(`${added} files added !`);
+    console.log(`${deleted} files deleted !`);
+    defer.resolve();
+  });
+
+  return defer.promise;
 };
 
-module.exports.createDocument = (f) => {
+
+/**
+ * For each toAdd file or directory:
+ * - Feed info from parse-torrent-name if is a video
+ * - identify it as movie, tvshow or other
+ * - Save in database (whether or not it's a video, including directories)
+ * - If it's a directory then we call it recursively
+ * @param list of files
+ * @param parent
+ */
+const processFiles = (list, parent = null) => {
+  const defer = q.defer();
+  const promises = [];
+
+  for (let f of list) {
+    if (f.directory) {
+      if (f.children) {
+        promises.push(processFiles(f.children, f));
+      }
+    } else {
+      if (isVideo(f.filename)) {
+        if (!f.info) {
+          f.info = ptn(f.filename);
+        }
+
+        if (f.info.title) {
+          if (f.info.season || f.info.episode) {
+            tvShows.push(f);
+          } else {
+            movies.push(f);
+          }
+        }
+      }
+    }
+
+    added++;
+    f.File = createDocument(f, parent);
+    const deferFile = q.defer();
+    promises.push(deferFile.promise);
+    f.File.save(() => {
+      deferFile.resolve();
+    });
+  }
+
+  q.allSettled(promises).then(() => defer.resolve());
+
+  return defer.promise;
+};
+
+const createDocument = (file, parent) => {
   return new db.models.File({
-    filename: f.filename,
-    ext: f.extname,
-    size: f.size,
-    path: f.path,
-    mtime: new Date(f.mtime),
-    normalized: normalize(f.filename),
+    filename: file.filename,
+    ext: file.extname,
+    size: file.size,
+    path: file.path,
+    mtime: new Date(file.mtime),
+    normalized: normalize(file.filename),
+    directory: file.directory,
+    _parent: parent ? parent._id : null,
+    mediaInfo: file.info
   });
 };
 
 /**
  * Delete all filesToDelete from database (mark file as deleted AND matching Movie or Episode)
  */
-module.exports.deleteFromDB = () => {
+const deleteFromDB = () => {
+  const defer = q.defer();
+
   for (let i in filesToDelete) {
     // TODO find in database and mark as deleted (move and episode too)
     filesToDelete.splice(i, 1);
   }
+  defer.resolve();
+
+  return defer.promise;
 };
 
 /**
@@ -62,7 +133,7 @@ module.exports.deleteFromDB = () => {
  * @param filename
  * @returns {boolean}
  */
-module.exports.isVideo = (filename) => {
+const isVideo = (filename) => {
   const videoExtensions = [".avi", ".mkv", ".webm", ".flv", ".vob", ".ogg", ".ogv", ".mov", ".qt",
     ".wmv", ".mp4", ".m4p", ".m4v", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv"];
   return videoExtensions.indexOf(path.extname(filename)) !== -1;
@@ -77,11 +148,19 @@ module.exports.getAll = () => {
 };
 
 /**
- * Return only new files
+ * Return only movies hierarchy
  * @returns {Array}
  */
-module.exports.getNew = () => {
-  return filesToAdd;
+module.exports.getMovies = () => {
+  return movies;
+};
+
+/**
+ * Return only tv shows hierarchy
+ * @returns {Array}
+ */
+module.exports.getTVShows = () => {
+  return tvShows;
 };
 
 /**

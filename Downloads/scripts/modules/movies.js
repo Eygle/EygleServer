@@ -3,11 +3,63 @@
  */
 
 const _ = require('underscore')
+  , q = require('q')
   , tmdb = require('moviedb')("22e2817ba73ca94f0b3971f847acefc6")
   , files = require('./files')
   , db = require('../../server/modules/db');
 
-let tmdbConfig = null;
+let tmdbConfig = null, processed = 0, total = false;
+
+/**
+ * Process a list of movies
+ * @param list
+ */
+module.exports.processAll = (list) => {
+  const defer = q.defer();
+
+  if (processed === 0) {
+    console.log("Start processing Movies...");
+    total = list.length;
+  }
+  if (list.length > 0) {
+    const file = list.shift();
+    const filename = file.path ? file.path + '/' + file.info.title : file.info.title;
+    console.log(`Process [${processed + 1}/${total}]: ${filename}`);
+    module.exports.process(file, () => {
+      processed++;
+      setTimeout(() => {
+        module.exports.processAll(list);
+      }, 1000);
+    });
+  } else {
+    defer.resolve();
+  }
+
+  return defer.promise;
+};
+
+/**
+ * Process a single movie
+ * Step 1: find the movie using TheMovieDB
+ * Step 2: fetch all useful info for the movie
+ * Step 3: execute callback
+ * @param file
+ * @param callback
+ */
+module.exports.process = (file, callback) => {
+  if (file.info.title) {
+    if (!tmdbConfig) {
+      tmdb.configuration((err, res) => {
+        tmdbConfig = res;
+        searchMovieByTitle(file, callback);
+      });
+    } else {
+      searchMovieByTitle(file, callback);
+    }
+  } else {
+    callback();
+  }
+};
 
 const getSizeCloseTo = (type, width) => {
   switch (type) {
@@ -31,11 +83,11 @@ const getSizeCloseTo = (type, width) => {
   return 'original';
 };
 
-const createMovieFromFileNTMDB = (file, m) => {
+const createMovieFromFileNTMDB = (m) => {
   return new db.models.Movie({
     title: m.title,
     originalTitle: m.original_title,
-    date: new Date(m.release_date),
+    date: m.release_date ? new Date(m.release_date) : null,
     genres: _.map(m.genres, (v) => {
       return v.name;
     }),
@@ -88,61 +140,39 @@ const createMovieFromFileNTMDB = (file, m) => {
 
     tmdbId: m.id,
     imdbId: m.imdb_id,
-
-    language: file.info.language,
-    resolution: file.info.resolution,
-    repack: file.info.repack,
-    quality: file.info.quality,
-    proper: file.info.proper,
-    hardcoded: file.info.hardcoded,
-    extended: file.info.extended,
-    codec: file.info.codec,
-    audio: file.info.audio,
-    group: file.info.group,
-    excess: file.info.excess
   });
 };
 
-const createProposal = (file, fid, m) => {
+const createProposal = (m, file) => {
   return new db.models.Proposal({
     title: m.title,
     originalTitle: m.original_title,
-    date: new Date(m.release_date),
+    date: m.release_date ? new Date(m.release_date) : null,
     overview: m.overview,
     poster: m.poster_path ? tmdbConfig.images.base_url + getSizeCloseTo('p', 154) + m.poster_path : null,
     tmdbId: m.id,
-    episode: file.info.episode,
-    season: file.info.season,
-    language: file.info.language,
-    resolution: file.info.resolution,
-    repack: file.info.repack,
-    quality: file.info.quality,
-    proper: file.info.proper,
-    hardcoded: file.info.hardcoded,
-    extended: file.info.extended,
-    codec: file.info.codec,
-    audio: file.info.audio,
-    group: file.info.group,
-    excess: file.info.excess
+    _file: file.File._id
   });
 };
 
-const fetchAllMovieInfo = (f, id, callback) => {
+const fetchAllMovieInfo = (file, id, callback) => {
   db.models.Movie.findOne({tmdbId: id})
     .exec((err, item) => {
       if (err || !item) {
+        // Create a new movie with all info
         tmdb.movieInfo({id: id, language: 'fr', append_to_response: 'credits,videos'}, (err, res) => {
-          const file = files.createDocument(f);
-          const movie = createMovieFromFileNTMDB(f, res);
+          const movie = createMovieFromFileNTMDB(res);
 
-          file._movie = movie._id;
-          movie._file = file._id;
+          file.File._movie = movie._id;
+          if (movie._files) {
+            movie._files.push(file.File._id);
+          } else {
+            movie._files = [file.File._id];
+          }
 
-          file.save(err => {
+          file.File.save(err => {
             if (err)
               console.error(err);
-            else
-              console.info('  File added');
             movie.save(err => {
               if (err)
                 console.error(err);
@@ -153,21 +183,26 @@ const fetchAllMovieInfo = (f, id, callback) => {
           });
         });
       } else {
-        console.info('  Skipped: Already exists');
+        if (item._files) {
+          item._files.push(file.File._id);
+        } else {
+          item._files = [file.File._id];
+        }
+        console.info(`  Linked to existed movie ${item.title}`);
         callback();
       }
     });
 };
 
-const saveProposals = (results, file, fid, callback) => {
+const saveProposals = (results, file, callback) => {
   if (results.length && results[0]) {
-    const proposal = createProposal(file, fid, results.shift());
-    proposal._file = fid;
+    const proposal = createProposal(results.shift(), file);
     proposal.save(err => {
       if (err)
         console.error(err);
-      console.info(`   Add proposal: ${proposal.title} (${proposal.date.getFullYear()})`);
-      saveProposals(results, file, fid, callback);
+      const year = proposal.date ? ' (' + proposal.date.getFullYear() + ')' : '';
+      console.info(`   Add proposal: ${proposal.title}${year}`);
+      saveProposals(results, file, callback);
     });
   } else {
     callback();
@@ -191,43 +226,7 @@ const searchMovieByTitle = (file, callback) => {
         }
       }
 
-      const dbFile = files.createDocument(file);
-      dbFile.save();
-      saveProposals(res.results, file, dbFile.id, callback);
+      saveProposals(res.results, file, callback);
     }
   });
-};
-
-/**
- * Process a list of movies
- * @param files
- * @param callback
- */
-module.exports.processAll = (files, callback) => {
-  if (files.length > 0) {
-    module.exports.process(files.shift(), () => {
-      module.exports.processAll(files);
-    });
-  } else {
-    callback();
-  }
-};
-
-/**
- * Process a single movie
- * Step 1: find the movie using TheMovieDB
- * Step 2: fetch all useful info for the movie
- * Step 3: execute callback
- * @param file
- * @param callback
- */
-module.exports.process = (file, callback) => {
-  if (!tmdbConfig) {
-    tmdb.configuration((err, res) => {
-      tmdbConfig = res;
-      searchMovieByTitle(file, callback);
-    });
-  } else {
-    searchMovieByTitle(file, callback);
-  }
 };
