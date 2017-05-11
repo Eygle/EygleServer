@@ -17,7 +17,7 @@ gulp.task('dev:serve', ['dev:build'], () => {
     script: `${conf.paths.dev.server}/server.js`,
     ext: 'html js',
     env: {'NODE_ENV': 'development'},
-    watch: conf.paths.server
+    watch: conf.paths.dev.server
   }).on('restart', () => conf.log.info('server restarted!'));
   livereload.listen();
 });
@@ -32,6 +32,7 @@ gulp.task('dev:build', () => {
   q.allSettled([
     clean(),
     inject(),
+    common.server(conf.paths.dev.root),
     common.generateIndexHTML(conf.paths.dev.client)
   ]).then(() => {
     defer.resolve();
@@ -64,7 +65,6 @@ const inject = (reload = false) => {
   q.allSettled([
     misc(),
     common.langs(conf.paths.dev.client),
-    common.server(conf.paths.dev.root)
   ]).then(() => {
     if (reload) {
       livereload.reload();
@@ -87,6 +87,7 @@ const misc = (path = null) => {
   gulp.src(path || [
       `${conf.paths.client}/**/*`,
       `!${conf.paths.client}/**/*.{ts,scss}`,
+      `!${conf.paths.client}/index.html`,
       `!${conf.paths.client}/app/**/i18n{,/**}`,
     ], {nodir: true}).pipe(debug({title: 'Misc injected', showFiles: false}))
     .pipe(gulp.dest(conf.paths.dev.client))
@@ -119,6 +120,7 @@ const watch = () => {
 
   // Watch typescript files
   gulp.watch([`${conf.paths.client}/app/**/*.ts`], (event) => {
+    console.log("Typescript file changed: ", event.path);
     if (common.changeOnly(event))
       common.scripts(conf.paths.dev.client, true);
     else
@@ -130,6 +132,13 @@ const watch = () => {
     `${conf.paths.client}/app/**/*.html`
   ], () => {
     inject(true);
+  });
+
+  gulp.watch([
+    `${conf.paths.server}/**/*`,
+  ], (event) => {
+    const path = event.path.substr(event.path.lastIndexOf(conf.paths.server));
+    common.server(conf.paths.dev.root, path);
   });
 
   conf.log.taskFinnished('watch');

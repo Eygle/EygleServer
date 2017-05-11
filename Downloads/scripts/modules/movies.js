@@ -5,7 +5,6 @@
 const _ = require('underscore')
   , q = require('q')
   , tmdb = require('moviedb')("22e2817ba73ca94f0b3971f847acefc6")
-  , files = require('./files')
   , db = require('../../server/modules/db');
 
 let tmdbConfig = null, processed = 0, total = false;

@@ -3,6 +3,8 @@
  */
 
 interface IFile {
+  _id: string,
+
   filename: string,
   directory: boolean,
   parent: string,

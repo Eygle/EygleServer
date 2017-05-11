@@ -26,7 +26,6 @@ module.exports = {
           if (err) return callback(500, {error: err});
           callback(null, _.sortBy(items, (v) => {
             let min = null;
-            console.log(v);
             for (let f of v._files) {
               if (min === null || min.getTime() > f.mtime.getTime()) {
                 min = f.mtime.getTime();

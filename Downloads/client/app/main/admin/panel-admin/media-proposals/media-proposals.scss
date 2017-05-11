@@ -1,0 +1,13 @@
+.movie-proposals {
+  .title {
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .media {
+    cursor: pointer;
+  }
+}

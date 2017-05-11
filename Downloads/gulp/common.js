@@ -1,5 +1,6 @@
 const gulp = require('gulp')
   , merge = require('gulp-merge-json')
+  , livereload = require('gulp-livereload')
   , q = require('q')
   , debug = require('gulp-debug')
   , gutil = require('gulp-util')
@@ -10,32 +11,42 @@ const gulp = require('gulp')
   , conf = require('./conf');
 
 /**
- * Inject server files in given path
+ * Inject server files in given dist
  */
-exports.server = (path) => {
+exports.server = (dist, file = null) => {
   conf.log.taskStart('server');
   const defer = q.defer();
   const dAll = q.defer();
   const dServer = q.defer();
   const dSocket = q.defer();
 
-  gulp.src([
-    "server.js",
-    "bower.json",
-    "package.json"
-  ]).pipe(gulp.dest(path))
-    .on('end', () => dAll.resolve());
+  const path = file ? `${dist}/${file.substr(0, file.lastIndexOf('/'))}` : null;
 
-  gulp.src("server/**")
+  gulp.src(file || "server/**")
     .pipe(debug({title: 'Server injected', showFiles: false}))
-    .pipe(gulp.dest(`${path}/server`)).on('end', () => dServer.resolve());
+    .pipe(gulp.dest(path || `${dist}/server`)).on('end', () => dServer.resolve());
 
-  gulp.src("socket.io/**").pipe(gulp.dest(`${path}/socket.io`)).on('end', () => dSocket.resolve());
+  if (!file) {
+    gulp.src([
+      "server.js",
+      "bower.json",
+      "package.json"
+    ])
+      .pipe(gulp.dest(dist))
+      .on('end', () => dAll.resolve());
 
-  q.allSettled([dAll.promise, dServer.promise, dSocket.promise]).then(() => {
-    conf.log.taskFinnished('server');
-    defer.resolve();
-  });
+    gulp.src("socket.io/**").pipe(gulp.dest(`${dist}/socket.io`)).on('end', () => dSocket.resolve());
+
+    q.allSettled([dAll.promise, dServer.promise, dSocket.promise]).then(() => {
+      conf.log.taskFinnished('server');
+      defer.resolve();
+    });
+  } else {
+    dServer.promise.then(() => {
+      conf.log.taskFinnished('server');
+      defer.resolve();
+    })
+  }
 
   return defer.promise;
 };
@@ -126,16 +137,17 @@ exports.scripts = (dest, reload = false) => {
   conf.log.taskStart('scripts');
   const defer = q.defer();
 
-  gulp.src(`${conf.paths.client}/**/*.ts`)
+  const res = gulp.src(`${conf.paths.client}/**/*.ts`)
     .pipe($.typescript({removeComments: false, target: 'es5'}))
     .pipe(gulp.dest(dest))
     .on('end', () => {
       conf.log.taskFinnished('scripts');
-      if (reload) {
-        livereload()
-      }
       defer.resolve()
     });
+
+  if (reload) {
+    res.pipe(livereload());
+  }
 
   return defer.promise;
 };
@@ -166,7 +178,7 @@ exports.styles = (dest, reload = false) => {
     addRootSlash: false
   };
 
-  gulp.src(`${conf.paths.client}/app/app.scss`)
+  const res = gulp.src(`${conf.paths.client}/app/app.scss`)
     .pipe($.inject(injectFiles, injectOptions))
     .pipe(wiredep(_.extend({}, conf.wiredep)))
     .pipe($.sourcemaps.init())
@@ -176,16 +188,14 @@ exports.styles = (dest, reload = false) => {
     .pipe(gulp.dest(`${dest}/app/`))
     .on('end', () => {
       conf.log.taskFinnished('styles');
-
-      if (reload) {
-        livereload();
-      }
       defer.resolve()
-    })
-    .pipe($.size({
-      title: `${dest}/`,
-      showFiles: true
-    }));
+    });
+
+  if (reload) {
+    res.pipe(livereload());
+  }
+
+  res.pipe($.size({title: `${dest}/`, showFiles: true}));
 
   return defer.promise;
 };

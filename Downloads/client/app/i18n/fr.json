@@ -64,11 +64,5 @@
     "SETTINGS": {
       "TITLE": "Paramètres"
     }
-  },
-
-  "ADMIN": {
-    "PANEL": {
-      "TITLE": "Panneau d'administration"
-    }
   }
 }

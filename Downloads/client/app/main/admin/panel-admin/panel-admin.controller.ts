@@ -3,11 +3,12 @@
  */
 
 class PanelAdminController {
-    constructor() {
-    }
+  constructor() {
+  }
 
-    $onInit() {}
+  $onInit() {
+  }
 }
 
 angular.module('eygle.admin.panel-admin')
-    .controller('PanelAdminController', PanelAdminController);
+  .controller('PanelAdminController', PanelAdminController);
