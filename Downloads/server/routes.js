@@ -6,7 +6,7 @@ const resty = require('resty')
     , express = require('express')
     , path = require('path')
     , conf = require('./config/env')
-    , serve = path.join(conf.root, 'serve');
+  , serve = path.join(conf.root, 'client');
 
 module.exports.default = (app) => {
     // Root is for client
