@@ -42,7 +42,6 @@ module.exports.synchronize = () => {
   }
 
   q.allSettled([processFiles(filesToAdd), deleteFromDB()]).then(() => {
-    console.log(`${added} files added !`);
     console.log(`${deleted} files deleted !`);
     defer.resolve();
   });
@@ -50,6 +49,44 @@ module.exports.synchronize = () => {
   return defer.promise;
 };
 
+module.exports.saveNewFiles = () => {
+  const defer = q.defer();
+
+  saveAllFiles(filesToAdd).then(() => {
+    console.log(`${added} files added !`);
+    defer.resolve();
+  });
+
+  return defer.promise;
+};
+
+const saveAllFiles = (files) => {
+  const defer = q.defer();
+  const promises = [];
+
+  for (let f of files) {
+    if (!f.File._movie) {
+      const deferFile = q.defer();
+      promises.push(deferFile.promise);
+      f.File.save(() => {
+        deferFile.resolve();
+      });
+    }
+    if (f.directory && f.children) {
+      promises.push(saveAllFiles(f.children));
+    }
+  }
+
+  if (promises.length) {
+    q.allSettled(promises).then(() => {
+      defer.resolve();
+    });
+  } else {
+    defer.resolve();
+  }
+
+  return defer.promise;
+};
 
 /**
  * For each toAdd file or directory:
@@ -59,15 +96,14 @@ module.exports.synchronize = () => {
  * - If it's a directory then we call it recursively
  * @param list of files
  * @param parent
+ * @param path
  */
 const processFiles = (list, parent = null) => {
-  const defer = q.defer();
-  const promises = [];
 
   for (let f of list) {
     if (f.directory) {
       if (f.children) {
-        promises.push(processFiles(f.children, f));
+        processFiles(f.children, f);
       }
     } else {
       if (isVideo(f.filename)) {
@@ -75,28 +111,17 @@ const processFiles = (list, parent = null) => {
           f.info = ptn(f.filename);
         }
 
-        if (f.info.title) {
-          if (f.info.season || f.info.episode) {
-            tvShows.push(f);
-          } else {
-            movies.push(f);
-          }
-        }
+        const fullPath = f.path ? `${f.path}/${f.filename}` : f.filename;
+        if (isTVShow(fullPath))
+          tvShows.push(f);
+        else
+          movies.push(f);
       }
     }
 
     added++;
     f.File = createDocument(f, parent);
-    const deferFile = q.defer();
-    promises.push(deferFile.promise);
-    f.File.save(() => {
-      deferFile.resolve();
-    });
   }
-
-  q.allSettled(promises).then(() => defer.resolve());
-
-  return defer.promise;
 };
 
 const createDocument = (file, parent) => {
@@ -137,6 +162,23 @@ const isVideo = (filename) => {
   const videoExtensions = [".avi", ".mkv", ".webm", ".flv", ".vob", ".ogg", ".ogv", ".mov", ".qt",
     ".wmv", ".mp4", ".m4p", ".m4v", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv"];
   return videoExtensions.indexOf(path.extname(filename)) !== -1;
+};
+
+const isTVShow = (path) => {
+  const files = path.split('/');
+
+  for (let i = files.length - 1; i >= 0; i--) {
+    const info = ptn(files[i]);
+    if (info.season || info.episode)
+      return true;
+  }
+
+  const r = /(seasons?|saisons?)/i
+  if (files.length > 1 && files[files.length - 2].match(r)) {
+    return true;
+  }
+
+  return false;
 };
 
 /**

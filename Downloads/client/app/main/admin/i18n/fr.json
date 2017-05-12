@@ -1,7 +1,12 @@
 {
   "ADMIN": {
     "PANEL": {
-      "TITLE": "Panneau d'administration"
+      "TITLE": "Panneau d'administration",
+      "TABS": {
+        "MEDIA_PROPOSAL": "Médias à résultats multiple",
+        "USERS": "Utilisateurs",
+        "STATS": "Statistiques"
+      }
     }
   }
 }

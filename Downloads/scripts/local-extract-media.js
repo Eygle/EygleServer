@@ -15,7 +15,8 @@ db.init(() => {
     q.allSettled([
       movies.processAll(files.getMovies())
     ]).then(() => {
-      process.exit();
+      console.log("save files");
+      files.saveNewFiles().then(() => process.exit());
     });
   });
 });

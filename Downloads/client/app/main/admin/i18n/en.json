@@ -1,7 +1,12 @@
 {
   "ADMIN": {
     "PANEL": {
-      "TITLE": "Panel admin"
+      "TITLE": "Panel admin",
+      "TABS": {
+        "MEDIA_PROPOSAL": "Multiple results media",
+        "USERS": "Users",
+        "STATS": "Stats"
+      }
     }
   }
 }

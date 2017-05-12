@@ -18,4 +18,5 @@ interface IFile {
   type?: string,
   icon?: string,
   typeLabel?: string
+  loading: boolean;
 }

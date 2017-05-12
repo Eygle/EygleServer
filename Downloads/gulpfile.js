@@ -23,7 +23,7 @@ wrench.readdirSyncRecursive('./gulp').filter(function (file) {
 /**
  *  Default task launch the main optimization build task
  */
-gulp.task('default', ['prod:build'], function () {
+gulp.task('default', ['dev:serve'], function () {
 });
 
 

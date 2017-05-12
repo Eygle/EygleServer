@@ -24,11 +24,13 @@
 
   #content {
     & > * {
-      display: block;
-      width: 100%;
+      &:first-child {
+        display: block;
+        width: 100%;
 
-      & > * {
-        height: 100%;
+        & > * {
+          height: 100%;
+        }
       }
     }
   }
@@ -109,5 +111,9 @@
         }
       }
     }
+  }
+
+  md-tabs {
+    overflow: visible;
   }
 }

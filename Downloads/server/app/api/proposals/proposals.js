@@ -6,8 +6,8 @@
  * Created by eygle on 4/29/17.
  */
 
-const _ = require('underscore')
-  , db = require('../../../modules/db');
+const db = require('../../../modules/db')
+  , movies = require('../../../modules/movies');
 
 module.exports = {
   Resource: {
@@ -16,16 +16,25 @@ module.exports = {
         .remove()
         .exec((err) => {
           if (err) return callback(500, err);
-          callback(null, {success: true});
+          callback(null, {status: 'ok'});
         });
     },
     put: function (uid, callback) {
       db.models.Proposal.findOne({_id: uid})
-        .select({tmdbId: 1})
-        .populate('_file')
-        .exec((err, item) => {
-          if (err) return callback(500, err);
-          callback(null, item);
+        .select({tmdbId: 1, _file: 1})
+        .exec((err, proposal) => {
+          if (err || !proposal) return callback(500, err);
+          movies.fetchMovie(proposal.tmdbId, proposal).then(movie => {
+            proposal.save(err => {
+              if (err) return callback(500, err);
+              movie.save(err => {
+                if (err) return callback(500, err);
+                module.exports.Resource.delete(proposal._file, callback);
+              });
+            });
+          }).catch(err => {
+            callback(500, err)
+          });
         });
     }
   },

@@ -11,7 +11,7 @@
       </md-button>
     </div>
     <div class="medias-container" layout="row" layout-wrap ng-if="m.expand">
-      <div class="media" ng-repeat="p in m.proposals" ng-click="vm.choose(p)">
+      <div class="media" ng-repeat="p in m.proposals" ng-click="vm.choose(m, p)">
         <div class="image-crop">
           <img ng-src="{{::p.poster}}" alt="{{::p.title}}"/>
           <div class="image-hover">
@@ -25,6 +25,9 @@
           <div class="subtitle">{{::p.date.getFullYear()}}</div>
         </div>
       </div>
+    </div>
+    <div class="loading" layout="row" layout-sm="column" layout-align="space-around centerq" ng-if="m.loading">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
   </div>
 </md-content>

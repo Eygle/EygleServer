@@ -21,22 +21,28 @@ class MediaProposalsController {
   }
 
   public deleteProposals = (file: IFile): void => {
-    this.Api.proposals.remove({id: file._id}, res => {
+    file.loading = true;
+    this.Api.proposals.remove({id: file._id}, () => {
       this.movies.splice(_.findIndex(this.movies, (v) => {
         return v._id === file._id;
       }), 1);
     }, err => {
+      file.loading = false;
       console.error(err); //TODO Toast
     });
   };
 
-  public choose = (proposal): void => {
-    this.Api.proposals.choose({id: proposal._id}, res => {
-      console.log(res);
+  public choose = (file, proposal): void => {
+    file.loading = true;
+    this.Api.proposals.choose({id: proposal._id}, () => {
+      this.movies.splice(_.findIndex(this.movies, (v) => {
+        return v._id === file._id;
+      }), 1);
     }, err => {
+      file.loading = false;
       console.error(err); //TODO Toast
     });
-  }
+  };
 }
 
 angular.module('eygle.admin.panel-admin')
