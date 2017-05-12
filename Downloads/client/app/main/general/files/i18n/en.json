@@ -1,0 +1,11 @@
+{
+  "FILES": {
+    "TITLE": "All downloads",
+    "LABELS": {
+      "FILENAME": "File",
+      "TYPE": "Type",
+      "SIZE": "Size",
+      "MODIFIED": "Modification date"
+    }
+  }
+}

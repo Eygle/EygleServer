@@ -32,13 +32,13 @@ class FilesController {
     for (let f of files) {
       if (f.directory) {
         f.icon = "icon-folder";
-        f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.DIRECTORY");
+        f.typeLabel = this.$translate.instant("FILES.TYPES.DIRECTORY");
       } else {
         switch (f.extname) {
           default:
             f.icon = "icon-file-document";
             f.type = "file";
-            f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.FILE");
+            f.typeLabel = this.$translate.instant("FILES.TYPES.FILE");
             break;
           case ".avi":
           case ".mp4":
@@ -46,7 +46,7 @@ class FilesController {
           case ".wmv":
           case ".ts":
             f.icon = "icon-file-video";
-            f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.VIDEO");
+            f.typeLabel = this.$translate.instant("FILES.TYPES.VIDEO");
             break;
           case ".jpg":
           case ".bmp":
@@ -55,47 +55,47 @@ class FilesController {
           case ".svg":
           case ".ai":
             f.icon = "con-file-image";
-            f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.IMAGE");
+            f.typeLabel = this.$translate.instant("FILES.TYPES.IMAGE");
             break;
           case ".mp3":
           case ".flac":
           case ".wma":
             f.icon = "icon-file-music";
-            f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.AUDIO");
+            f.typeLabel = this.$translate.instant("FILES.TYPES.AUDIO");
             break;
           case ".txt":
           case ".csv":
           case ".json":
           case ".rtf":
             f.icon = "icon-file-document";
-            f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.TEXT");
+            f.typeLabel = this.$translate.instant("FILES.TYPES.TEXT");
             break;
           case ".pdf":
             f.icon = "icon-file-pdf";
-            f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.PDF");
+            f.typeLabel = this.$translate.instant("FILES.TYPES.PDF");
             break;
           case ".doc":
           case ".docx":
           case ".odt":
             f.icon = "icon-file-word";
-            f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.WORD");
+            f.typeLabel = this.$translate.instant("FILES.TYPES.WORD");
             break;
           case ".xls":
           case ".xlsx":
           case ".ods":
             f.icon = "icon-file-excel";
-            f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.WORD");
+            f.typeLabel = this.$translate.instant("FILES.TYPES.WORD");
             break;
           case ".ppt":
           case ".pptx":
             f.icon = "icon-file-powerpoint";
-            f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.POWERPOINT");
+            f.typeLabel = this.$translate.instant("FILES.TYPES.POWERPOINT");
             break;
           case ".zip":
           case ".rar":
           case ".7z":
             f.icon = "icon-archive";
-            f.typeLabel = this.$translate.instant("GENERAL.FILES.TYPES.ARCHIVE");
+            f.typeLabel = this.$translate.instant("FILES.TYPES.ARCHIVE");
             break;
         }
       }

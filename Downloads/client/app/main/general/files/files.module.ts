@@ -8,7 +8,7 @@ angular
     $stateProvider.state('eygle.files', {
       url: '/files',
       icon: 'icon-file-multiple',
-      translate: 'GENERAL.FILES.TITLE',
+      translate: 'FILES.TITLE',
       weight: 4,
       views: {
         'content@eygle': {

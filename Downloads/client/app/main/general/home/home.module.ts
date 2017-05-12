@@ -8,7 +8,7 @@ angular
         $stateProvider.state('eygle.home', {
             url: '/',
             icon: 'icon-home',
-            translate: 'GENERAL.HOME.TITLE',
+            translate: 'HOME.TITLE',
             weight: 1,
             views: {
                 'content@eygle': {

@@ -1,0 +1,33 @@
+{
+  "FILES": {
+    "TITLE": "Tous les téléchargements",
+    "LABELS": {
+      "FILENAME": "Fichier",
+      "TYPE": "Type",
+      "SIZE": "Taille",
+      "MODIFIED": "Modifié le"
+    },
+    "TYPES": {
+      "DIRECTORY": "Dossier",
+      "FILE": "Fichier",
+      "IMAGE": "Image",
+      "VIDEO": "Vidéo",
+      "AUDIO": "Audio",
+      "TEXT": "Texte",
+      "DATABASE": "Base de donnée",
+      "WORD": "Microsoft Word",
+      "OPEN_OFFICE_WRITER": "Open Office Doc",
+      "AUTOCAD": "Dessin Autocad",
+      "SYSTEM_IMAGE": "Image disque",
+      "JAVASCRIPT": "Javascript",
+      "PDF": "PDF",
+      "POWERPOINT": "PowerPoint",
+      "PHOTOSHOP_DOCUMENT": "Photoshop",
+      "EXCEL": "Microsoft Excel",
+      "OPEN_OFFICE_CALC": "Open Office Calc",
+      "WEB_DOCUMENT": "Page web",
+      "ARCHIVE": "Archive",
+      "WEB_STYLE": "Style de page web"
+    }
+  }
+}

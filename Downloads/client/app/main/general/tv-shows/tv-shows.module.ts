@@ -7,7 +7,7 @@ angular
         $stateProvider.state('eygle.tv-shows', {
             url: '/tv-shows',
             icon: 'icon-television',
-            translate: 'GENERAL.TV_SHOWS.TITLE',
+          translate: 'TV_SHOWS.TITLE',
             weight: 2,
             views: {
                 'content@eygle': {

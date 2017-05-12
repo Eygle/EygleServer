@@ -5,15 +5,28 @@
         <img ng-src="{{vm.movie.poster}}"/>
       </div>
       <div class="description">
-        <h1>{{vm.movie.title}} <span class="sub-info">({{vm.movie.date.getFullYear()}})</span></h1>
-        <h3 translate="GENERAL.MOVIES.SYNOPSIS"></h3>
-        <p class="overview">{{vm.movie.overview}}</p>
-        <h3 translate="GENERAL.MOVIES.TEAM"></h3>
+        <h1>{{vm.movie.title}} <span class="sub-info">({{::vm.movie.date.getFullYear()}})</span></h1>
+        <h3 translate="MOVIES.DOWNLOAD"></h3>
+        <div class="files">
+          <div class="file" ng-repeat="f in ::vm.movie._files" layout="row" layout-align="start start">
+            <div>
+              <div class="filename">{{::f.filename}}</div>
+              <div class="info"></div>
+            </div>
+            <div class="actions">
+              <md-icon md-font-icon="icon-download"></md-icon>
+              <md-icon md-font-icon="icon-link-variant"></md-icon>
+            </div>
+          </div>
+        </div>
+        <h3 translate="MOVIES.SYNOPSIS"></h3>
+        <p class="overview">{{::vm.movie.overview}}</p>
+        <h3 translate="MOVIES.TEAM"></h3>
         <div class="team" layout="row" layout-align="start stretch">
-          <md-card class="person" ng-repeat="c in vm.movie.crew | limitTo: 6" layout="column">
+          <md-card class="person" ng-repeat="c in ::vm.movie.crew | limitTo: 6" layout="column">
             <div class="info">
-              <div class="title">{{c.name}}</div>
-              <div class="subtitle">{{c.job}}</div>
+              <div class="title">{{::c.name}}</div>
+              <div class="subtitle">{{::c.job}}</div>
             </div>
           </md-card>
         </div>
@@ -23,58 +36,58 @@
     <div class="second" layout="row" layout-align="start stretch">
       <div class="cast" flex="100">
         <div class="backdrop">
-          <img ng-src="{{vm.movie.backdrop}}"/>
+          <img ng-src="{{::vm.movie.backdrop}}"/>
           <div class="background"></div>
         </div>
-        <h2 translate="GENERAL.MOVIES.CAST"></h2>
+        <h2 translate="MOVIES.CAST"></h2>
         <div class="team">
           <div class="content" layout="row" layout-wrap>
-            <md-card class="person" ng-repeat="c in vm.movie.cast" layout="column">
-              <img ng-src="{{c.image}}" ng-if="c.image"/>
-              <div class="placeholder" ng-if="!c.image" layout="row">
+            <md-card class="person" ng-repeat="c in ::vm.movie.cast" layout="column">
+              <img ng-src="{{::c.image}}" ng-if="::c.image"/>
+              <div class="placeholder" ng-if="!::c.image" layout="row">
                 <md-icon md-font-icon="icon-account"></md-icon>
               </div>
               <div class="info">
-                <div class="title">{{c.name}}</div>
-                <div class="subtitle">{{c.character}}</div>
+                <div class="title">{{::c.name}}</div>
+                <div class="subtitle">{{::c.character}}</div>
               </div>
             </md-card>
           </div>
         </div>
       </div>
       <div class="additional-info">
-        <h2 translate="GENERAL.MOVIES.MORE_INFO"></h2>
-        <div ng-if="vm.movie.genres">
-          <h3 translate="GENERAL.MOVIES.GENRES"></h3>
+        <h2 translate="MOVIES.MORE_INFO"></h2>
+        <div ng-if="::vm.movie.genres">
+          <h3 translate="MOVIES.GENRES"></h3>
           <div layout="row" layout-wrap>
-            <md-card class="genre" ng-repeat="g in vm.movie.genres">
+            <md-card class="genre" ng-repeat="g in ::vm.movie.genres">
               <span>{{g}}</span>
             </md-card>
           </div>
         </div>
-        <div ng-if="vm.movie.originalTitle">
-          <h3 translate="GENERAL.MOVIES.ORIGINAL_TITLE"></h3>
-          <span>{{vm.movie.originalTitle}}</span>
+        <div ng-if="::vm.movie.originalTitle">
+          <h3 translate="MOVIES.ORIGINAL_TITLE"></h3>
+          <span>{{::vm.movie.originalTitle}}</span>
         </div>
-        <div ng-if="vm.movie.countries">
-          <h3 translate="GENERAL.MOVIES.NATIONALITIES"></h3>
-          <span>{{vm.movie.countries.join(", ")}}</span>
+        <div ng-if="::vm.movie.countries">
+          <h3 translate="MOVIES.NATIONALITIES"></h3>
+          <span>{{::vm.movie.countries.join(", ")}}</span>
         </div>
-        <div ng-if="vm.movie.date">
-          <h3 translate="GENERAL.MOVIES.RELEASE_DATE"></h3>
-          <span>{{vm.movie.date | date}}</span>
+        <div ng-if="::vm.movie.date">
+          <h3 translate="MOVIES.RELEASE_DATE"></h3>
+          <span>{{::vm.movie.date | date}}</span>
         </div>
-        <div ng-if="vm.movie.runtime">
-          <h3 translate="GENERAL.MOVIES.DURATION"></h3>
-          <span>{{vm.movie.runtime | duration}}</span>
+        <div ng-if="::vm.movie.runtime">
+          <h3 translate="MOVIES.DURATION"></h3>
+          <span>{{::vm.movie.runtime | duration}}</span>
         </div>
-        <div ng-if="vm.movie.budget">
-          <h3 translate="GENERAL.MOVIES.BUDGET"></h3>
-          <span>{{vm.movie.budget | dollarCurrency}}</span>
+        <div ng-if="::vm.movie.budget">
+          <h3 translate="MOVIES.BUDGET"></h3>
+          <span>{{::vm.movie.budget | dollarCurrency}}</span>
         </div>
-        <div ng-if="vm.movie.revenue">
-          <h3 translate="GENERAL.MOVIES.REVENUE"></h3>
-          <span>{{vm.movie.revenue | dollarCurrency}}</span>
+        <div ng-if="::vm.movie.revenue">
+          <h3 translate="MOVIES.REVENUE"></h3>
+          <span>{{::vm.movie.revenue | dollarCurrency}}</span>
         </div>
       </div>
     </div>
