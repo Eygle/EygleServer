@@ -1,4 +1,49 @@
+@import "../../../styles/common";
+
 .files {
+  .header {
+    .breadcrumbs {
+      margin-top: 25px;
+      color: lighten($color-bg-light, 25%);
+
+      & > .breadcrumb {
+
+        & + .breadcrumb {
+          position: relative;
+          padding-left: 30px;
+          &:before {
+            content: "\e717";
+            position: absolute;
+            left: 5px;
+            top: -2px;
+            font-family: 'icomoon';
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            min-height: 24px;
+            line-height: 24px;
+            color: darken($color-bg-light, 10%);
+          }
+        }
+
+        & > a {
+          &:hover {
+            color: $color-highlight !important;
+
+            & > md-icon {
+              color: $color-highlight;
+            }
+          }
+
+          & > md-icon {
+            color: darken($color-bg-light, 10%);
+          }
+        }
+      }
+    }
+  }
+
   table {
     th.icon {
       width: 24px
@@ -14,13 +59,17 @@
       width: 100px;
     }
 
-    td.title {
-      white-space: nowrap;
-      overflow: hidden;
-    }
+    td {
+      cursor: default;
 
-    td.actions {
-      white-space: nowrap;
+      &.title {
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      &.actions {
+        white-space: nowrap;
+      }
     }
   }
 }

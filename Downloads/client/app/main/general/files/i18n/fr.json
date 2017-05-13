@@ -35,6 +35,7 @@
       "WEB_DOCUMENT": "Page web",
       "ARCHIVE": "Archive",
       "WEB_STYLE": "Style de page web"
-    }
+    },
+    "ROOT": "Dossier racine du serveur"
   }
 }

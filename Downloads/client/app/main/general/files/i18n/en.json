@@ -35,6 +35,7 @@
       "WEB_DOCUMENT": "Web page",
       "ARCHIVE": "Archive",
       "WEB_STYLE": "Web page style"
-    }
+    },
+    "ROOT": "Server root directory"
   }
 }

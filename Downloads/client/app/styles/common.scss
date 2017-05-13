@@ -1,0 +1,24 @@
+////////////////////////////////////////
+// COLORS
+////////////////////////////////////////
+
+$color-highlight: #FFD740;
+
+$color-invert-bg-light: #fff;
+$color-invert-bg: #999;
+$color-invert-bg-dark: #fff;
+
+$color-bg-light: #37474F;
+$color-bg: darken($color-bg-light, 10%);
+$color-bg-dark: darken($color-bg, 5%);
+
+$color-h1: #000;
+$color-h2: #666;
+$color-sub-h2: #ccc;
+
+////////////////////////////////////////
+// SIZES
+////////////////////////////////////////
+
+$size-icon: 24px;
+$size-icon-sm: 20px;

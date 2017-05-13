@@ -3,9 +3,17 @@
  */
 
 class FilesController {
+  /**
+   * List of files to display
+   */
   public files: Array<IFile>;
 
   public fs: FilesService;
+
+  /**
+   * Breadcrumbs
+   */
+  public bc: Array<IFile>;
 
   private _current: IFile;
 
@@ -14,6 +22,7 @@ class FilesController {
     this.fs = this.FilesService;
     this._current = null;
     this.files = this.fs.files;
+    this.bc = [null];
   }
 
   $onInit() {
@@ -31,8 +40,23 @@ class FilesController {
           }
         }
       }
+      this._populateBreadcrumbs();
     });
   }
+
+  private _populateBreadcrumbs = () => {
+    this.bc = [];
+    if (this._current) {
+      let dir = this._current;
+      while (dir) {
+        this.bc.unshift(dir);
+        dir = this.fs.getFileById(dir._parent);
+      }
+      this.bc.unshift(null)
+    } else {
+      this.bc.push(null);
+    }
+  };
 }
 
 angular.module('eygle.files')
