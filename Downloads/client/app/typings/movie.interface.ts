@@ -50,3 +50,11 @@ interface IMovie {
 
   deleted: boolean
 }
+
+interface IAutocompleteMovie {
+  title: string,
+  originalTitle: string,
+  date: Date,
+  poster: string,
+  tmdbId: string
+}

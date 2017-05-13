@@ -1,0 +1,12 @@
+{
+  "FILES": {
+    "MODALS": {
+      "IDENTIFY": {
+        "TITLE": "Lier un média au fichier",
+        "INPUTS": {
+          "MEDIA_TYPE": "Type de média"
+        }
+      }
+    }
+  }
+}

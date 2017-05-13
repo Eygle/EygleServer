@@ -10,7 +10,7 @@ class MovieDetailsController {
   }
 
   $onInit() {
-    this.Api.movies.get({id: this.$stateParams.id}, (res: IMovie) => {
+    this.Api.movies.byId.get({id: this.$stateParams.id}, (res: IMovie) => {
       res.date = new Date(res.date);
       this.movie = res;
     });

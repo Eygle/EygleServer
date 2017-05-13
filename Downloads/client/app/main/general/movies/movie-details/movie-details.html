@@ -15,7 +15,9 @@
             </div>
             <div class="actions">
               <md-icon md-font-icon="icon-download"></md-icon>
-              <md-icon md-font-icon="icon-link-variant"></md-icon>
+              <a ui-sref="eygle.files.file({id: f._id})">
+                <md-icon md-font-icon="icon-link-variant"></md-icon>
+              </a>
             </div>
           </div>
         </div>
@@ -44,7 +46,7 @@
           <div class="content" layout="row" layout-wrap>
             <md-card class="person" ng-repeat="c in ::vm.movie.cast" layout="column">
               <img ng-src="{{::c.image}}" ng-if="::c.image"/>
-              <div class="placeholder" ng-if="!::c.image" layout="row">
+              <div class="placeholder" ng-if="::!c.image" layout="row">
                 <md-icon md-font-icon="icon-account"></md-icon>
               </div>
               <div class="info">

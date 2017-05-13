@@ -20,5 +20,6 @@ interface IFile {
   type?: string,
   icon?: string,
   typeLabel?: string
+  selected: boolean;
   loading: boolean;
 }

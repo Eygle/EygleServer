@@ -69,6 +69,18 @@ module.exports.createProposalFromTMDBResult = (m, file = null) => {
   })
 };
 
+module.exports.createAutocompleteFromTMDBResults = (movies) => {
+  return _.map(movies, (m) => {
+    return {
+      title: m.title,
+      originalTitle: m.original_title,
+      date: m.release_date ? new Date(m.release_date) : null,
+      poster: m.poster_path ? tmdbConfig.images.base_url + getSizeCloseTo('p', 50) + m.poster_path : null,
+      tmdbId: m.id
+    }
+  });
+};
+
 module.exports.linkMovieAndFile = (movie, file) => {
 };
 

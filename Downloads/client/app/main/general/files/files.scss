@@ -2,6 +2,8 @@
 
 .files {
   .header {
+    padding-bottom: 10px !important;
+
     .breadcrumbs {
       margin-top: 25px;
       color: lighten($color-bg-light, 25%);
@@ -42,33 +44,49 @@
         }
       }
     }
+
+    .actions {
+      height: $size-icon;
+    }
   }
 
   table {
-    th.icon {
-      width: 24px
-    }
+    table-layout: fixed;
 
-    th[st-sort="filename"] {
-      width: 1px;
+    th.icon {
+      width: 24px;
     }
     th[st-sort="size"] {
-      width: 70px;
+      width: 80px;
+    }
+    th[st-sort="typeLabel"] {
+      width: 80px;
     }
     th[st-sort="mtime"] {
       width: 100px;
     }
 
-    td {
-      cursor: default;
-
-      &.title {
-        white-space: nowrap;
-        overflow: hidden;
+    tr {
+      &.selected {
+        background-color: transparentize($color-highlight, 0.7);
       }
 
-      &.actions {
-        white-space: nowrap;
+      td {
+        cursor: default;
+
+        .highlight {
+          color: darken($color-highlight, 20%);
+        }
+
+        &.title {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        &.actions {
+          white-space: nowrap;
+        }
       }
     }
   }

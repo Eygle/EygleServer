@@ -17,6 +17,8 @@
     "TYPES": {
       "DIRECTORY": "Directory",
       "FILE": "File",
+      "MOVIE": "Movie",
+      "TV_SHOW": "TV Show",
       "IMAGE": "Image",
       "VIDEO": "Video",
       "AUDIO": "Audio",

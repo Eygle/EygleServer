@@ -18,7 +18,8 @@ class FilesController {
   private _current: IFile;
 
   constructor(private FilesService: FilesService,
-              private $stateParams: any) {
+              private $stateParams: any,
+              private $scope: any) {
     this.fs = this.FilesService;
     this._current = null;
     this.files = this.fs.files;
@@ -35,8 +36,7 @@ class FilesController {
           if (this._current.directory) {
             this.files = this._current.children;
           } else {
-            // TODO filter by file id
-            this.files = this._current._parent ? this._current._parent.children : this.fs.files;
+            this.files = [this._current];
           }
         }
       }

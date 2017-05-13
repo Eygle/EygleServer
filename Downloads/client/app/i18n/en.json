@@ -1,4 +1,13 @@
 {
   "APP_NAME": "Eygle Downloads",
-  "SEARCH": "Search"
+  "SEARCH": "Search",
+  "MEDIAS": {
+    "MOVIE": "Movie",
+    "TV_SHOW": "TV Show"
+  },
+  "FORMS": {
+    "ACTIONS": {
+      "SAVE": "Save"
+    }
+  }
 }

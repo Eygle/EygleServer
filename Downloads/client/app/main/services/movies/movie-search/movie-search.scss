@@ -1,0 +1,51 @@
+md-virtual-repeat-container {
+  min-height: 77px;
+
+  .md-autocomplete-suggestions li {
+    font-size: 14px;
+    overflow: visible;
+    padding: 0 15px;
+    white-space: normal;
+    height: auto;
+    line-height: 1em;
+
+    .movie-search-result {
+      padding: 5px 0;
+
+      & > img, & > .placeholder {
+        min-width: 45px;
+        max-width: 45px;
+        height: 67px;
+        margin-right: 10px;
+      }
+
+      .placeholder {
+        background-color: rgba(0, 0, 0, 0.15);
+
+        & > md-icon {
+          color: #fff;
+        }
+      }
+
+      & > div {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: inherit;
+        padding: 0;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.4em;
+
+        .title {
+          font-weight: 600;
+        }
+
+        .subtitle {
+          color: #8b8b8b;
+        }
+      }
+    }
+  }
+}

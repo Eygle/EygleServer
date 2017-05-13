@@ -3,7 +3,8 @@
  */
 
 const _ = require("underscore")
-  , db = require('../../../modules/db');
+  , db = require('../../../modules/db')
+  , movies = require('../../../modules/movies');
 
 module.exports = {
   Resource: {
@@ -18,7 +19,21 @@ module.exports = {
     // Change movie related to file
     put: function (fileId, callback) {
       // TODO check if is admin
-      console.log(this.body);
+      db.models.File.findOne({_id: fileId})
+        .exec((err, file) => {
+          if (err) return callback(500, {error: err});
+          movies.fetchMovie(this.body.tmdbId, file).then(movie => {
+            movie.save(err => {
+              if (err) return callback(500, err);
+              file.save(err => {
+                if (err) return callback(500, err);
+                callback(null, movie);
+              });
+            })
+          }).catch(err => {
+            return callback(500, {error: err})
+          });
+        });
     }
   },
 

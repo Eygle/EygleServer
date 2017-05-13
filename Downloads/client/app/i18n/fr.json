@@ -1,4 +1,13 @@
 {
   "APP_NAME": "Eygle Downloads",
-  "SEARCH": "Rechercher"
+  "SEARCH": "Rechercher",
+  "MEDIAS": {
+    "MOVIE": "Film",
+    "TV_SHOW": "Série"
+  },
+  "FORMS": {
+    "ACTIONS": {
+      "SAVE": "Enregistrer"
+    }
+  }
 }

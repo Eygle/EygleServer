@@ -50,5 +50,11 @@ enum EStatus {
   LoginFail,
   LoginCaptchaFail,
   LoginEmailNotVerified,
-  RejectByUser
+  RejectByUser,
+  CloseByUser
+}
+
+enum EMedia {
+  Movie,
+  TVShow
 }
