@@ -5,7 +5,8 @@
 class MediaProposalsController {
   public movies;
 
-  constructor(private Api: Api) {
+  constructor(private Api: Api,
+              private ToastService: ToastService) {
   }
 
   $onInit() {
@@ -26,9 +27,11 @@ class MediaProposalsController {
       this.movies.splice(_.findIndex(this.movies, (v) => {
         return v._id === file._id;
       }), 1);
+      this.ToastService.show(EStatus.Ok);
     }, err => {
       file.loading = false;
-      console.error(err); //TODO Toast
+      console.error(err);
+      this.ToastService.show(EStatus.RejectByServer);
     });
   };
 
@@ -38,9 +41,11 @@ class MediaProposalsController {
       this.movies.splice(_.findIndex(this.movies, (v) => {
         return v._id === file._id;
       }), 1);
+      this.ToastService.show(EStatus.Ok);
     }, err => {
       file.loading = false;
-      console.error(err); //TODO Toast
+      console.error(err);
+      this.ToastService.show(EStatus.RejectByServer);
     });
   };
 }

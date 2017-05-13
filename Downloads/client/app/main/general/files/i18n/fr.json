@@ -5,7 +5,14 @@
       "FILENAME": "Fichier",
       "TYPE": "Type",
       "SIZE": "Taille",
-      "MODIFIED": "Modifié le"
+      "MODIFIED": "Date",
+      "ACTIONS": "Actions"
+    },
+    "ACTIONS": {
+      "SEE": "Voir",
+      "ALL_LINKS": "Tous les liens",
+      "IDENTIFY": "Identifier",
+      "DELETE": "Supprimer"
     },
     "TYPES": {
       "DIRECTORY": "Dossier",

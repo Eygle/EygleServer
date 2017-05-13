@@ -1,0 +1,9 @@
+{
+  "TABLE": {
+    "LABELS": {
+      "PAGES": "Page : ",
+      "ROWS": "entrées par page : ",
+      "OF": " sur "
+    }
+  }
+}

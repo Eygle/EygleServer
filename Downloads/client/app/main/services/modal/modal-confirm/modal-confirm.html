@@ -1,0 +1,19 @@
+<md-dialog-content>
+  <h2 translate="{{vm.data.title}}" translate-values="vm.data.values"></h2>
+  <p translate="{{vm.data.text}}" translate-values="vm.data.values"></p>
+  <md-dialog-actions layout="row" layout-align="space-between center">
+    <div layout="row" layout-align="start center">
+      <md-button ng-click="vm.ok()"
+                 class="send-button md-accent md-raised"
+                 aria-label="ok">
+        <span translate="SERVICES.MODAL.ACTIONS.YES"></span>
+      </md-button>
+
+      <md-button ng-click="vm.cancel()"
+                 class="md-primary md-confirm-button md-button md-ink-ripple md-default-theme"
+                 aria-label="Cancel">
+        <span translate="SERVICES.MODAL.ACTIONS.NO"></span>
+      </md-button>
+    </div>
+  </md-dialog-actions>
+</md-dialog-content>

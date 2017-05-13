@@ -1,4 +1,4 @@
-class SmartTableSearchDirective implements ng.IDirective {
+class MpTableSearchDirective implements ng.IDirective {
 
   public require;
 
@@ -8,8 +8,8 @@ class SmartTableSearchDirective implements ng.IDirective {
 
   public link = (scope, iElement, iAttrs, ctrls) => {
     const stTableCtrl = ctrls[0];
-    const searchElem = angular.element(document.getElementById("smart-table-search"));
-    const predicates = iAttrs.smartTableSearch.split('|');
+    const searchElem = angular.element(document.getElementById("mp-table-search"));
+    const predicates = iAttrs.mpTableSearch.split('|');
     const byString = (o, s) => {
       s = s.replace(/\[(\w+)\]/g, '.$1');
       s = s.replace(/^\./, '');
@@ -26,10 +26,10 @@ class SmartTableSearchDirective implements ng.IDirective {
     };
 
     if (searchElem.length > 0) {
-      searchElem.on('keyup', (event: any) => {
+      searchElem.on('keyup', (event) => {
         if (!stTableCtrl.tableState().search.predicateObject)
           stTableCtrl.tableState().search.predicateObject = {};
-        stTableCtrl.tableState().search.predicateObject.smartSearch = (value, index, array) => {
+        stTableCtrl.tableState().search.predicateObject.mpSearch = (value, index, array) => {
           for (const pred of predicates) {
             if (byString(value, pred)) {
               const lower = byString(value, pred).toLowerCase();
@@ -50,7 +50,7 @@ class SmartTableSearchDirective implements ng.IDirective {
   };
 
   static factory() {
-    const directive: any = () => new SmartTableSearchDirective();
+    const directive = () => new MpTableSearchDirective();
 
     directive.$inject = [];
     return directive;
@@ -58,4 +58,4 @@ class SmartTableSearchDirective implements ng.IDirective {
 }
 
 angular.module('core')
-  .directive('smartTableSearch', SmartTableSearchDirective.factory());
+  .directive('mpTableSearch', MpTableSearchDirective.factory());

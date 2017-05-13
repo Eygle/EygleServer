@@ -14,6 +14,11 @@ module.exports = {
           if (err) return callback(500, {error: err});
           callback(null, item);
         });
+    },
+    // Change movie related to file
+    put: function (fileId, callback) {
+      // TODO check if is admin
+      console.log(this.body);
     }
   },
 

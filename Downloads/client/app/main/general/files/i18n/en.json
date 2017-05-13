@@ -5,7 +5,36 @@
       "FILENAME": "File",
       "TYPE": "Type",
       "SIZE": "Size",
-      "MODIFIED": "Modification date"
+      "MODIFIED": "Date",
+      "ACTIONS": "Actions"
+    },
+    "ACTIONS": {
+      "SEE": "See",
+      "ALL_LINKS": "Get all links",
+      "IDENTIFY": "Identify",
+      "DELETE": "Delete"
+    },
+    "TYPES": {
+      "DIRECTORY": "Directory",
+      "FILE": "File",
+      "IMAGE": "Image",
+      "VIDEO": "Video",
+      "AUDIO": "Audio",
+      "TEXT": "Text",
+      "DATABASE": "Database",
+      "WORD": "Microsoft Word",
+      "OPEN_OFFICE_WRITER": "Open Office Doc",
+      "AUTOCAD": "Autocad Draw",
+      "SYSTEM_IMAGE": "Disk image",
+      "JAVASCRIPT": "Javascript",
+      "PDF": "PDF",
+      "POWERPOINT": "PowerPoint",
+      "PHOTOSHOP_DOCUMENT": "Photoshop",
+      "EXCEL": "Microsoft Excel",
+      "OPEN_OFFICE_CALC": "Open Office Calc",
+      "WEB_DOCUMENT": "Web page",
+      "ARCHIVE": "Archive",
+      "WEB_STYLE": "Web page style"
     }
   }
 }

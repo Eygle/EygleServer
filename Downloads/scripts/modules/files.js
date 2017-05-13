@@ -95,15 +95,16 @@ const saveAllFiles = (files) => {
  * - Save in database (whether or not it's a video, including directories)
  * - If it's a directory then we call it recursively
  * @param list of files
- * @param parent
+ * @param parent File
  * @param path
  */
 const processFiles = (list, parent = null) => {
 
   for (let f of list) {
+    f.File = createDocument(f, parent);
     if (f.directory) {
       if (f.children) {
-        processFiles(f.children, f);
+        processFiles(f.children, f.File);
       }
     } else {
       if (isVideo(f.filename)) {
@@ -120,7 +121,6 @@ const processFiles = (list, parent = null) => {
     }
 
     added++;
-    f.File = createDocument(f, parent);
   }
 };
 

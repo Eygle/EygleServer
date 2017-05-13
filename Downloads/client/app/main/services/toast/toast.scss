@@ -1,0 +1,42 @@
+#mdtoastok .md-toast-content {
+  background-color: rgba(88, 173, 118, 0.87);
+
+  .icon {
+    padding: {
+      right: 10px;
+    }
+  }
+
+  .text {
+    color: white;
+  }
+
+  .align {
+    padding: {
+      left: 30px;
+    }
+  }
+}
+
+#mdtoasterror .md-toast-content {
+  background-color: rgba(217, 83, 79, 0.87);
+
+  .icon {
+    padding: {
+      right: 10px;
+    }
+  }
+
+  .text {
+    color: white;
+  }
+
+  .align {
+    font: {
+      weight: bold;
+    }
+    padding: {
+      left: 0;
+    }
+  }
+}

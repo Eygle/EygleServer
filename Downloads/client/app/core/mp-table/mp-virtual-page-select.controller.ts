@@ -1,4 +1,4 @@
-class SmartVirtualPageSelectController {
+class MpVirtualPageSelectController {
 
   private _content;
   private _watchers;
@@ -66,4 +66,4 @@ class SmartVirtualPageSelectController {
 }
 
 angular.module('core')
-  .controller('SmartVirtualPageSelectController', SmartVirtualPageSelectController);
+  .controller('MpVirtualPageSelectController', MpVirtualPageSelectController);

@@ -30,7 +30,7 @@
     "perfect-scrollbar": "0.6.11",
     "ng-contextmenu": "https://github.com/MaPUILabs/ngContextMenu.git#master",
     "underscore": "^1.8.3",
-    "angular-smart-table": "^2.1.8",
+    "angular-smart-table": "https://github.com/Eygle/Smart-Table.git#master",
     "angular-i18n": "^1.6.4"
   },
   "devDependencies": {

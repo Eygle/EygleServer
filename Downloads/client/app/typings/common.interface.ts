@@ -7,9 +7,11 @@ interface IFile {
 
   filename: string,
   directory: boolean,
-  parent: string,
+  _parent: IFile,
+  _movie: string
+  _tvshow: string
 
-  extname?: string,
+  ext?: string,
   size?: number,
   mtime?: Date,
   children?: Array<IFile>,

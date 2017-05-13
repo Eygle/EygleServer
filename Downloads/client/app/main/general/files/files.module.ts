@@ -17,5 +17,14 @@ angular
       },
       resolve: {},
       bodyClass: 'files'
+    }).state('eygle.files.file', {
+      url: '/:id',
+      views: {
+        'content@eygle': {
+          template: '<files></files>',
+        }
+      },
+      resolve: {},
+      bodyClass: 'files'
     });
   });

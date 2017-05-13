@@ -1,9 +1,8 @@
-class SmartTableController {
+class MpTableController {
 
   private _columns;
 
   public loading;
-
   public get columns() {
     if (!this._columns)
       this._countColumns();
@@ -25,4 +24,4 @@ class SmartTableController {
 }
 
 angular.module('core')
-  .controller('SmartTableController', SmartTableController);
+  .controller('MpTableController', MpTableController);

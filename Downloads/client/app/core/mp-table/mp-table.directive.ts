@@ -1,4 +1,4 @@
-class SmartTableDirective implements ng.IDirective {
+class MpTableDirective implements ng.IDirective {
 
   public restrict;
   public controller;
@@ -8,20 +8,19 @@ class SmartTableDirective implements ng.IDirective {
 
   constructor() {
     this.restrict = 'A';
-    this.controller = 'SmartTableController';
+    this.controller = 'MpTableController';
     this.controllerAs = 'vm';
     this.scope = {};
     this.bindToController = {
-      loading: '=smart' +
-      'Progress'
+      loading: '=mpProgress'
     };
   }
 
   public compile = (tElement, tAttrs) => {
-    tElement.addClass('smart-table');
-    if (tAttrs.hasOwnProperty('smartProgress')) {
+    tElement.addClass('mp-table');
+    if (tAttrs.hasOwnProperty('mpProgress')) {
       const body = tElement.find('tbody')[0];
-      const progress = angular.element('<thead class="smart-table-progress" smart-table-progress>');
+      const progress = angular.element('<thead class="mp-table-progress" mp-table-progress>');
 
       if (body) {
         tElement[0].insertBefore(progress[0], body);
@@ -30,7 +29,7 @@ class SmartTableDirective implements ng.IDirective {
   };
 
   static factory() {
-    const directive: any = () => new SmartTableDirective();
+    const directive = () => new MpTableDirective();
 
     directive.$inject = [];
     return directive;
@@ -38,4 +37,4 @@ class SmartTableDirective implements ng.IDirective {
 }
 
 angular.module('core')
-  .directive('smartTable', SmartTableDirective.factory());
+  .directive('mpTable', MpTableDirective.factory());

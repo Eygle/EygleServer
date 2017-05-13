@@ -1,0 +1,10 @@
+{
+  "SERVICES": {
+    "MODAL": {
+      "ACTIONS": {
+        "YES": "Oui",
+        "NO": "Non"
+      }
+    }
+  }
+}

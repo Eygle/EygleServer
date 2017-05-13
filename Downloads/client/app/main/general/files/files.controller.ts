@@ -5,104 +5,34 @@
 class FilesController {
   public files: Array<IFile>;
 
-  public current: Array<IFile>;
+  public fs: FilesService;
 
-  public isLoading: boolean;
+  private _current: IFile;
 
-  constructor(private Api: Api, private $translate: any) {
-    this.isLoading = true;
+  constructor(private FilesService: FilesService,
+              private $stateParams: any) {
+    this.fs = this.FilesService;
+    this._current = null;
+    this.files = this.fs.files;
   }
 
   $onInit() {
-    this.Api.files.get((res) => {
-      this.files = res;
-      this.loadFilesFrom();
-      this.isLoading = false;
-    });
-  }
-
-  public loadFilesFrom(file: IFile = null): void {
-    console.log("inside load from");
-    let files = !file ? this.files : (file.directory ? file.children : null);
-    if (!files) return;
-    this.current = files.length && files[0].icon ? files : this._formatData(files);
-  };
-
-  private _formatData(files: Array<IFile>): Array<IFile> {
-    for (let f of files) {
-      if (f.directory) {
-        f.icon = "icon-folder";
-        f.typeLabel = this.$translate.instant("FILES.TYPES.DIRECTORY");
+    this.FilesService.getAll().then(() => {
+      if (!this.$stateParams.id) {
+        this.files = this.fs.files;
       } else {
-        switch (f.extname) {
-          default:
-            f.icon = "icon-file-document";
-            f.type = "file";
-            f.typeLabel = this.$translate.instant("FILES.TYPES.FILE");
-            break;
-          case ".avi":
-          case ".mp4":
-          case ".mkv":
-          case ".wmv":
-          case ".ts":
-            f.icon = "icon-file-video";
-            f.typeLabel = this.$translate.instant("FILES.TYPES.VIDEO");
-            break;
-          case ".jpg":
-          case ".bmp":
-          case ".gif":
-          case ".png":
-          case ".svg":
-          case ".ai":
-            f.icon = "con-file-image";
-            f.typeLabel = this.$translate.instant("FILES.TYPES.IMAGE");
-            break;
-          case ".mp3":
-          case ".flac":
-          case ".wma":
-            f.icon = "icon-file-music";
-            f.typeLabel = this.$translate.instant("FILES.TYPES.AUDIO");
-            break;
-          case ".txt":
-          case ".csv":
-          case ".json":
-          case ".rtf":
-            f.icon = "icon-file-document";
-            f.typeLabel = this.$translate.instant("FILES.TYPES.TEXT");
-            break;
-          case ".pdf":
-            f.icon = "icon-file-pdf";
-            f.typeLabel = this.$translate.instant("FILES.TYPES.PDF");
-            break;
-          case ".doc":
-          case ".docx":
-          case ".odt":
-            f.icon = "icon-file-word";
-            f.typeLabel = this.$translate.instant("FILES.TYPES.WORD");
-            break;
-          case ".xls":
-          case ".xlsx":
-          case ".ods":
-            f.icon = "icon-file-excel";
-            f.typeLabel = this.$translate.instant("FILES.TYPES.WORD");
-            break;
-          case ".ppt":
-          case ".pptx":
-            f.icon = "icon-file-powerpoint";
-            f.typeLabel = this.$translate.instant("FILES.TYPES.POWERPOINT");
-            break;
-          case ".zip":
-          case ".rar":
-          case ".7z":
-            f.icon = "icon-archive";
-            f.typeLabel = this.$translate.instant("FILES.TYPES.ARCHIVE");
-            break;
+        this._current = this.fs.getFileById(this.$stateParams.id);
+        if (this._current) {
+          if (this._current.directory) {
+            this.files = this._current.children;
+          } else {
+            // TODO filter by file id
+            this.files = this._current._parent ? this._current._parent.children : this.fs.files;
+          }
         }
       }
-    }
-
-    return files;
-  };
+    });
+  }
 }
 
 angular.module('eygle.files')

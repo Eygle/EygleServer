@@ -1,8 +1,8 @@
-$smart-dark: rgba(0, 0, 0, 87%);
-$smart-dark-secondary: rgba(0, 0, 0, 54%);
-$smart-grey-divider: rgba(0, 0, 0, 0.12);
+$mp-dark: rgba(0, 0, 0, 87%);
+$mp-dark-secondary: rgba(0, 0, 0, 54%);
+$mp-grey-divider: rgba(0, 0, 0, 0.12);
 
-md-select.smart-table-select {
+md-select.mp-table-select {
   margin: 0;
 
   > .md-select-value {
@@ -36,8 +36,8 @@ md-select.smart-table-select {
   }
 }
 
-.md-select-menu-container.smart-table-select,
-.md-select-menu-container.smart-pagination-select {
+.md-select-menu-container.mp-table-select,
+.md-select-menu-container.mp-pagination-select {
   margin-left: -2px;
   border-radius: 2px;
 
@@ -51,16 +51,16 @@ md-select.smart-table-select {
   }
 }
 
-.md-select-menu-container.smart-table-select .md-text {
+.md-select-menu-container.mp-table-select .md-text {
   font-size: 13px;
 }
 
-.md-select-menu-container.smart-pagination-select .md-text {
+.md-select-menu-container.mp-pagination-select .md-text {
   font-size: 12px;
 }
 
 /*MP TABLE PAGINATION*/
-.smart-table-pagination {
+.mp-table-pagination {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -68,15 +68,19 @@ md-select.smart-table-select {
   box-sizing: border-box;
   padding: 0 24px;
   font-size: 12px;
-  color: $smart-dark-secondary;
-  border-top: 2px $smart-grey-divider solid;
+  color: $mp-dark-secondary;
+  border-top: 2px $mp-grey-divider solid;
+
+  .single-page {
+    margin-left: 10px;
+  }
 
   md-select {
     justify-content: flex-end;
     min-width: 64px;
 
     &:not([disabled]):focus .md-select-value {
-      color: $smart-dark-secondary;
+      color: $mp-dark-secondary;
     }
 
     .md-select-value {
@@ -119,7 +123,7 @@ md-select.smart-table-select {
   }
 }
 
-.smart-table {
+.mp-table {
   width: 100%;
   border-spacing: 0;
   overflow: hidden;
@@ -130,7 +134,7 @@ md-select.smart-table-select {
     th {
       text-align: left;
       vertical-align: middle;
-      border-bottom: 1px solid $smart-grey-divider;
+      border-bottom: 1px solid $mp-grey-divider;
       padding: 16px 8px;
 
       &:first-child {
@@ -169,7 +173,7 @@ md-select.smart-table-select {
 
         &::after {
           position: relative;
-          font-family: 'icomoon', sans-serif;
+          font-family: 'icomoon';
           font-weight: normal;
           margin-left: 10px;
           top: 2px;
@@ -180,7 +184,7 @@ md-select.smart-table-select {
       }
     }
 
-    &.smart-table-progress {
+    &.mp-table-progress {
       th {
         padding: 0;
 
@@ -231,13 +235,13 @@ md-select.smart-table-select {
     th {
       padding: 14px 15px;
       vertical-align: middle;
-      border-top: 1px solid $smart-grey-divider;
+      border-top: 1px solid $mp-grey-divider;
     }
 
     td {
       padding: 16px 8px;
       vertical-align: middle;
-      border-top: 1px solid $smart-grey-divider;
+      border-top: 1px solid $mp-grey-divider;
 
       &:first-child {
         padding-left: 24px;
@@ -251,15 +255,15 @@ md-select.smart-table-select {
 }
 
 /*
-$smart-dark: rgba(0, 0, 0, 87%);
-$smart-dark-secondary: rgba(0, 0, 0, 54%);
-$smart-dark-icon: $smart-dark-secondary;
-$smart-dark-disabled: rgba(0, 0, 0, 26%);
-$smart-dark-divider: rgba(0, 0, 0, 12%);
-$smart-dark-row-hover: #eee;
-$smart-dark-row-select: #f5f5f5;
+$mp-dark: rgba(0, 0, 0, 87%);
+$mp-dark-secondary: rgba(0, 0, 0, 54%);
+$mp-dark-icon: $mp-dark-secondary;
+$mp-dark-disabled: rgba(0, 0, 0, 26%);
+$mp-dark-divider: rgba(0, 0, 0, 12%);
+$mp-dark-row-hover: #eee;
+$mp-dark-row-select: #f5f5f5;
 
-.smart-table-pagination {
+.mp-table-pagination {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -267,15 +271,15 @@ $smart-dark-row-select: #f5f5f5;
   box-sizing: border-box;
   padding: 0 24px;
   font-size: 12px;
-  color: $smart-dark-secondary;
-  border-top: 1px $smart-dark-divider solid;
+  color: $mp-dark-secondary;
+  border-top: 1px $mp-dark-divider solid;
 
   md-select {
     justify-content: flex-end;
     min-width: 64px;
 
     &:not([disabled]):focus .md-select-value {
-      color: $smart-dark-secondary;
+      color: $mp-dark-secondary;
     }
 
     .md-select-value {
@@ -318,7 +322,7 @@ $smart-dark-row-select: #f5f5f5;
   }
 }
 
-table.smart-table {
+table.mp-table {
   width: 100%;
   border-spacing: 0;
   overflow: hidden;
@@ -420,11 +424,11 @@ table.smart-table {
     height: 48px;
   }
 
-  thead.md-head + .smart-table-progress md-progress-linear {
+  thead.md-head + .mp-table-progress md-progress-linear {
     top: -3px;
   }
 
-  .smart-table-progress th {
+  .mp-table-progress th {
     padding: 0;
 
     md-progress-linear {
@@ -448,7 +452,7 @@ table.smart-table {
   }
 
   th.md-column {
-    color: $smart-dark-secondary;
+    color: $mp-dark-secondary;
     font-size: 12px;
     font-weight: bold;
     white-space: nowrap;
@@ -464,7 +468,7 @@ table.smart-table {
       line-height: 16px !important;
 
       &.md-sort-icon {
-        color: $smart-dark-disabled;
+        color: $mp-dark-disabled;
         opacity: 0;
         transition: transform 0.25s, opacity 0.25s;
 
@@ -488,7 +492,7 @@ table.smart-table {
 
     &.md-active,
     &.md-active md-icon {
-      color: $smart-dark;
+      color: $mp-dark;
     }
 
     &:hover md-icon.md-sort-icon,
@@ -510,11 +514,11 @@ table.smart-table {
     transition: background-color 0.2s;
 
     &:not([disabled]):hover {
-      background-color: $smart-dark-row-hover !important;
+      background-color: $mp-dark-row-hover !important;
     }
 
     &.md-selected {
-      background-color: $smart-dark-row-select;
+      background-color: $mp-dark-row-select;
     }
   }
 
@@ -577,9 +581,9 @@ table.smart-table {
   }
 
   td.md-cell {
-    color: $smart-dark;
+    color: $mp-dark;
     font-size: 13px;
-    border-top: 1px $smart-dark-divider solid;
+    border-top: 1px $mp-dark-divider solid;
 
     &.md-numeric md-select {
       justify-content: flex-end;
@@ -591,7 +595,7 @@ table.smart-table {
 
     md-select > .md-select-value > span.md-select-icon {
       justify-content: flex-end;
-      color: $smart-dark-secondary;
+      color: $mp-dark-secondary;
       width: 18px;
       text-align: right;
 

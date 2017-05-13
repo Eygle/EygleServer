@@ -11,8 +11,8 @@ const db = require('../../../modules/db')
 
 module.exports = {
   Resource: {
-    delete: function (uid, callback) {
-      db.models.Proposal.find({_file: uid})
+    delete: function (fileId, callback) {
+      db.models.Proposal.find({_file: fileId})
         .remove()
         .exec((err) => {
           if (err) return callback(500, err);
@@ -22,14 +22,15 @@ module.exports = {
     put: function (uid, callback) {
       db.models.Proposal.findOne({_id: uid})
         .select({tmdbId: 1, _file: 1})
+        .populate('_file')
         .exec((err, proposal) => {
           if (err || !proposal) return callback(500, err);
-          movies.fetchMovie(proposal.tmdbId, proposal).then(movie => {
-            proposal.save(err => {
+          movies.fetchMovie(proposal.tmdbId, proposal._file).then(movie => {
+            proposal._file.save(err => {
               if (err) return callback(500, err);
               movie.save(err => {
                 if (err) return callback(500, err);
-                module.exports.Resource.delete(proposal._file, callback);
+                module.exports.Resource.delete(proposal._file._id, callback);
               });
             });
           }).catch(err => {
@@ -43,33 +44,42 @@ module.exports = {
       db.models.Proposal.find()
         .select({_file: 1, date: 1, title: 1, originalTitle: 1, poster: 1})
         .populate('_file')
-        .exec((err, items) => {
+        .exec((err, proposals) => {
           if (err) return callback(500, err);
+          // Transform a flat list of proposals in a list of files owning an array of proposals
+
+          // list of files as object to access by id
           const files = {};
 
-          for (let i of items) {
-            const fid = i._file._id;
-            if (!files[fid]) {
-              files[fid] = {
-                _id: i._file._id,
-                filename: i._file.filename,
-                size: i._file.size,
-                path: i._file.path,
-                mtime: i._file.mtime,
-                proposals: []
-              };
-            }
+          // populate files object with files
+          // Each file has a proposal array
+          for (let i in proposals) {
+            if (proposals.hasOwnProperty(i)) {
+              const proposal = proposals[i].toObject();
+              const file = proposal._file;
+              const fid = proposal._file._id;
 
-            i._file = null;
-            files[fid].proposals.push(i);
+              proposals[i] = proposal;
+
+              if (!files[fid]) {
+                file.proposals = [];
+                files[fid] = file;
+              }
+
+              delete proposal._file;
+              files[fid].proposals.push(proposal);
+            }
           }
 
+          // files object to array
           const res = [];
           for (let f in files) {
             if (files.hasOwnProperty(f)) {
               res.push(files[f]);
             }
           }
+
+          // Return array
           callback(null, res);
         });
     }
