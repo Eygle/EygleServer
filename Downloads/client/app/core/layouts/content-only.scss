@@ -1,0 +1,11 @@
+@import "../../styles/common";
+
+#content-only {
+  background-color: $color-bg-light !important;
+
+  .box {
+    background-color: rgb(250,250,250);
+    width: 50%;
+    height: 50%;
+  }
+}

@@ -3,7 +3,8 @@
  */
 const passport = require("passport")
     , LocalStrategy = require('passport-local').Strategy
-    , User = require('../app/models/User');
+    , User = require('../app/models/User')
+    , normalize = require('../modules/normalize');
 
 exports.default = (app) => {
     app.use(passport.initialize());
