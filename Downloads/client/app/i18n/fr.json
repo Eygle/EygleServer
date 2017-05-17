@@ -1,13 +1,27 @@
 {
   "APP_NAME": "Eygle Downloads",
   "SEARCH": "Rechercher",
+  "REGISTER": "Créer un compte",
+
   "MEDIAS": {
     "MOVIE": "Film",
     "TV_SHOW": "Série"
   },
   "FORMS": {
     "ACTIONS": {
-      "SAVE": "Enregistrer"
+      "SAVE": "Enregistrer",
+      "REGISTER": "S'enregistrer"
+    },
+    "LABELS": {
+      "EMAIL": "Email",
+      "EMAIL_OR_USERNAME": "Email ou nom d'utilisateur",
+      "USERNAME": "Nom d'utilisateur",
+      "PASSWORD": "Mot de passe",
+      "CONFIRM_PASSWORD": "Confirmation du mot de passe",
+      "DESCRIBE_YOURSELF": "Qui est-tu ? (Facultatif si tu penses que je te reconnaitrais à ton email ou pseudo)"
+    },
+    "ERRORS": {
+      "REQUIRED": "Requis"
     }
   }
 }

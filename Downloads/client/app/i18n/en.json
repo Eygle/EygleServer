@@ -1,13 +1,27 @@
 {
   "APP_NAME": "Eygle Downloads",
   "SEARCH": "Search",
+  "REGISTER": "Register",
+
   "MEDIAS": {
     "MOVIE": "Movie",
     "TV_SHOW": "TV Show"
   },
   "FORMS": {
     "ACTIONS": {
-      "SAVE": "Save"
+      "SAVE": "Save",
+      "REGISTER": "Register"
+    },
+    "LABELS": {
+      "EMAIL": "Email",
+      "EMAIL_OR_USERNAME": "Email or username",
+      "USERNAME": "Username",
+      "PASSWORD": "Password",
+      "CONFIRM_PASSWORD": "Confirm password",
+      "DESCRIBE_YOURSELF": "Who are you? (Facultative if you think I'll recognise you with your email or username)"
+    },
+    "ERRORS": {
+      "REQUIRED": "Required"
     }
   }
 }

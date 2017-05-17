@@ -38,11 +38,16 @@ class Api {
       remove: {method: 'DELETE'}
     });
 
-    this.user = this.$resource('/api/users/:id', {id: '@_id'}, {
-      get: {method: 'GET', isArray: true},
-      save: {method: 'PUT'},
-      remove: {method: 'DELETE'}
-    });
+    this.user = {
+      general: this.$resource('/api/users/:id', {id: '@_id'}, {
+        get: {method: 'GET', isArray: true},
+        save: {method: 'PUT'},
+        remove: {method: 'DELETE'}
+      }),
+      register: this.$resource('/register', {}, {
+        add: {method: 'POST'}
+      })
+    };
 
     this.requests = this.$resource('/api/requests/:id', {id: '@_id'}, {
       get: {method: 'GET', isArray: true},

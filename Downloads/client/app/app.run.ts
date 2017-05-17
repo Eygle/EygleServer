@@ -6,7 +6,7 @@ class RunBlock {
         // Store state in the root scope for easy access
         $rootScope.state = $state;
 
-        const guestsRoutes = ['/login', '/register'];
+      const guestsRoutes = ['/login', '/register', '/error-404'];
         //REDIRECT
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState) {
             console.log(toState.url);

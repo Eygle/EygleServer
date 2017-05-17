@@ -13,6 +13,6 @@ angular
                 }
             },
             resolve: {},
-            bodyClass: 'files'
+          bodyClass: 'login'
         });
     });

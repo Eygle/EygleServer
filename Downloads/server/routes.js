@@ -20,4 +20,6 @@ module.exports.default = (app) => {
 
     // Fallback to serve dir (when loading an angular route directly
     app.use('*', express.static(serve));
+
+  app.post('/login',);
 };

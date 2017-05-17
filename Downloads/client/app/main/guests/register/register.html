@@ -1,0 +1,42 @@
+<div layout="column">
+  <div class="header" layout="row" layout-align="center center">
+    <h2 translate="REGISTER"></h2>
+  </div>
+
+  <form name="registerForm" novalidate ng-submit="submit()">
+    <md-input-container class="md-block">
+      <label translate="FORMS.LABELS.EMAIL"></label>
+      <input required ng-model="vm.user.email" type="email" name="email"/>
+      <div ng-messages="registerForm.email.$error" role="alert">
+        <div ng-message="required" translate="FORMS.ERRORS.REQUIRED"></div>
+      </div>
+    </md-input-container>
+
+    <md-input-container class="md-block">
+      <label translate="FORMS.LABELS.USERNAME"></label>
+      <input ng-model="vm.user.userName" type="text"/>
+    </md-input-container>
+
+    <md-input-container class="md-block">
+      <label translate="FORMS.LABELS.PASSWORD"></label>
+      <input required ng-model="vm.user.password" type="password" name="password"/>
+      <div ng-messages="registerForm.password.$error">
+        <div ng-message="required" translate="FORMS.ERRORS.REQUIRED"></div>
+      </div>
+    </md-input-container>
+
+    <md-input-container class="md-block">
+      <label translate="FORMS.LABELS.CONFIRM_PASSWORD"></label>
+      <input required ng-model="vm.user.confirm" type="password" name="confirm"/>
+      <div ng-messages="registerForm.confirm.$error">
+        <div ng-message="required" translate="FORMS.ERRORS.REQUIRED"></div>
+      </div>
+    </md-input-container>
+
+    <div layout="row" layout-align="center center">
+      <md-button class="md-raised md-primary" type="submit"
+                 translate="FORMS.ACTIONS.REGISTER"
+                 ng-disabled="registerForm.$invalid || registerForm.$pristine"></md-button>
+    </div>
+  </form>
+</div>

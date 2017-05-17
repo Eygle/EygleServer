@@ -1,11 +1,11 @@
 @import "../../styles/common";
 
-#content-only {
+#layout-content-only {
   background-color: $color-bg-light !important;
 
-  .box {
+  & > md-content {
     background-color: rgb(250,250,250);
-    width: 50%;
-    height: 50%;
+    width: 400px;
+    padding: 10px 20px;
   }
 }
