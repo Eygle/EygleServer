@@ -6,7 +6,8 @@ const resty = require('./modules/resty')
   , express = require('express')
   , conf = require('./config/env')
   , passport = require('passport')
-  , Auth = require('./middlewares/Auth');
+  , Auth = require('./middlewares/Auth')
+  , access = require('./middlewares/access');
 
 const serve = `${conf.root}/client`;
 
@@ -18,7 +19,7 @@ module.exports.default = (app) => {
   app.use('/bower_components', express.static(`${conf.root}/../bower_components`));
 
   // Define Api entry point
-  app.use('/api', resty.middleware(__dirname + '/app/api'));
+  app.use('/api', [access, resty.middleware(__dirname + '/app/api')]);
 
   // Fallback to serve dir (when loading an anular route directly
   app.use('*', express.static(serve));
@@ -26,6 +27,7 @@ module.exports.default = (app) => {
   // Auth routes
   app.post('/login', [Auth.login]);
   app.post('/register', [Auth.register]);
+  app.get('/check-email', [Auth.checkEmail]);
 };
 
 const prepareRequestUserCookie = (req, res) => {

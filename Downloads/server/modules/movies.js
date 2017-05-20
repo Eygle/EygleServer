@@ -4,7 +4,8 @@
 
 const q = require('q')
   , _ = require('underscore')
-  , tmdb = require('moviedb')("22e2817ba73ca94f0b3971f847acefc6")
+  , conf = require('../config/env')
+  , tmdb = require('moviedb')(conf.secrets.TMDB)
   , db = require('../../server/modules/db');
 
 let tmdbConfig = null;

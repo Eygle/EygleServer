@@ -28,9 +28,8 @@ const UserSchema = new Schema({
 
   userName: {
     type: String,
-    unique: true,
-    maxlength: 50,
-    minlength: 3
+    maxlength: 10,
+    minlength: 2
   },
 
   password: {
@@ -45,10 +44,10 @@ const UserSchema = new Schema({
     select: false
   },
 
-  userNameNorm: {
-    type: String,
-    unique: true
-  },
+  userNameNorm: {type: String, unique: true, sparse: true},
+
+  emailCheckCode: {type: String, select: false},
+  validMail: {type: Boolean, default: false},
 
   googleId: String,
   googleToken: String,
@@ -65,7 +64,9 @@ const UserSchema = new Schema({
 });
 
 UserSchema.pre('save', function (next) {
-  this.userNameNorm = normalize(this.userName);
+  if (this.userName)
+    this.userNameNorm = normalize(this.userName);
+  this.emailCheckCode = Math.random().toString().substr(2, 12);
   this.roles = ["public"];
   next();
 });

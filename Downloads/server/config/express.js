@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
   , bodyParser = require('body-parser')
   , cookieParser = require('cookie-parser')
   , session = require('express-session')
+  , helmet = require('helmet')
   , MongoStore = require('connect-mongo/es5')(session)
   , conf = require('./env');
 
@@ -13,6 +14,7 @@ exports.default = (app) => {
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
   app.use(cookieParser()); // read cookies (needed for auth)
+  app.use(helmet());
 
   // Store session in mongo
   const store = new MongoStore({

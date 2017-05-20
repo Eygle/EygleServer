@@ -2,8 +2,9 @@
  * Created by eygle on 5/20/17.
  */
 
-const passport = require('passport'),
-  db = require('../modules/db');
+const passport = require('passport')
+  , db = require('../modules/db')
+  , emails = require('../modules/emails');
 
 module.exports = {
   login: (req, res, next) => {
@@ -14,7 +15,7 @@ module.exports = {
     passport.authenticate('local', function (err, user) {
       if (err) return res.status(401).json(err);
 
-      module.exports.includeRequestUserCookie(req, res, user);
+      module.exports.includeRequestUserCookie(req, res);
       res.status(200).json({status: 'success'});
     })(req, res, next);
   },
@@ -28,20 +29,31 @@ module.exports = {
     });
 
     user.save((err) => {
-      if (err)
-        res.status(401).json(err);
-      else
+      if (err) return res.status(401).json(err);
+
+      // emails.sendCheckEmail(user).then(() => {
         res.status(200).json({status: 'success'});
+      // });
     });
   },
 
-  includeRequestUserCookie: (req, res, user) => {
-    const u = req.user || user;
-    res.cookie('ED-USER', JSON.stringify({
+  checkEmail: (req, res) => {
+    console.log(req);
+  },
+
+  includeRequestUserCookie: (req, res) => {
+    const u = req.user;
+
+    const string = JSON.stringify({
       _id: u._id,
       email: u.email,
       userName: u.userName,
-      roles: u.roles
-    }));
+      roles: u.roles,
+      validMail: u.validMail
+    });
+
+    if (!req.cookies || (req.cookies['ED-USER'] !== string)) {
+      res.cookie('ED-USER', string);
+    }
   }
 };

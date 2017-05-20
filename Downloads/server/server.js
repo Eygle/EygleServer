@@ -1,7 +1,7 @@
 const express = require('express')
-    , app = express()
+  , app = express()
   , db = require('./modules/db')
-    , conf = require('./config/env');
+  , conf = require('./config/env');
 
 db.init(() => {
 

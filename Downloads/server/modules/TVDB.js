@@ -1,9 +1,10 @@
-const q = require("q");
-const request = require('request');
-const $http = require('./$http');
+const q = require("q")
+  , request = require('request')
+  , $http = require('./$http')
+  , conf = require('../config/env');
 
-const API = "https://api.thetvdb.com";
-const API_KEY = "72FB8B2E308C7EE1";
+const API = "https://api.thetvdb.com"
+  , API_KEY = conf.secrets.TVDB;
 
 let token = null;
 let tokenDate = null;

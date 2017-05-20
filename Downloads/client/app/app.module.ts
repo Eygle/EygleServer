@@ -8,6 +8,8 @@ angular.module('eygle', [
   'eygle.admin',
   'eygle.services',
 
+  'eygle.error-404',
+
   'ngMaterial',
   'ui.router',
   'ngCookies',

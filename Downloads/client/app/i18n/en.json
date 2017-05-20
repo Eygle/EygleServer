@@ -3,8 +3,25 @@
   "SEARCH": "Search",
   "REGISTER": "Register",
   "LOGIN": "Log In",
+
   "REGISTER_LINK_LABEL": "No account yet? Register!",
   "LOGIN_LINK_LABEL": "You already have an account? Log in!",
+  "RETURN_HOME": "Return to homepage",
+  "ERRORS": {
+    "404": {
+      "TITLE": "Error 404",
+      "LABEL": "Page not found!"
+    },
+    "EMAIL_VALIDATION": {
+      "TITLE": "En attente de la validation de ton email",
+      "LABEL": "Un email de vérification t'as été envoyé. Regarde dans tes spams si tu ne le vois pas.",
+      "RESEND": "Evoyer l'email à nouveau"
+    },
+    "AWAITING_VALIDATION": {
+      "TITLE": "En attente de mon approbation",
+      "LABEL": "Je vérifie et j'approuve personnelement chaque demande d'inscription. Tu seras prévenue par email quand ton compte aura été validé et tu pourras alors accéder aux tléchargements."
+    }
+  },
 
   "MEDIAS": {
     "MOVIE": "Movie",

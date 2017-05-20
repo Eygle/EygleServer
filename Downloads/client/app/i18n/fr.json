@@ -3,8 +3,25 @@
   "SEARCH": "Rechercher",
   "REGISTER": "Créer un compte",
   "LOGIN": "Se connecter",
+
   "REGISTER_LINK_LABEL": "Vous n'avez pas de compte ? Inscrivez-vous !",
   "LOGIN_LINK_LABEL": "Vous avez déjà un compte ? Connectez-vous !",
+  "RETURN_HOME": "Retour à la page d'accueil",
+  "ERRORS": {
+    "404": {
+      "TITLE": "Erreur 404",
+      "LABEL": "Page introuvable !"
+    },
+    "EMAIL_VALIDATION": {
+      "TITLE": "You must validate your email first",
+      "LABEL": "An email have been sent to you. Check your spams if you don't see it.",
+      "RESEND": "Send again"
+    },
+    "AWAITING_VALIDATION": {
+      "TITLE": "Waiting for my approval",
+      "LABEL": "I will personally approve each account. You will be notify by email when you will be approved then you'll have access to the downloads."
+    }
+  },
 
   "MEDIAS": {
     "MOVIE": "Film",
