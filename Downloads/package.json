@@ -73,7 +73,6 @@
     "passport-local": "^1.0.0",
     "querystring": "^0.2.0",
     "request": "^2.81.0",
-    "resty": "0.0.3",
     "run-sequence": "^1.2.2",
     "typescript": "^2.2.2",
     "underscore": "^1.8.3",

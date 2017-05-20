@@ -45,7 +45,10 @@ class Api {
         remove: {method: 'DELETE'}
       }),
       register: this.$resource('/register', {}, {
-        add: {method: 'POST'}
+        query: {method: 'POST'}
+      }),
+      login: this.$resource('/login', {}, {
+        query: {method: 'POST'}
       })
     };
 

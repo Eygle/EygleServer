@@ -2,6 +2,9 @@
   "APP_NAME": "Eygle Downloads",
   "SEARCH": "Rechercher",
   "REGISTER": "Créer un compte",
+  "LOGIN": "Se connecter",
+  "REGISTER_LINK_LABEL": "Vous n'avez pas de compte ? Inscrivez-vous !",
+  "LOGIN_LINK_LABEL": "Vous avez déjà un compte ? Connectez-vous !",
 
   "MEDIAS": {
     "MOVIE": "Film",
@@ -10,7 +13,8 @@
   "FORMS": {
     "ACTIONS": {
       "SAVE": "Enregistrer",
-      "REGISTER": "S'enregistrer"
+      "REGISTER": "S'enregistrer",
+      "LOGIN": "Connexion"
     },
     "LABELS": {
       "EMAIL": "Email",

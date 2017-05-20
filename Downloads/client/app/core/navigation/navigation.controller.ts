@@ -1,7 +1,8 @@
 class NavigationController {
     public parts: Array<any>;
 
-    constructor(public $state) {
+    constructor(public $state
+      , public Auth: Auth) {
         this.parts = [];
 
         for (let s of $state.get()) {

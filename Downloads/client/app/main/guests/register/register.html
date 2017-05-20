@@ -3,7 +3,7 @@
     <h2 translate="REGISTER"></h2>
   </div>
 
-  <form name="registerForm" novalidate ng-submit="submit()">
+  <form name="registerForm" novalidate ng-submit="vm.submit()">
     <md-input-container class="md-block">
       <label translate="FORMS.LABELS.EMAIL"></label>
       <input required ng-model="vm.user.email" type="email" name="email"/>
@@ -27,7 +27,7 @@
 
     <md-input-container class="md-block">
       <label translate="FORMS.LABELS.CONFIRM_PASSWORD"></label>
-      <input required ng-model="vm.user.confirm" type="password" name="confirm"/>
+      <input required ng-model="vm.confirmPwd" type="password" name="confirm"/>
       <div ng-messages="registerForm.confirm.$error">
         <div ng-message="required" translate="FORMS.ERRORS.REQUIRED"></div>
       </div>
@@ -37,6 +37,10 @@
       <md-button class="md-raised md-primary" type="submit"
                  translate="FORMS.ACTIONS.REGISTER"
                  ng-disabled="registerForm.$invalid || registerForm.$pristine"></md-button>
+    </div>
+
+    <div layout="row" layout-align="center center">
+      <a ui-sref="eygle.login" translate="LOGIN_LINK_LABEL"></a>
     </div>
   </form>
 </div>

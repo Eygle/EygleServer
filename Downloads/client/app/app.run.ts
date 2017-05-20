@@ -9,7 +9,6 @@ class RunBlock {
       const guestsRoutes = ['/login', '/register', '/error-404'];
         //REDIRECT
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState) {
-            console.log(toState.url);
             if (!!~guestsRoutes.indexOf(toState.url)) {
                 // No need to check if the user is loggedIn
             } else if (!Auth.isLoggedIn()) {

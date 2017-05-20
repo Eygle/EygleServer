@@ -8,7 +8,7 @@ angular
                     templateUrl: 'app/core/layouts/content-only.html',
                     controller : 'MainController as vm'
                 },
-                'content@eygle': {
+              'content@eygle.login': {
                     template: '<login></login>',
                 }
             },

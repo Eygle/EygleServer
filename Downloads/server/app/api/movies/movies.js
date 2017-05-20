@@ -39,6 +39,7 @@ module.exports = {
 
   Collection: {
     get: function (callback) {
+      console.log(this);
       db.models.Movie.find()
         .select({_file: 1, title: 1, date: 1, posterThumb: 1, _files: 1})
         .populate({path: '_files', select: 'mtime'})

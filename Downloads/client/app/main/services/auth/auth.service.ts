@@ -3,30 +3,36 @@
  */
 
 class Auth {
-    public user: IUser;
+  public user: IUser;
 
-    private _isLoggedIn: boolean;
+  private _isLoggedIn: boolean;
 
-    constructor($cookieStore: any) {
-        const cookieUser = $cookieStore.get('ed-user');
-        this.user = cookieUser || <IUser>{email: '', roles: ['public']};
-        this._isLoggedIn = !!cookieUser;
-        console.log("Auth", this.user, this._isLoggedIn);
-    }
+  constructor(private $cookieStore: any) {
+    this.init();
+  }
 
-    public isLoggedIn = () => {
-        return this._isLoggedIn;
-    };
+  public init = () => {
+    const cookieUser = this.$cookieStore.get('ED-USER');
+    this.user = cookieUser || <IUser>{email: '', roles: ['public']};
+    this._isLoggedIn = !!cookieUser;
+    console.log(this.user);
+  };
 
-    public authorise = (access) => {
-        return true;
-    };
+  public isLoggedIn = () => {
+    return this._isLoggedIn;
+  };
 
-    public logout = () => {
+  public authorise = (access) => {
+    return true;
+  };
 
-    };
+  public logout = () => {
+    this.$cookieStore.remove('ED-USER');
+    this._isLoggedIn = false;
+    this.user = null;
+  };
 }
 
 angular
-    .module('eygle.services.auth')
-    .service('Auth', Auth);
+  .module('eygle.services.auth')
+  .service('Auth', Auth);

@@ -14,4 +14,4 @@ class MyAccountComponent {
 }
 
 angular.module('eygle.profile.my-account')
-    .component('my-account', new MyAccountComponent());
+  .component('myAccount', new MyAccountComponent());
