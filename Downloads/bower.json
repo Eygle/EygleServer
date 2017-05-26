@@ -53,5 +53,8 @@
         "angular-locale_fr.js"
       ]
     }
+  },
+  "resolutions": {
+    "angular-translate": "2.11.0"
   }
 }

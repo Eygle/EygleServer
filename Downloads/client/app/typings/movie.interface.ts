@@ -3,6 +3,7 @@
  */
 
 interface IMovie {
+  _id: string;
   _file: IFile,
 
   title: string,

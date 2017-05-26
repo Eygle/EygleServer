@@ -47,4 +47,9 @@ const FileSchema = new Schema({
   deleted: {type: Boolean, default: false}
 });
 
+FileSchema.pre('save', function (next) {
+  this.updateDate = new Date();
+  next();
+});
+
 module.exports = mongoose.model('File', FileSchema);

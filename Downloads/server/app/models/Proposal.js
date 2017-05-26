@@ -18,8 +18,14 @@ const ProposalSchema = new Schema({
   poster: String,
 
   tmdbId: Number,
+
   creationDate: {type: Date, default: Date.now},
   updateDate: {type: Date, default: Date.now}
+});
+
+ProposalSchema.pre('save', function (next) {
+  this.updateDate = new Date();
+  next();
 });
 
 module.exports = mongoose.model('Proposal', ProposalSchema);

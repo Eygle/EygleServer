@@ -3,41 +3,41 @@
  */
 
 interface IFile {
-  filename: string,
-  ext: string,
-  size: number,
-  path: string,
-  normalized: string,
-  mtime: Date,
+  filename: string;
+  ext: string;
+  size: number;
+  path: string;
+  normalized: string;
+  mtime: Date;
 
-  _episode: IEpisode,
-  _movie: IMovie,
+  _episode: IEpisode;
+  _movie: IMovie;
 
   mediaInfo: {
-    title: string,
-    season: number,
-    episode: number,
-    episodeName: string,
-    year: number,
-    region: string,
-    language: string,
-    resolution: string,
-    repack: boolean,
-    quality: string,
-    proper: boolean,
-    hardcoded: boolean,
-    extended: boolean,
-    codec: string,
-    audio: string,
-    group: string,
+    title: string;
+    season: number;
+    episode: number;
+    episodeName: string;
+    year: number;
+    region: string;
+    language: string;
+    resolution: string;
+    repack: boolean;
+    quality: string;
+    proper: boolean;
+    hardcoded: boolean;
+    extended: boolean;
+    codec: string;
+    audio: string;
+    group: string;
 
     excess: [{
-      type: string
-    }],
+      type: string;
+    }];
   }
 
-  creationDate: Date,
-  updateDate: Date,
+  creationDate: Date;
+  updateDate: Date;
 
   deleted: boolean
 }

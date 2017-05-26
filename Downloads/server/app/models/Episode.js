@@ -17,12 +17,19 @@ const EpisodeSchema = new Schema({
   number: Number,
   season: Number,
 
+  date: Date,
+
   overview: String,
 
   creationDate: {type: Date, default: Date.now},
   updateDate: {type: Date, default: Date.now},
 
   deleted: {type: Boolean, default: false}
+});
+
+EpisodeSchema.pre('save', function (next) {
+  this.updateDate = new Date();
+  next();
 });
 
 module.exports = mongoose.model('Episode', EpisodeSchema);

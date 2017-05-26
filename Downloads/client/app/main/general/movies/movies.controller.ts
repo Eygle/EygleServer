@@ -5,8 +5,7 @@
 class MoviesController {
   public movies: Array<IMovie>;
 
-  constructor(private Api: Api,
-              private _: any) {
+  constructor(private Api: Api) {
   }
 
   $onInit() {

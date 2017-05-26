@@ -24,7 +24,7 @@ const MovieSchema = new Schema({
   backdrop: String,
 
   cast: [{
-    tvdbId: Number,
+    tmdbId: Number,
     name: String,
     character: String,
     image: String
@@ -53,6 +53,11 @@ const MovieSchema = new Schema({
   updateDate: {type: Date, default: Date.now},
 
   deleted: {type: Boolean, default: false}
+});
+
+MovieSchema.pre('save', function (next) {
+  this.updateDate = new Date();
+  next();
 });
 
 module.exports = mongoose.model('Movie', MovieSchema);

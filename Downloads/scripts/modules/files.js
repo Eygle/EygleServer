@@ -111,10 +111,13 @@ const processFiles = (list, parent = null) => {
         if (!f.info) {
           f.info = ptn(f.filename);
         }
+        if (!f.info.title) continue;
 
         const fullPath = f.path ? `${f.path}/${f.filename}` : f.filename;
-        if (isTVShow(fullPath))
+        if (isTVShow(fullPath)) {
+          if (f.info.hasOwnProperty('episode') && f.info.hasOwnProperty('season'))
           tvShows.push(f);
+        }
         else
           movies.push(f);
       }
@@ -173,12 +176,9 @@ const isTVShow = (path) => {
       return true;
   }
 
-  const r = /(seasons?|saisons?)/i
-  if (files.length > 1 && files[files.length - 2].match(r)) {
-    return true;
-  }
+  const r = /(seasons?|saisons?)/i;
+  return files.length > 1 && files[files.length - 2].match(r);
 
-  return false;
 };
 
 /**

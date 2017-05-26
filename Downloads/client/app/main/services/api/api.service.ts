@@ -13,9 +13,16 @@ class Api {
   public requests;
 
   constructor(private $resource: any) {
-    this.tvShows = this.$resource('/api/tv-shows/:id', {id: '@_id'}, {
-      get: {method: 'GET', isArray: true}
-    });
+    this.tvShows = {
+      byId: this.$resource('/api/tv-shows/:id', {id: '@id'}, {
+        get: {method: 'GET'},
+        all: {method: 'GET', isArray: true},
+        save: {method: 'PUT'}
+      }),
+      byTitle: this.$resource('/api/search-tv-show/:term', {term: '@term'}, {
+        search: {method: 'GET', isArray: true}
+      })
+    };
 
     this.movies = {
       byId: this.$resource('/api/movies/:id', {id: '@id'}, {

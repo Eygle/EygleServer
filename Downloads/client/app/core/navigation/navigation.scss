@@ -1,13 +1,12 @@
 @import "../../styles/common";
 
-$width: 250px;
 $margin-sides: 20px;
 $items-margin: 20px;
 $font-size: 16px;
 $icon-size: $font-size + 3px;
 
 #vertical-navigation {
-  width: $width;
+  width: $navigation-width;
   background-color: $color-bg;
 
   md-toolbar {

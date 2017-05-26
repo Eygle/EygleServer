@@ -67,7 +67,8 @@ UserSchema.pre('save', function (next) {
   if (this.userName)
     this.userNameNorm = normalize(this.userName);
   this.emailCheckCode = Math.random().toString().substr(2, 12);
-  this.roles = ["public"];
+  this.roles = this.roles || ["public"];
+  this.updateDate = new Date();
   next();
 });
 

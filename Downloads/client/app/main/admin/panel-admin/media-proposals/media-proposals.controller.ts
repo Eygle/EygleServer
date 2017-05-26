@@ -3,7 +3,7 @@
  */
 
 class MediaProposalsController {
-  public movies;
+  public movies: Array<IMovie>;
 
   constructor(private Api: Api,
               private ToastService: ToastService) {
@@ -11,7 +11,7 @@ class MediaProposalsController {
 
   $onInit() {
     this.Api.proposals.get(res => {
-      this.movies = _.map(res, v => {
+      this.movies = _.map(res, (v: any) => {
         v.mtime = new Date(v.mtime);
         for (let p of v.proposals) {
           p.date = new Date(p.date);
@@ -24,7 +24,7 @@ class MediaProposalsController {
   public deleteProposals = (file: IFile): void => {
     file.loading = true;
     this.Api.proposals.remove({id: file._id}, () => {
-      this.movies.splice(_.findIndex(this.movies, (v) => {
+      this.movies.splice(_.findIndex(this.movies, (v: IMovie) => {
         return v._id === file._id;
       }), 1);
       this.ToastService.show(EStatus.Ok);

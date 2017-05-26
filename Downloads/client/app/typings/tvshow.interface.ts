@@ -23,4 +23,6 @@ interface ITVShow {
 
   creationDate: Date,
   updateDate: Date,
+
+  episodesList: Array<IEpisode>
 }

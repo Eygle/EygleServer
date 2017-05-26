@@ -1,0 +1,79 @@
+<div class="padding-content" layout="row" flex>
+  <div class="media-container">
+    <div class="media-details">
+      <div class="main" layout="row" layout-align="start stretch">
+        <div class="visual">
+          <img ng-src="{{vm.tvShow.poster}}"/>
+        </div>
+        <div class="description" flex>
+          <h1>{{vm.tvShow.title}}</h1>
+          <!--<h3 translate="MEDIAS.SYNOPSIS"></h3>-->
+          <!--<p class="overview">{{::vm.tvShow.overview}}</p>-->
+          <h3 translate="MEDIAS.CAST"></h3>
+          <div class="team carousel" ed-scroll>
+            <div class="content" layout="row">
+              <md-card class="person" ng-repeat="c in ::vm.tvShow.actors" layout="column">
+                <img ng-src="{{::c.image}}" ng-if="::c.image"/>
+                <div class="placeholder" ng-if="::!c.image" layout="row">
+                  <md-icon md-font-icon="icon-account"></md-icon>
+                </div>
+                <div class="info">
+                  <div class="title">{{::c.name}}</div>
+                  <div class="subtitle">{{::c.character}}</div>
+                </div>
+              </md-card>
+            </div>
+          </div>
+        </div>
+
+        <div class="additional-info">
+          <!--<h2 translate="MEDIAS.MORE_INFO"></h2>-->
+          <div ng-if="::vm.tvShow.genres">
+            <h3 translate="MEDIAS.GENRES"></h3>
+            <div layout="row" layout-wrap>
+              <md-card class="genre" ng-repeat="g in ::vm.tvShow.genres">
+                <span>{{g}}</span>
+              </md-card>
+            </div>
+          </div>
+          <div ng-if="::vm.tvShow.start">
+            <h3 translate="TV_SHOWS.START_DATE"></h3>
+            <span>{{::vm.tvShow.start | date}}</span>
+          </div>
+          <div ng-if="::vm.tvShow.runtime">
+            <h3 translate="TV_SHOWS.DURATION"></h3>
+            <span>{{::vm.tvShow.runtime | duration}}</span>
+          </div>
+          <div ng-if="::vm.tvShow.network">
+            <h3 translate="TV_SHOWS.NETWORK"></h3>
+            <span>{{::vm.tvShow.network}}</span>
+          </div>
+          <div ng-if="::vm.tvShow.overview">
+            <h3 translate="MEDIAS.SYNOPSIS"></h3>
+            <span>{{::vm.tvShow.overview}}</span>
+          </div>
+        </div>
+      </div>
+      <md-divider md-inset></md-divider>
+      <div class="second">
+        <div class="season" ng-repeat="s in vm.seasons">
+          <h2 translate="TV_SHOWS.SEASON_TITLE" translate-values="{nbr: s.number}"></h2>
+          <table class="episodes" mp-table>
+            <tbody>
+            <tr class="episode" ng-repeat="e in s.episodes">
+              <td class="nbr">{{e.number}}</td>
+              <td class="main">
+                <div class="title">{{e.title}}</div>
+                <div class="file" ng-repeat="f in e._files">
+                  {{f.filename}}
+                </div>
+              </td>
+              <td class="date">{{e.date | date}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

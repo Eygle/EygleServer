@@ -86,46 +86,37 @@ class EDScrollDirective {
 }
 
 /** @ngInject */
-function edScrollConfigProvider() {
-  // Default configuration
-  var defaultConfiguration = {
-    wheelSpeed: 1,
-    wheelPropagation: false,
-    swipePropagation: true,
-    minScrollbarLength: null,
-    maxScrollbarLength: null,
-    useBothWheelAxes: false,
-    useKeyboard: true,
-    suppressScrollX: false,
-    suppressScrollY: false,
-    scrollXMarginOffset: 0,
-    scrollYMarginOffset: 0,
-    stopPropagationOnClick: true
-  };
+class edScrollConfigProvider {
+  public defaultConfiguration: any;
 
-  // Methods
-  this.config = config;
+  constructor() {
+    this.defaultConfiguration = {
+      wheelSpeed: 1,
+      wheelPropagation: false,
+      swipePropagation: true,
+      minScrollbarLength: null,
+      maxScrollbarLength: null,
+      useBothWheelAxes: false,
+      useKeyboard: true,
+      suppressScrollX: false,
+      suppressScrollY: false,
+      scrollXMarginOffset: 0,
+      scrollYMarginOffset: 0,
+      stopPropagationOnClick: true
+    };
+  }
 
-  //////////
-
-  /**
-   * Extend default configuration with the given one
-   *
-   * @param configuration
-   */
-  function config(configuration) {
-    defaultConfiguration = angular.extend({}, defaultConfiguration, configuration);
+  config(configuration) {
+    this.defaultConfiguration = angular.extend({}, this.defaultConfiguration, configuration);
   }
 
   /**
    * Service
    */
-  this.$get = function () {
-    var service = {
+  public $get() {
+    return {
       getConfig: getConfig
     };
-
-    return service;
 
     //////////
 
@@ -133,7 +124,7 @@ function edScrollConfigProvider() {
      * Return the config
      */
     function getConfig() {
-      return defaultConfiguration;
+      return this.defaultConfiguration;
     }
   };
 }

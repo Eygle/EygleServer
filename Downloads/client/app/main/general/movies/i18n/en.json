@@ -1,12 +1,6 @@
 {
   "MOVIES": {
     "TITLE": "Movies",
-    "TEAM": "Team",
-    "CAST": "Casting",
-    "DOWNLOAD": "Download",
-    "SYNOPSIS": "Synopsis",
-    "MORE_INFO": "More info",
-    "GENRES": "Genres",
     "ORIGINAL_TITLE": "Original title",
     "NATIONALITIES": "Nationalities",
     "RELEASE_DATE": "Release date",

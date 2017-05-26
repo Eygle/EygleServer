@@ -25,7 +25,13 @@
 
   "MEDIAS": {
     "MOVIE": "Movie",
-    "TV_SHOW": "TV Show"
+    "TV_SHOW": "TV Show",
+    "DOWNLOAD": "Download",
+    "TEAM": "Team",
+    "CAST": "Casting",
+    "SYNOPSIS": "Synopsis",
+    "MORE_INFO": "More info",
+    "GENRES": "Genres"
   },
   "FORMS": {
     "ACTIONS": {

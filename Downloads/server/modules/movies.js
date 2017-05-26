@@ -126,7 +126,7 @@ const createMovieFromTMDBResult = (m, file = null) => {
       return v.order <= 15
     }), (v) => {
       return {
-        tvdbId: v.id,
+        tmdbId: v.id,
         name: v.name,
         character: v.character,
         image: v.profile_path ? tmdbConfig.images.base_url + getSizeCloseTo('c', 138) + v.profile_path : null
@@ -136,7 +136,7 @@ const createMovieFromTMDBResult = (m, file = null) => {
       return v.department === 'Directing' || v.department === 'Production';
     }), (v) => {
       return {
-        tvdbId: v.id,
+        tmdbId: v.id,
         name: v.name,
         job: v.job,
         image: v.profile_path ? tmdbConfig.images.base_url + getSizeCloseTo('c', 138) + v.profile_path : null

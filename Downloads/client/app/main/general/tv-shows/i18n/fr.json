@@ -1,5 +1,10 @@
 {
   "TV_SHOWS": {
-    "TITLE": "Séries"
+    "TITLE": "Séries",
+    "DURATION": "Episodes duration",
+    "START_DATE": "Date de début",
+    "NETWORK": "Diffusé par",
+    "SEASON_TITLE": "Saison {{nbr}}",
+    "EPISODE_TITLE": "Épisode {{nbr}}"
   }
 }
