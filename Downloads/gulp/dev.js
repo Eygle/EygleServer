@@ -27,7 +27,7 @@ gulp.task('dev:serve', ['dev:build'], () => {
  * Dependencies: build and watch
  */
 gulp.task('preprod:build', ['dev:build'], () => {
-  gulp.src(conf.paths.dev.root)
+  gulp.src(`${conf.paths.dev.root}/**/*`)
     .pipe(gulp.dest('/var/www/dl'));
 });
 
