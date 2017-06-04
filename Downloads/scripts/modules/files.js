@@ -9,7 +9,8 @@ const _ = require("underscore")
   , normalize = require('../../server/modules/normalize')
   , dump = require("../../server/modules/dumpDirectory")
   , db = require("../../server/modules/db")
-  , conf = require("../../server/config/env");
+  , conf = require("../../server/config/env")
+  , logger = require('./modules/logger');
 
 let filesToAdd = []
   , filesToDelete = []
@@ -31,6 +32,8 @@ module.exports.synchronize = () => {
   filesToDelete = [];
   movies = [];
   tvShows = [];
+  added = 0;
+  deleted = 0;
 
   files = conf.env === 'development' ? dump.load() : require("../../server/modules/listDirectory")(conf.downloadsDir);
   const previous = conf.env === 'development' ? [] : dump.load();
@@ -53,7 +56,7 @@ module.exports.synchronize = () => {
   }
 
   q.allSettled([processFiles(filesToAdd), deleteFromDB()]).then(() => {
-    console.log(`${deleted} files deleted !`);
+    logger.log(`${deleted} files deleted !`);
     defer.resolve();
   });
 
@@ -64,7 +67,7 @@ module.exports.saveNewFiles = () => {
   const defer = q.defer();
 
   saveAllFiles(filesToAdd).then(() => {
-    console.log(`${added} files added !`);
+    logger.log(`${added} files added !`);
     defer.resolve();
   });
 

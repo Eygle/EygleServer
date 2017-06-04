@@ -4,7 +4,8 @@
 
 const q = require("q")
   , util = require('util')
-  , TVShows = require('../../server/modules/tvshows');
+  , TVShows = require('../../server/modules/tvshows')
+  , logger = require('./modules/logger');
 
 let total = 0;
 let processed = 0;
@@ -25,7 +26,7 @@ const processListSequentially = (list, callback) => {
       processTVShow(show, list[show], () => {
         delete list[show];
         processed++;
-        processListSequentially(list);
+        processListSequentially(list, callback);
       });
       return;
     }
@@ -34,22 +35,22 @@ const processListSequentially = (list, callback) => {
 };
 
 const processTVShow = (title, seasons, callback) => {
-  console.log(`Process [${processed + 1}/${total}]: ${title}`);
+  logger.tvshow.log(`Process [${processed + 1}/${total}]: ${title}`);
   TVShows.searchByTitle(title)
     .then(res => {
       if (res.length === 1) {
         // insert unique TVShow & all episodes
-        console.log('  TVShow found in TVDB. Fetching all info...');
+        logger.tvshow.log('  TVShow found in TVDB. Fetching all info...');
         TVShows.fetchTVShow(res[0].id)
           .then(res => {
             TVShows.createOrUpdateTVShowFromTVDBResult(res).then(show => {
               show.save(err => {
                 if (err) {
-                  console.log('  An error occurred while creating TVShow in mongo');
-                  console.error(err);
+                  logger.tvshow.log('  An error occurred while creating TVShow in mongo');
+                  logger.tvshow.error(err);
                   return callback();
                 } else {
-                  console.log('  Added/updated TVShow')
+                  logger.tvshow.log('  Added/updated TVShow')
                 }
 
                 addAllEpisodes(show, res.episodes, seasons).then(() => {
@@ -59,19 +60,19 @@ const processTVShow = (title, seasons, callback) => {
             });
           })
           .catch(() => {
-            console.error(`  Impossible to fetch TVShow id:${res[0].id} from TVDB`);
+            logger.tvshow.error(`  Impossible to fetch TVShow id:${res[0].id} from TVDB`);
             callback();
           });
       } else if (res.length > 1) {
-        console.log('  Multiple results found');
+        logger.tvshow.log('  Multiple results found');
         callback();
       } else {
-        console.log('  No result found in TVDB');
+        logger.tvshow.log('  No result found in TVDB');
         callback();
       }
     })
     .catch(() => {
-      console.log('  TVDB error');
+      logger.tvshow.log('  TVDB error');
       callback();
     })
 };
@@ -116,9 +117,9 @@ const addAllEpisodes = (show, episodesList, localFilesPerSeasons) => {
 
                 episode.save(err => {
                   if (err)
-                    console.log(`  Error while saving S${episode.season}E${episode.number}`);
+                    logger.tvshow.log(`  Error while saving S${episode.season}E${episode.number}`);
                   else
-                    console.log(`  Added S${episode.season}E${episode.number}`);
+                    logger.tvshow.log(`  Added S${episode.season}E${episode.number}`);
                   dEpisode.resolve();
                 });
 
@@ -127,7 +128,7 @@ const addAllEpisodes = (show, episodesList, localFilesPerSeasons) => {
                   p.push(dFile.promise);
                   f.save(err => {
                     if (err)
-                      console.log(`  Error while saving file ${f.filename}`);
+                      logger.tvshow.log(`  Error while saving file ${f.filename}`);
                     dFile.resolve();
                   });
                 }
@@ -135,7 +136,7 @@ const addAllEpisodes = (show, episodesList, localFilesPerSeasons) => {
                 q.allSettled(p).then(() => d.resolve()).catch(() => d.resolve());
               });
           } else {
-            console.log(`  Error: S${season}E${episode} not found in TVDB episodes list`);
+            logger.tvshow.log(`  Error: S${season}E${episode} not found in TVDB episodes list`);
           }
         }
       }

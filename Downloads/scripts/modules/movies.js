@@ -4,7 +4,8 @@
 
 const q = require('q')
   , movies = require('../../server/modules/movies')
-  , db = require('../../server/modules/db');
+  , db = require('../../server/modules/db')
+  , logger = require('./modules/logger');
 
 let processed = 0, total = false;
 let minDuration = 250 * 2; // ms
@@ -18,13 +19,13 @@ module.exports.processAll = (list) => {
   let startTime = Date.now();
 
   if (processed === 0) {
-    console.log("Start processing Movies...");
+    logger.movie.log("Start processing Movies...");
     total = list.length;
   }
   if (list.length > 0) {
     const file = list.shift();
     const filename = file.path ? file.path + '/' + file.info.title : file.info.title;
-    console.log(`Process [${processed + 1}/${total}]: ${filename}`);
+    logger.movie.log(`Process [${processed + 1}/${total}]: ${filename}`);
     module.exports.process(file, () => {
       processed++;
       const duration = Date.now() - startTime;
@@ -37,7 +38,7 @@ module.exports.processAll = (list) => {
       }
     });
   } else {
-    console.log("End of movies");
+    logger.movie.log("End of movies");
     defer.resolve();
   }
 
@@ -56,7 +57,7 @@ module.exports.process = (file, callback) => {
   if (file.info.title) {
     searchMovieByFile(file, callback);
   } else {
-    console.log('  Skipped: no exploitable title');
+    logger.movie.log('  Skipped: no exploitable title');
     callback();
   }
 };
@@ -80,7 +81,7 @@ const searchMovieByFile = (file, callback) => {
       saveProposals(results, file, callback);
     }
   }).catch(err => {
-    console.error(err);
+    logger.movie.error(err);
     callback();
   });
 };
@@ -89,15 +90,15 @@ const fetchInfoAndSave = (file, id, callback) => {
   movies.fetchMovie(id, file.File).then((movie) => {
     file.File.save(err => {
       if (err)
-        console.error(err);
+        logger.movie.error(err);
       movie.save(err => {
-        if (err) return console.error(err);
-        console.info(movie._files.length === 1 ? '  Movie added' : `  Linked to existed movie ${movie.title}`);
+        if (err) return logger.movie.error(err);
+        logger.movie.info(movie._files.length === 1 ? '  Movie added' : `  Linked to existed movie ${movie.title}`);
         callback();
       });
     });
   }).catch(err => {
-    console.error(err);
+    logger.movie.error(err);
     callback();
   });
 };
@@ -107,9 +108,9 @@ const saveProposals = (results, file, callback) => {
     const proposal = movies.createProposalFromTMDBResult(results.shift(), file.File);
     proposal.save(err => {
       if (err)
-        console.error(err);
+        logger.movie.error(err);
       const year = proposal.date ? ' (' + proposal.date.getFullYear() + ')' : '';
-      console.info(`   Add proposal: ${proposal.title}${year}`);
+      logger.movie.info(`   Add proposal: ${proposal.title}${year}`);
       saveProposals(results, file, callback);
     });
   } else {
