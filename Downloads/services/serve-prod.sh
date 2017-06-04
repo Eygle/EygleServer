@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
-nodemon /var/www/dl/app/server/server.js -e "js html"
+nodemon -e "js html" \
+    --watch /var/www/dl/app/ \
+    --exitcrash \
+    /var/www/dl/app/server/server.js
