@@ -28,7 +28,7 @@ gulp.task('dev:serve', ['dev:build'], () => {
  */
 gulp.task('preprod:build', ['dev:build'], () => {
   gulp.src(conf.paths.dev.root)
-    .dist('/var/www/dl');
+    .pipe(gulp.dest('/var/www/dl'));
 });
 
 /**
