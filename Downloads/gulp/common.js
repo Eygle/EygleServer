@@ -28,11 +28,8 @@ exports.server = (dist, file = null) => {
 
   if (!file) {
     gulp.src([
-      "server.js",
-      "bower.json",
-      "package.json"
-    ])
-      .pipe(gulp.dest(dist))
+      "server.js"
+    ]).pipe(gulp.dest(dist))
       .on('end', () => dAll.resolve());
 
     gulp.src("socket.io/**").pipe(gulp.dest(`${dist}/socket.io`)).on('end', () => dSocket.resolve());

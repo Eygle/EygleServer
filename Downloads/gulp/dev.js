@@ -27,8 +27,12 @@ gulp.task('dev:serve', ['dev:build'], () => {
  * Dependencies: build and watch
  */
 gulp.task('preprod:build', ['dev:build'], () => {
+  gulp.src([
+    "bower.json",
+    "package.json"
+  ]).pipe(gulp.dest('/var/www/dl/'));
   gulp.src(`${conf.paths.dev.root}/**/*`)
-    .pipe(gulp.dest('/var/www/dl'));
+    .pipe(gulp.dest('/var/www/dl/app'));
 });
 
 /**

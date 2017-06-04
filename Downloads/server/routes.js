@@ -21,7 +21,7 @@ module.exports.default = (app) => {
   // Define Api entry point
   app.use('/api', [access, resty.middleware(__dirname + '/app/api')]);
 
-  // Fallback to serve dir (when loading an anular route directly
+  // Fallback to serve dir (when loading an angular route directly
   app.use('*', express.static(serve));
 
   // Auth routes
