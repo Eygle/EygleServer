@@ -11,37 +11,37 @@ const defaultLogger = tracer.dailyfile({root: '/home/eygle/logs', maxLogFiles: 1
 module.exports = {
   tvshow: {
     log: (...args) => {
-      tvShowLogger.log.apply(...arguments);
+      tvShowLogger.log(...arguments);
     },
     info: (...args) => {
-      tvShowLogger.info.apply(...arguments);
+      tvShowLogger.info(...arguments);
     },
     error: (...args) => {
-      tvShowLogger.error.apply(...arguments);
+      tvShowLogger.error(...arguments);
     }
   },
 
   movie: {
     log: (...args) => {
-      movieLogger.log.apply(...arguments);
+      movieLogger.log(...arguments);
     },
     info: (...args) => {
-      movieLogger.info.apply(...arguments);
+      movieLogger.info(...arguments);
     },
     error: (...args) => {
-      movieLogger.error.apply(...arguments);
+      movieLogger.error(...arguments);
     }
   },
 
   log: (...args) => {
-    defaultLogger.log.apply(...arguments);
+    defaultLogger.log(...arguments);
   },
 
   info: (...args) => {
-    defaultLogger.info.apply(...arguments);
+    defaultLogger.info(...arguments);
   },
 
   error: (...args) => {
-    defaultLogger.error.apply(...arguments);
+    defaultLogger.error(...arguments);
   }
 };
