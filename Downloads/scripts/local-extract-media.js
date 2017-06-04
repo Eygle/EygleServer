@@ -13,11 +13,11 @@ conf.env = 'development';
 db.init(() => {
   files.synchronize().then(() => {
     q.allSettled([
-      //movies.processAll(files.getMovies()),
+      movies.processAll(files.getMovies()),
       tvshows.processAll(files.getTVShows())
     ]).then(() => {
-      //console.log("save files");
-      //files.saveNewFiles().then(() => process.exit());
+      console.log("save files");
+      files.saveNewFiles().then(() => process.exit());
     });
   });
 });

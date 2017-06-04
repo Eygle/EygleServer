@@ -18,7 +18,7 @@ module.exports.processAll = (files) => {
     defer.resolve();
   });
 
-  return defer.promise();
+  return defer.promise;
 };
 
 const processListSequentially = (list, callback) => {
@@ -61,8 +61,9 @@ const processTVShow = (title, seasons, callback) => {
               });
             });
           })
-          .catch(() => {
+          .catch((err) => {
             logger.tvshow.error(`  Impossible to fetch TVShow id:${res[0].id} from TVDB`);
+            logger.error(err);
             callback();
           });
       } else if (res.length > 1) {
@@ -73,8 +74,9 @@ const processTVShow = (title, seasons, callback) => {
         callback();
       }
     })
-    .catch(() => {
+    .catch((err) => {
       logger.tvshow.log('  TVDB error');
+      logger.error(err);
       callback();
     })
 };

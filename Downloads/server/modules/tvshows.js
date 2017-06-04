@@ -32,8 +32,8 @@ module.exports = {
       tvdb.getActors(tvdbId, {lang: 'fr'}).then(res => show.actors = res)
     ]).then(() => {
       defer.resolve(show);
-    }).catch(() => {
-      defer.reject();
+    }).catch((err) => {
+      defer.reject(err);
     });
 
     return defer.promise;
