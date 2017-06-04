@@ -23,6 +23,15 @@ gulp.task('dev:serve', ['dev:build'], () => {
 });
 
 /**
+ * Launch dev server and reload at each source modification
+ * Dependencies: build and watch
+ */
+gulp.task('preprod:build', ['dev:build'], () => {
+  gulp.src(conf.paths.dev.root)
+    .dist('/var/www/dl');
+});
+
+/**
  * Build dev
  * Dependencies: clean and inject
  */

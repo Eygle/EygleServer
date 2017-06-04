@@ -4,6 +4,7 @@
 
 + [NodeJs](https://nodejs.org/en/download/package-manager/)
 + [Mongodb](https://docs.mongodb.com/manual/administration/install-community/)
++ [Nodemon](https://github.com/remy/nodemon#nodemon)
 
 ### Installation (Linux/OSX)
 *Change all references to __~__ or __/home/eygle__ by your own installation path*
