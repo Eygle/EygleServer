@@ -10,7 +10,7 @@ const _ = require("underscore")
   , dump = require("../../server/modules/dumpDirectory")
   , db = require("../../server/modules/db")
   , conf = require("../../server/config/env")
-  , logger = require('./modules/logger');
+  , logger = require('./logger');
 
 let filesToAdd = []
   , filesToDelete = []

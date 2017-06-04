@@ -5,7 +5,7 @@
 const q = require("q")
   , util = require('util')
   , TVShows = require('../../server/modules/tvshows')
-  , logger = require('./modules/logger');
+  , logger = require('./logger');
 
 let total = 0;
 let processed = 0;

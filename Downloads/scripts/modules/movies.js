@@ -5,7 +5,7 @@
 const q = require('q')
   , movies = require('../../server/modules/movies')
   , db = require('../../server/modules/db')
-  , logger = require('./modules/logger');
+  , logger = require('./logger');
 
 let processed = 0, total = false;
 let minDuration = 250 * 2; // ms
