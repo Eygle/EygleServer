@@ -32,14 +32,21 @@ module.exports.synchronize = () => {
   const previous = conf.env === 'development' ? [] : dump.load();
 
   for (let f of files) {
-    const idx = _.findIndex(previous, {filename: f.filename, size: f.size, parent: f.parent});
+    const idx = _.findIndex(previous, {filename: f.filename, size: f.size, path: f.path});
 
     if (idx === -1) {
       filesToAdd.push(f);
     } else {
-      filesToDelete.push(f);
+      delete previous[idx];
     }
   }
+
+  for (let f of previous) {
+    filesToDelete.push(f);
+  }
+
+  console.log(`${filesToAdd.length} files to add`);
+  console.log(`${filesToDelete.length} files to delete`);
 
   q.allSettled([processFiles(filesToAdd), deleteFromDB()]).then(() => {
     console.log(`${deleted} files deleted !`);

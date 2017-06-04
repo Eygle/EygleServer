@@ -51,7 +51,7 @@ module.exports = {
           item.imdbId = t.imdbId;
           item.genres = t.genre;
           item.overview = t.overview;
-          item.start = new Date(t.firstAired);
+          item.start = t.firstAired ? new Date(t.firstAired) : null;
           item.network = t.network;
         }
 
