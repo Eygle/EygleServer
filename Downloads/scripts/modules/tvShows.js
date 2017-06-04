@@ -25,7 +25,7 @@ const processListSequentially = (list, callback) => {
       processTVShow(show, list[show], () => {
         delete list[show];
         processed++;
-        //processListSequentially(list);
+        processListSequentially(list);
       });
       return;
     }
