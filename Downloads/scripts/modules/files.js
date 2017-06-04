@@ -32,12 +32,14 @@ module.exports.synchronize = () => {
   const previous = conf.env === 'development' ? [] : dump.load();
 
   for (let f of files) {
-    const idx = _.findIndex(previous, {filename: f.filename, size: f.size, path: f.path});
+    const idx = _.findIndex(previous, (o) => {
+      return o.filename === f.filename && o.size === f.size && o.path === f.path;
+    });
 
     if (idx === -1) {
       filesToAdd.push(f);
     } else {
-      delete previous[idx];
+      previous.splice(idx, 1);
     }
   }
 
