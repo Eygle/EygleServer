@@ -9,6 +9,10 @@ const q = require('q')
   , config = require('../../server/config/env')
   , tvdb = new TVDB(config.secrets.TVDB);
 
+// const minInterval = ;
+
+let lastRequest = 0;
+
 module.exports = {
   searchByTitle: (title) => {
     return tvdb.getSeriesByName(title, {lang: 'fr'});

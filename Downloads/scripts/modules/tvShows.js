@@ -14,6 +14,7 @@ module.exports.processAll = (files) => {
   const defer = q.defer();
 
   processListSequentially(createTVShowList(files), () => {
+    logger.tvshow.log("End of TVShow extraction");
     defer.resolve();
   });
 
@@ -21,6 +22,7 @@ module.exports.processAll = (files) => {
 };
 
 const processListSequentially = (list, callback) => {
+  const start = Date.now();
   for (let show in list) {
     if (list.hasOwnProperty(show)) {
       processTVShow(show, list[show], () => {

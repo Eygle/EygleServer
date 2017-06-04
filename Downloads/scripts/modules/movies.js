@@ -8,7 +8,7 @@ const q = require('q')
   , logger = require('./logger');
 
 let processed = 0, total = false;
-let minDuration = 250 * 2; // ms
+const minDuration = 250 * 2; // ms
 
 /**
  * Process a list of movies
