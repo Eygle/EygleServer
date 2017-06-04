@@ -9,16 +9,15 @@ const _ = require("underscore")
   , normalize = require('../../server/modules/normalize')
   , dump = require("../../server/modules/dumpDirectory")
   , db = require("../../server/modules/db")
-  , conf = require("../../server/config/env")
-  , filesToAdd = []
+  , conf = require("../../server/config/env");
+
+let filesToAdd = []
   , filesToDelete = []
   , movies = []
-  , tvShows = [];
-
-let files
+  , tvShows = []
+  , files
   , added = 0
   , deleted = 0;
-
 
 
 /**
@@ -27,6 +26,11 @@ let files
  */
 module.exports.synchronize = () => {
   const defer = q.defer();
+
+  filesToAdd = [];
+  filesToDelete = [];
+  movies = [];
+  tvShows = [];
 
   files = conf.env === 'development' ? dump.load() : require("../../server/modules/listDirectory")(conf.downloadsDir);
   const previous = conf.env === 'development' ? [] : dump.load();
@@ -134,7 +138,7 @@ const processFiles = (list, parent = null) => {
         const fullPath = f.path ? `${f.path}/${f.filename}` : f.filename;
         if (isTVShow(fullPath)) {
           if (f.info.hasOwnProperty('episode') && f.info.hasOwnProperty('season'))
-          tvShows.push(f);
+            tvShows.push(f);
         }
         else
           movies.push(f);
