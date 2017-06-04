@@ -7,10 +7,14 @@ const q = require('q')
   , tvshows = require('./modules/tvShows')
   , db = require('../server/modules/db');
 
-db.init(() => {
-  files.synchronize().then(() => {
+const interval = 30000; // milliseconds
 
+function process() {
+  const start = Date.now();
+
+  files.synchronize().then(() => {
     files.save();
+    console.log("files saved");
 
     // q.allSettled([
     //   movies.processAll(files.getMovies()),
@@ -19,5 +23,16 @@ db.init(() => {
     //   console.log("save files");
     //   files.saveNewFiles().then(() => process.exit());
     // });
+
+    const rest = Date.now() - start;
+    if (rest >= interval) {
+      process();
+    } else {
+      setTimeout(process, rest);
+    }
   });
+}
+
+db.init(() => {
+  process();
 });
