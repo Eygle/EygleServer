@@ -6,7 +6,9 @@ class MovieDetailsController {
   public movie: IMovie;
 
   constructor(private Api: Api,
-              private $stateParams: any) {
+              private ToastService: ToastService,
+              private $stateParams: any
+    , private $state: any) {
   }
 
   $onInit() {
@@ -15,6 +17,13 @@ class MovieDetailsController {
       this.movie = res;
     });
   }
+
+  public unlink = (fileId) => {
+    this.Api.movies.byId.unlink({id: this.movie._id, fileId: fileId}, (res) => {
+      this.ToastService.show(EStatus.Ok);
+      this.$state.go('eygle.movies');
+    });
+  };
 }
 
 angular.module('eygle.movies')

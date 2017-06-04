@@ -28,7 +28,8 @@ class Api {
       byId: this.$resource('/api/movies/:id', {id: '@id'}, {
         get: {method: 'GET'},
         all: {method: 'GET', isArray: true},
-        save: {method: 'PUT'}
+        save: {method: 'PUT'},
+        unlink: {method: 'DELETE'}
       }),
       byTitle: this.$resource('/api/search-movies/:term', {term: '@term'}, {
         search: {method: 'GET', isArray: true}

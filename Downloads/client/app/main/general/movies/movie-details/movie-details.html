@@ -17,8 +17,9 @@
               <div class="actions">
                 <md-icon md-font-icon="icon-download"></md-icon>
                 <a ui-sref="eygle.files.file({id: f._id})">
-                  <md-icon md-font-icon="icon-link-variant"></md-icon>
+                  <md-icon md-font-icon="icon-eye"></md-icon>
                 </a>
+                <md-icon md-font-icon="icon-link-variant-off" ng-click="vm.unlink(f._id)"></md-icon>
               </div>
             </div>
           </div>
