@@ -3,9 +3,9 @@
  */
 
 class FilesService {
-  public files: Array<IFile>;
+  public files: Array<IEygleFile>;
 
-  public selected: Array<IFile>;
+  public selected: Array<IEygleFile>;
 
   constructor(private Api: Api,
               private ToastService: ToastService,
@@ -54,7 +54,7 @@ class FilesService {
    * Select a file
    * @param file
    */
-  public select = (file: IFile) => {
+  public select = (file: IEygleFile) => {
     if (file.selected) {
       const idx = this._.findIndex(this.selected, (v) => {
         return v._id === file._id;
@@ -77,7 +77,7 @@ class FilesService {
    * @param file
    * @param force
    */
-  public open = (file: IFile, force = false) => {
+  public open = (file: IEygleFile, force = false) => {
     if (file.directory || force) {
       this._unselectAll();
       this.$state.go('eygle.files.file', {id: file._id});
@@ -110,7 +110,7 @@ class FilesService {
    * @param directory
    * @returns {any}
    */
-  public getFileById = (id, directory = null): IFile => {
+  public getFileById = (id, directory = null): IEygleFile => {
     const dir = [];
 
     for (let f of directory || this.files) {

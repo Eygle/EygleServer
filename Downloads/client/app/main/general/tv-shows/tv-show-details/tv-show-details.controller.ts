@@ -35,7 +35,7 @@ class TVShowDetailsController {
     }
 
     this.seasons = _.sortBy(_.map(seasons, (s) => {
-      s.episodes = _.sortBy(s.episodes, (e) => {
+      s.episodes = _.sortBy(s.episodes, (e: IEpisode) => {
         return e.number
       });
       return s;

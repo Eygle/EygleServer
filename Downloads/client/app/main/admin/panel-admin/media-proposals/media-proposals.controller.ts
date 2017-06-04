@@ -21,7 +21,7 @@ class MediaProposalsController {
     });
   }
 
-  public deleteProposals = (file: IFile): void => {
+  public deleteProposals = (file: IEygleFile): void => {
     file.loading = true;
     this.Api.proposals.remove({id: file._id}, () => {
       this.movies.splice(_.findIndex(this.movies, (v: IMovie) => {

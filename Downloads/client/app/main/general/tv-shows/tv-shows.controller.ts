@@ -9,7 +9,7 @@ class TVShowsController {
   }
 
   $onInit() {
-    this.Api.tvShows.byId.all((res: Array<IMovie>) => {
+    this.Api.tvShows.byId.all((res: Array<ITVShow>) => {
       this.tvShows = _.map(res, v => {
         v.start = new Date(v.start);
         return v;

@@ -9,7 +9,7 @@ interface IEpisode {
   tvdbSeasonId: number,
 
   _tvShow: ITVShow,
-  _file: IFile,
+  _file: IEygleFile,
 
   number: number,
   season: number,

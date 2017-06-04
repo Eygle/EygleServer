@@ -6,16 +6,16 @@ class FilesController {
   /**
    * List of files to display
    */
-  public files: Array<IFile>;
+  public files: Array<IEygleFile>;
 
   public fs: FilesService;
 
   /**
    * Breadcrumbs
    */
-  public bc: Array<IFile>;
+  public bc: Array<IEygleFile>;
 
-  private _current: IFile;
+  private _current: IEygleFile;
 
   constructor(private FilesService: FilesService,
               private $stateParams: any,

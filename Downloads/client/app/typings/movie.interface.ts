@@ -4,7 +4,7 @@
 
 interface IMovie {
   _id: string;
-  _file: IFile,
+  _file: IEygleFile,
 
   title: string,
   originalTitle: string,

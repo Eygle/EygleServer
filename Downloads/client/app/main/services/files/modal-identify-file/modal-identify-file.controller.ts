@@ -3,7 +3,7 @@
  */
 
 class ModalIdentifyFileController {
-  public file: IFile;
+  public file: IEygleFile;
 
   public mediaType: EMedia;
 

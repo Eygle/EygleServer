@@ -2,7 +2,8 @@
  * Created by eygle on 5/6/17.
  */
 
-interface IFile {
+interface IEygleFile {
+  _id: string;
   filename: string;
   ext: string;
   size: number;
@@ -12,6 +13,8 @@ interface IFile {
 
   _episode: IEpisode;
   _movie: IMovie;
+
+  _parent: IEygleFile;
 
   mediaInfo: {
     title: string;
@@ -40,4 +43,10 @@ interface IFile {
   updateDate: Date;
 
   deleted: boolean
+
+  // View
+  loading: boolean;
+  selected: boolean;
+  directory: IEygleFile;
+  children: Array<IEygleFile>;
 }
