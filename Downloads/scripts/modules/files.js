@@ -35,12 +35,6 @@ module.exports.synchronize = () => {
   files = conf.env === 'development' ? dump.load() : require("../../server/modules/listDirectory")(conf.downloadsDir);
   const previous = conf.env === 'development' ? [] : dump.load();
 
-  console.log("previous files");
-  for (let f of previous) {
-    console.log(`${f.path}/${f.filename} (${f.size})`);
-  }
-  console.log("");
-  console.log("New files:");
 
   for (let f of files) {
     const idx = _.findIndex(previous, (o) => {
@@ -48,10 +42,8 @@ module.exports.synchronize = () => {
     });
 
     if (idx === -1) {
-      console.log("Not found: ", `${f.path}/${f.filename} (${f.size})`);
       filesToAdd.push(f);
     } else {
-      console.log("found !", `${f.path}/${f.filename} (${f.size})`);
       previous.splice(idx, 1);
     }
   }
@@ -59,9 +51,6 @@ module.exports.synchronize = () => {
   for (let f of previous) {
     filesToDelete.push(f);
   }
-
-  console.log(`${filesToAdd.length} files to add`);
-  console.log(`${filesToDelete.length} files to delete`);
 
   q.allSettled([processFiles(filesToAdd), deleteFromDB()]).then(() => {
     console.log(`${deleted} files deleted !`);

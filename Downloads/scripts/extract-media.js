@@ -24,11 +24,12 @@ function process() {
     //   files.saveNewFiles().then(() => process.exit());
     // });
 
-    const rest = Date.now() - start;
+    const duration = Date.now() - start;
     if (rest >= interval) {
       process();
     } else {
-      setTimeout(process, rest);
+      console.log(`wait ${interval - duration}ms`);
+      setTimeout(process, interval - duration);
     }
   });
 }
