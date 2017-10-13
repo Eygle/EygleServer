@@ -2,8 +2,7 @@
  * Created by eygle on 5/6/17.
  */
 
-interface IEygleFile {
-  _id: string;
+interface IEygleFile extends IModel {
   filename: string;
   ext: string;
   size: number;
@@ -38,11 +37,6 @@ interface IEygleFile {
       type: string;
     }];
   }
-
-  creationDate: Date;
-  updateDate: Date;
-
-  deleted: boolean
 
   // View
   loading: boolean;

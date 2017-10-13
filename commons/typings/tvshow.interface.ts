@@ -2,7 +2,7 @@
  * Created by eygle on 5/6/17.
  */
 
-interface ITVShow {
+interface ITVShow extends IModel {
   title: string,
 
   tvdbId: number,
@@ -20,9 +20,6 @@ interface ITVShow {
   start: Date,
   end: Date,
   network: string,
-
-  creationDate: Date,
-  updateDate: Date,
 
   episodesList: Array<IEpisode>
 }

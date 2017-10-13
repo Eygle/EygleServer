@@ -2,7 +2,7 @@
  * Created by eygle on 5/6/17.
  */
 
-interface IEpisode {
+interface IEpisode extends IModel {
   title: string,
 
   tvdbId: number,
@@ -15,9 +15,4 @@ interface IEpisode {
   season: number,
 
   overview: string,
-
-  creationDate: Date,
-  updateDate: Date,
-
-  deleted: boolean
 }
