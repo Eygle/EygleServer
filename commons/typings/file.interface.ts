@@ -3,44 +3,44 @@
  */
 
 interface IEygleFile extends IModel {
-  filename: string;
-  ext: string;
-  size: number;
-  path: string;
-  normalized: string;
-  mtime: Date;
+    filename: string;
+    ext: string;
+    size: number;
+    path: string;
+    normalized: string;
+    mtime: Date;
 
-  _episode: IEpisode;
-  _movie: IMovie;
+    episode: IEpisode;
+    movie: IMovie;
 
-  _parent: IEygleFile;
+    parent: IEygleFile;
 
-  mediaInfo: {
-    title: string;
-    season: number;
-    episode: number;
-    episodeName: string;
-    year: number;
-    region: string;
-    language: string;
-    resolution: string;
-    repack: boolean;
-    quality: string;
-    proper: boolean;
-    hardcoded: boolean;
-    extended: boolean;
-    codec: string;
-    audio: string;
-    group: string;
+    mediaInfo: {
+        title: string;
+        season: number;
+        episode: number;
+        episodeName: string;
+        year: number;
+        region: string;
+        language: string;
+        resolution: string;
+        repack: boolean;
+        quality: string;
+        proper: boolean;
+        hardcoded: boolean;
+        extended: boolean;
+        codec: string;
+        audio: string;
+        group: string;
 
-    excess: [{
-      type: string;
-    }];
-  }
+        excess: [{
+            type: string;
+        }];
+    }
 
-  // View
-  loading: boolean;
-  selected: boolean;
-  directory: IEygleFile;
-  children: Array<IEygleFile>;
+    // View
+    loading: boolean;
+    selected: boolean;
+    directory: IEygleFile;
+    children: Array<IEygleFile>;
 }

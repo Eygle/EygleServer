@@ -35,18 +35,15 @@ class Resty {
 				}
 
 				args.push((data = undefined) => {
+                    resource[method].free();
 					if (data instanceof Error) {
 						return next(data);
 					}
 					this._send(res, data);
 				});
 
-				args.unshift(context);
-				// resource[method].data = context.data;
-				// resource[method].user = context.user;
-				// resource[method].req = context.req;
-				// resource[method].ensureAuthorized = context.ensureAuthorized;
-				resource[method].apply(this, args);
+                resource[method].fillContext(context);
+				resource[method].apply(resource[method], args);
 			};
 		} catch (e) {
 			Utils.logger.error('Resty error:', e);
@@ -220,4 +217,18 @@ export abstract class ARoutes {
 	 * Permission function
 	 */
 	public ensureAuthorized: any;
+
+	public fillContext(context: any) {
+	    this.user = context.user;
+	    this.data = context.data;
+	    this.req = context.req;
+	    this.ensureAuthorized = context.ensureAuthorized;
+    }
+
+    public free() {
+        this.user = null;
+        this.data = null;
+        this.req = null;
+        this.ensureAuthorized = null;
+    }
 }

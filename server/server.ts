@@ -85,10 +85,9 @@ class ExpressServer {
 
       ExpressConfig.init(this._app, sessionX);
       PassportConfig.init(this._app);
-      Sockets.init(this._app, this._http, sessionX, mongoStore);
       Routes.init(this._app);
       ExpressConfig.handleErrors(this._app); // Last errors handler
-      CronManager.start();
+      CronManager.init();
    }
 
    /**

@@ -1,6 +1,8 @@
 interface IModel {
-   creationDate: Date,
-   updateDate: Date,
+   _id?: string;
 
-   deleted: boolean
+   creationDate?: Date,
+   updateDate?: Date,
+
+   deleted?: boolean
 }

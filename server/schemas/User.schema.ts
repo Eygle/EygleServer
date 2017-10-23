@@ -66,7 +66,6 @@ _schema.pre('save', function (next) { // DO NOT use big arrow here ( => )
       this.userNameNorm = Utils.normalize(this.userName);
    this.emailCheckCode = Math.random().toString().substr(2, 12);
    this.roles = this.roles || ["public"];
-   this.updateDate = new Date();
    next();
 });
 
@@ -125,7 +124,7 @@ export class User extends ASchema {
          super.get(id, {
             select: '+roles +validMail +locked'
          })
-            .then(item => {
+            .then((item: any) => {
                item = item.toObject();
                Cache.set(id, item, 3600 * 12);
                defer.resolve(item);
@@ -204,7 +203,6 @@ export class User extends ASchema {
    /**
     * Change user's password
     * @param {string} id
-    * @param {IUser} author
     * @param {string} oldPwd
     * @param {string} password
     * @return {Q.Promise<IUser>}
@@ -225,14 +223,6 @@ export class User extends ASchema {
          .catch(err => defer.reject(err));
 
       return defer.promise;
-   }
-
-   /**
-    * Get default role titles for a user linked to a hospital
-    * @return {Array<string>}
-    */
-   public getDefaultRoleTitles() {
-      return ["user"];
    }
 
    /**

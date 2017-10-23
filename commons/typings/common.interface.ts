@@ -7,9 +7,9 @@ interface IFile {
 
   filename: string,
   directory: boolean,
-  _parent: IFile,
-  _movie: string
-  _tvshow: string
+  parent: IFile,
+  movie: string
+  tvshow: string
 
   ext?: string,
   size?: number,
@@ -22,4 +22,5 @@ interface IFile {
   typeLabel?: string
   selected: boolean;
   loading: boolean;
+  movie?: string;
 }

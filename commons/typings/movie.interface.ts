@@ -3,53 +3,56 @@
  */
 
 interface IMovie extends IModel {
-   title: string,
-   originalTitle: string,
-   date: Date,
-   countries: [{ type: string }],
-   genres: [{ type: string }],
-   overview: string,
-   budget: number,
-   revenue: number,
-   originalLanguage: string,
-   runtime: number,
+    title: string,
+    originalTitle: string,
+    date: Date,
+    countries: [{ type: string }],
+    genres: [{ type: string }],
+    overview: string,
+    budget: number,
+    revenue: number,
+    originalLanguage: string,
+    runtime: number,
 
-   poster: string,
-   backdrop: string,
+    poster: string,
+    backdrop: string,
 
-   cast: [{
-      tvdbId: number,
-      name: string,
-      character: string,
-      image: string
-   }],
-   crew: [{
-      tvdbId: number,
-      name: string,
-      job: string,
-      image: string,
-   }],
+    cast: [{
+        tvdbId: number,
+        name: string,
+        character: string,
+        image: string
+    }],
+    crew: [{
+        tvdbId: number,
+        name: string,
+        job: string,
+        image: string,
+    }],
 
-   videos: [{
-      id: string,
-      lang: string,
-      key: string,
-      name: string,
-      site: string,
-      size: number,
-      videoType: string
-   }],
+    videos: [{
+        id: string,
+        lang: string,
+        key: string,
+        name: string,
+        site: string,
+        size: number,
+        videoType: string
+    }],
 
-   tmdbId: number,
-   imdbId: string,
+    tmdbId: number,
+    imdbId: string,
 
-   file: IEygleFile,
+    file: IEygleFile,
+
+    // Other
+    files?: Array<string>
 }
 
 interface IAutocompleteMovie {
-   title: string,
-   originalTitle: string,
-   date: Date,
-   poster: string,
-   tmdbId: string
+    title: string,
+    originalTitle: string,
+    date: Date,
+    poster: string,
+    tmdbId: string
 }

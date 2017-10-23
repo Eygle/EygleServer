@@ -7,37 +7,42 @@ import EmailsUnsubscribe from '../middlewares/EmailsUnsubscribe';
 import {EEnv} from "../typings/enums";
 
 class Routes {
-   public static init(app) {
-      // STATIC ROUTES
-      app.use('/', express.static(Utils.clientRoot));
-      app.use('/app/index.css', express.static(`${Utils.clientRoot}/app/index.css'`));
-      app.use('/feedback', express.static(`${Utils.root}/server/files/feedback`));
+    public static init(app) {
+        // Home exception (catch url '/', add cookie and serve index.html)
+        app.get('/', [this.indexRedirect()]);
 
-      if (EEnv.Prod !== Utils.env && EEnv.Preprod !== Utils.env) {
-         app.use('/bower_components', express.static(`${Utils.root}/../bower_components`));
-      }
+        // STATIC ROUTES
+        app.use('/', express.static(Utils.clientRoot));
 
-      // API ENTRY POINT
-      app.all('/api/*', [Resty.httpMiddleware(`${__dirname}/../api`)]);
+        if (EEnv.Prod !== Utils.env && EEnv.Preprod !== Utils.env) {
+            app.use('/bower_components', express.static(`${Utils.root}/../bower_components`));
+        }
 
-      // AUTH
-      app.post('/register', [Auth.registerMiddleware()]);
-      app.post('/login', [Auth.loginLimitMiddleware(), Auth.loginMiddleware()]);
-      app.post('/logout', [Auth.logoutMiddleware()]);
-      app.post('/forgot-password', [Auth.forgotPasswordMiddleware()]);
-      app.put('/change-password/*', [Auth.changePasswordMiddleware()]);
-      app.put('/unlock-user/*', [Auth.unlockAccountMiddleware()]);
+        // API ENTRY POINT
+        app.all('/api/*', [Resty.httpMiddleware(`${__dirname}/../api`)]);
 
-      // EMAILS UNSUBSCRIBE
-      app.get('/unsubscribe/*', [EmailsUnsubscribe.getMiddleware()]);
-      app.post('/unsubscribe/*', [EmailsUnsubscribe.getPostMiddleware()]);
+        // AUTH
+        app.post('/register', [Auth.registerMiddleware()]);
+        app.post('/login', [Auth.loginLimitMiddleware(), Auth.loginMiddleware()]);
+        app.post('/logout', [Auth.logoutMiddleware()]);
+        app.post('/forgot-password', [Auth.forgotPasswordMiddleware()]);
+        app.put('/change-password/*', [Auth.changePasswordMiddleware()]);
+        app.put('/unlock-user/*', [Auth.unlockAccountMiddleware()]);
 
-      // FALLBACK (when reloading on a route redirect to index.html)
-      app.get('/*', [(req, res) => {
-         Auth.addUserCookie(res, req.user || null);
-         res.sendFile(`${Utils.clientRoot}/index.html`);
-      }]);
-   }
+        // EMAILS UNSUBSCRIBE
+        app.get('/unsubscribe/*', [EmailsUnsubscribe.getMiddleware()]);
+        app.post('/unsubscribe/*', [EmailsUnsubscribe.getPostMiddleware()]);
+
+        // FALLBACK (when reloading on a route redirect to index.html)
+        app.get('/*', [this.indexRedirect()]);
+    }
+
+    private static indexRedirect() {
+        return (req, res) => {
+            Auth.addUserCookie(res, req.user || null);
+            res.sendFile(`${Utils.clientRoot}/index.html`);
+        };
+    }
 }
 
 export default Routes;

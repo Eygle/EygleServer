@@ -4,7 +4,6 @@ import * as compress from 'compression';
 import * as busboy from 'connect-busboy';
 import * as cookieParser from 'cookie-parser';
 import * as csrf from 'csurf';
-import * as morgan from 'morgan';
 
 import Utils from './Utils';
 import Permission from '../modules/Permissions';
@@ -29,10 +28,6 @@ class ExpressConfig {
       app.use(compress());
       app.use(cookieParser());
       app.use(session);
-
-      if (Utils.debug && Utils.env !== EEnv.Preprod && Utils.env !== EEnv.Prod) {
-         app.use(morgan('dev'));
-      }
 
       // INIT PERMISSIONS
       app.use(Permission.middleware());
