@@ -185,7 +185,7 @@ exports.styles = (dest, reload = false) => {
       `${conf.paths.client}/app/**/*.scss`,
       `!${conf.paths.client}/app/main/components/material-docs/demo-partials/**/*.scss`,
       `!${conf.paths.client}/app/core/scss/partials/**/*.scss`,
-      `!${conf.paths.client}/app/index.scss`
+      `!${conf.paths.client}/app/app.scss`
    ], {read: false});
 
    const injectOptions = {
@@ -198,7 +198,7 @@ exports.styles = (dest, reload = false) => {
       addRootSlash: false
    };
 
-   const res = gulp.src(`${conf.paths.client}/app/index.scss`)
+   const res = gulp.src(`${conf.paths.client}/app/app.scss`)
       .pipe($.inject(injectFiles, injectOptions))
       .pipe(wiredep(_.extend({}, conf.wiredep)))
       .pipe($.sourcemaps.init())

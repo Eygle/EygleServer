@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "Eygle_Downloads",
+      "script": "/var/www/dl/app/server/server.js",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}

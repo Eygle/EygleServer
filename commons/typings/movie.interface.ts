@@ -43,10 +43,7 @@ interface IMovie extends IModel {
     tmdbId: number,
     imdbId: string,
 
-    file: IEygleFile,
-
-    // Other
-    files?: Array<string>
+    files: Array<IEygleFile|string>,
 }
 
 interface IAutocompleteMovie {

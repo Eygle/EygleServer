@@ -188,21 +188,21 @@ class Utils {
     }
 
     /**
-     * Compare two mongoIds
+     * Check if objects are defined and populated then compare their ids
+     * One of the objects can be a string then it's value will be compared to the other object _id
      * @param obj1
      * @param obj2
-     * @returns {any | boolean}
+     * @return {boolean}
      */
     public static compareIds(obj1: any, obj2: any) {
         if (Utils.isString(obj2)) {
-            return Utils.hasId(obj1) && obj1._id === obj2;
+            return Utils.isString(obj1) ? obj1 === obj2 : Utils.hasId(obj1) && obj1._id === obj2;
         }
         if (Utils.isString(obj1)) {
-            return Utils.hasId(obj2) && obj2._id === obj1;
+            return Utils.isString(obj2) ? obj1 === obj2 : Utils.hasId(obj2) && obj2._id === obj1;
         }
         return Utils.hasId(obj1) && Utils.hasId(obj2) && obj1._id === obj2._id;
     }
-
     /**
      * Format size from bytes to human readable string
      * @param {number} bytes

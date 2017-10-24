@@ -15,13 +15,13 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(src) styles/vendor.css -->
+    <!-- build:css(client) styles/vendor.css -->
     <!-- bower:css -->
     <!-- run `gulp inject` to automatically populate bower styles dependencies -->
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:css(.tmp/src) styles/app.css -->
+    <!-- build:css(.tmp/client) styles/app.css -->
     <!-- inject:css -->
     <!-- css files will be automatically insert here -->
     <!-- endinject -->
@@ -39,13 +39,13 @@
 
 <div id="main" ng-class="'animate-slide-up'" ui-view="main" layout="column"></div>
 
-<!-- build:js(src) scripts/vendor.js -->
+<!-- build:js(client) scripts/vendor.js -->
 <!-- bower:js -->
 <!-- run `gulp inject` to automatically populate bower script dependencies -->
 <!-- endbower -->
 <!-- endbuild -->
 
-<!-- build:js(.tmp/src) scripts/app.js -->
+<!-- build:js(.tmp/client) scripts/app.js -->
 <!-- inject:js -->
 <!-- js files will be automatically insert here -->
 <!-- endinject -->

@@ -4,7 +4,7 @@ import * as _ from "underscore";
 
 import Utils from '../config/Utils';
 import CronJob from '../schemas/CronJob';
-import {EEnv, EIntercomTopic} from "../typings/enums";
+import {EEnv} from "../typings/enums";
 import AJob from "./AJob";
 
 class CronManager {

@@ -1,4 +1,5 @@
 import * as q from "q"
+import * as _ from "underscore"
 import * as moviedb from "moviedb"
 
 import Utils from "../config/Utils";
@@ -55,6 +56,8 @@ class TMDB {
                 }
             })
             .catch(defer.reject);
+
+        return defer.promise;
     }
 
     public searchByTitle(title) {
@@ -96,6 +99,18 @@ class TMDB {
         }
 
         return 'original';
+    }
+
+    public createAutocompleteFromTMDBResults(movies: Array<ITMDBMovie>) {
+        return _.map(movies, (m) => {
+            return {
+                title: m.title,
+                originalTitle: m.original_title,
+                date: m.release_date ? new Date(m.release_date) : null,
+                poster: m.poster_path ? this.config.images.base_url + this.getSizeCloseTo('p', 50) + m.poster_path : null,
+                tmdbId: m.id
+            }
+        });
     }
 }
 

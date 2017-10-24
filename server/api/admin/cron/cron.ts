@@ -1,14 +1,17 @@
-import {ARoutes, RoutePermissions} from "../../../middlewares/Resty";
+import {ARoute, RoutePermissions} from "../../../middlewares/Resty";
 import CronJob from '../../../schemas/CronJob';
-import {EHTTPStatus} from "../../../typings/enums";
+import {EHTTPStatus, EPermission} from "../../../typings/enums";
 import CronManager from "../../../cron/CronManager";
 import EdError from "../../../config/EdError";
 
 /**
  * Collection class
  */
-class Collection extends ARoutes {
-    public permissions: IRoutePermissions = new RoutePermissions('admin');
+class Collection extends ARoute {
+
+    constructor() {
+        super(EPermission.Admin);
+    }
 
     /**
      * Collection GET Route
@@ -43,6 +46,4 @@ class Collection extends ARoutes {
     }
 }
 
-module.exports = {
-    Collection: new Collection()
-};
+module.exports.Collection = Collection;

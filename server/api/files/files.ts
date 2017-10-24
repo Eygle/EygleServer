@@ -1,11 +1,15 @@
 import File from "../../schemas/File.schema"
-import {ARoutes, RoutePermissions} from "../../middlewares/Resty";
+import {ARoute} from "../../middlewares/Resty";
+import {EPermission} from "../../typings/enums";
 
 /**
  * Collection class
  */
-class Collection extends ARoutes {
-    public permissions: IRoutePermissions = new RoutePermissions('admin');
+class Collection extends ARoute {
+
+    constructor() {
+        super(EPermission.Admin);
+    }
 
     /**
      * Collection GET Route
@@ -48,6 +52,4 @@ class Collection extends ARoutes {
     }
 }
 
-module.exports = {
-    Collection: new Collection()
-};
+module.exports.Collection = Collection;

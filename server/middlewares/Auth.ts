@@ -35,8 +35,6 @@ class Auth {
                if (err) {
                   return next(err);
                }
-               req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // Remember me
-               res.cookie('SOCKETS-TOKEN', jwt.sign({_id: user._id.toString()}, Utils.jwtSecret, {expiresIn: Utils.jwtExpireIn}));
                this.addUserCookie(res, user);
                res.status(200).send(this._generateUserCookieData(user));
             });

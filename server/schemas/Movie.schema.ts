@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import * as q from 'q';
+import * as _ from 'underscore';
 
 import DB from '../modules/DB';
 import ASchema from './ASchema.schema';
@@ -84,11 +85,11 @@ export class Movie extends ASchema {
     /**
      * Create movie from TMDB result
      * @param {ITMDBMovie} m
-     * @param {IFile} file
+     * @param {ILocalFile} file
      * @returns {IMovie}
      */
-    public createFromTMDB(m: ITMDBMovie, file: IFile = null) {
-        const movie: IMovie = <IMovie>this.add({
+    public createFromTMDB(m: ITMDBMovie, file: ILocalFile = null) {
+        const movie: any = this.add({
             title: m.title,
             originalTitle: m.original_title,
             date: m.release_date ? new Date(m.release_date) : null,

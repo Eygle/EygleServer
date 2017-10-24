@@ -1,7 +1,9 @@
 import * as mongoose from 'mongoose';
+import * as q from 'q';
 
 import DB from '../modules/DB';
 import ASchema from './ASchema.schema';
+import Episode from './Episode.schema';
 
 const _schema: mongoose.Schema = DB.createSchema({
     title: String,
@@ -32,6 +34,32 @@ const _schema: mongoose.Schema = DB.createSchema({
 });
 
 export class TVShow extends ASchema {
+    /**
+     * Get full TVShow with episodes list
+     * @param {string} id
+     * @return {Q.Promise<any>}
+     */
+    public getFull(id: string) {
+        const defer = q.defer();
+
+        this.get(id)
+            .then((tvShow: any) => {
+                if (tvShow) {
+                    tvShow = tvShow.toObject();
+                    Episode.findAllByTVShowId(tvShow._id.toString())
+                        .then(items => {
+                            tvShow.episodesList = items;
+                            defer.resolve(tvShow);
+                        })
+                        .catch(defer.reject);
+                } else {
+                    defer.resolve();
+                }
+            })
+            .catch(defer.reject);
+
+        return defer.promise;
+    }
 
     /**
      * Schema getter

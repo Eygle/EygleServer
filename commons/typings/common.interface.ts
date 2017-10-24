@@ -2,19 +2,19 @@
  * Created by eygle on 4/29/17.
  */
 
-interface IFile {
+interface ILocalFile {
   _id: string,
 
   filename: string,
   directory: boolean,
-  parent: IFile,
+  parent: ILocalFile,
   movie: string
   tvshow: string
 
   ext?: string,
   size?: number,
   mtime?: Date,
-  children?: Array<IFile>,
+  children?: Array<ILocalFile>,
 
   // Views attributes
   type?: string,
@@ -22,5 +22,4 @@ interface IFile {
   typeLabel?: string
   selected: boolean;
   loading: boolean;
-  movie?: string;
 }

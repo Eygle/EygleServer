@@ -1,15 +1,23 @@
 import * as q from "q"
+import * as _ from "underscore"
 
+import Utils from "../../config/Utils"
 import Movie from "../../schemas/Movie.schema"
 import File from "../../schemas/File.schema"
 import TMDB from "../../modules/TMDB"
-import {ARoutes, RoutePermissions} from "../../middlewares/Resty";
+import {ARoute} from "../../middlewares/Resty";
+import {EPermission} from "../../typings/enums";
 
 /**
  * Resource class
  */
-class Resource extends ARoutes {
-    public permissions: IRoutePermissions = new RoutePermissions(null, 'user', 'admin');
+class Resource extends ARoute {
+
+    constructor() {
+        super();
+        this.setGetPermission(EPermission.LoggedUser);
+        this.setPostOrPutPermission(EPermission.Admin);
+    }
 
     /**
      * Resource GET Route
@@ -29,20 +37,28 @@ class Resource extends ARoutes {
      */
     public put(fid: string, next: RestyCallback): void {
         File.get(fid)
-            .then((file: IFile) => {
+            .then((file: IEygleFile) => {
                 TMDB.get(this.data.tmdbId, file)
                     .then((movie: IMovie) => {
                         Movie.findWithFileId(fid)
-                            .then(items => {
-                                this._unlinkMovies(items, fid, movie._id).then(() => {
-                                    file.save(err => {
-                                        if (err) return callback(500, err);
-                                        movie.save(err => {
-                                            if (err) return callback(500, err);
-                                            callback(null, movie);
-                                        });
+                            .then((items: Array<IMovie>) => {
+                                const promises = [];
+
+                                for (let m of items) {
+                                    if (!Utils.compareIds(m, movie)) {
+                                        promises.push(this._unlinkMovie(m, fid));
+                                    }
+                                }
+
+                                q.allSettled(promises)
+                                    .then(() => {
+                                        q.allSettled([
+                                            File.save(file),
+                                            Movie.save(movie)
+                                        ])
+                                            .then(() => next())
+                                            .catch(next);
                                     });
-                                });
                             })
                             .catch(next)
                     })
@@ -51,51 +67,46 @@ class Resource extends ARoutes {
             .catch(next);
     }
 
-    private _unlinkMovies(movies: Array<IMovie>, fileId, movieId) {
-        const defer = q.defer();
-        const promises = [];
-
-        for (let m of movies) {
-            if (!m._id.equals(movieId)) {
-                promises.push(this._unlinkMovie(m, fileId));
-            }
-        }
-
-        q.allSettled(promises)
-            .then(() => defer.resolve());
-
-        return defer.promise;
-    }
-
+    /**
+     * Unlink movie from file
+     * @param {IMovie} movie
+     * @param fileId
+     * @return {Q.Promise<any>}
+     * @private
+     */
     private _unlinkMovie(movie: IMovie, fileId) {
         const defer = q.defer();
 
         if (movie.files.length > 1) {
             const idx = _.findIndex(movie.files, (f) => {
-                return f._id === fileId;
+                return Utils.compareIds(f, fileId);
             });
-            if (idx !== -1) {
-                movie.files[idx].movie = null;
-                movie.files[idx].save(() => {
-                    movie.files.splice(idx, 1);
-                    movie.save(() => {
-                        defer.resolve();
-                    });
-                })
+
+            if (!!~idx) {
+                const f = <IEygleFile>movie.files.splice(idx, 1)[0];
+
+                f.movie = null;
+                q.allSettled([
+                    File.save(f),
+                    Movie.save(movie)
+                ])
+                    .then(defer.resolve)
+                    .catch(defer.reject);
             } else {
                 defer.resolve();
             }
         } else if (movie.files.length === 1) {
-            movie.files[0]._movie = null;
-            movie.files[0].save(() => {
-                movie.remove(() => {
-                    defer.resolve();
-                });
-            });
+            (<IEygleFile>movie.files[0]).movie = null;
+            q.allSettled([
+                File.save(movie.files[0]),
+                Movie.setDeleted(movie)
+            ])
+                .then(defer.resolve)
+                .catch(defer.reject);
         } else {
-            movie.remove(() => {
-                defer.resolve();
-            });
+            Movie.setDeleted(movie)
+                .then(defer.resolve)
+                .catch(defer.reject);
         }
 
         return defer.promise;
@@ -105,8 +116,11 @@ class Resource extends ARoutes {
 /**
  * Collection class
  */
-class Collection extends ARoutes {
-    public permissions: IRoutePermissions = new RoutePermissions('admin');
+class Collection extends ARoute {
+
+    constructor() {
+        super(EPermission.Admin);
+    }
 
     /**
      * Collection GET Route
@@ -117,7 +131,5 @@ class Collection extends ARoutes {
     }
 }
 
-module.exports = {
-    Resource: new Resource(),
-    Collection: new Collection()
-};
+module.exports.Collection = Collection;
+module.exports.Resource = Resource;
