@@ -165,11 +165,38 @@ class MediasManager {
 
     /**
      *
-     * @param {ILocalFile} f
      * @private
+     * @param file
      */
-    private _addMovieFromFile(f: ILocalFile) {
+    private _addMovieFromFile(file: ILocalFile) {
         const defer = q.defer();
+
+        if (file.mediaInfo.title) {
+            movies.searchMovieByTitle(file.mediaInfo.title).then(results => {
+                if (results.length === 0) {
+                    callback();
+                } else if (results.length === 1) {
+                    fetchInfoAndSave(file, results[0].id, callback);
+                } else {
+                    if (file.mediaInfo.year) {
+                        for (let m of results) {
+                            if (m.release_date && new Date(m.release_date).getFullYear() === file.mediaInfo.year) {
+                                fetchInfoAndSave(file, m.id, callback);
+                                return;
+                            }
+                        }
+                    }
+
+                    saveProposals(results, file, callback);
+                }
+            }).catch(err => {
+                Utils.logger.error('[TMDB:searchByTitle] error', err);
+                defer.reject();
+            });
+        } else {
+            Utils.logger.warn(`Skipped ${file.filename}: no exploitable title`);
+            defer.reject();
+        }
 
         return defer.promise;
     }
