@@ -4,17 +4,20 @@ import * as moviedb from "moviedb"
 
 import Utils from "../config/Utils";
 import Movie from "../schemas/Movie.schema";
-import EdError from "../config/EdError";
-import {EHTTPStatus} from "../typings/enums";
+import ALimitedApi from "./ALimitedApi";
 
 const MovieDB = moviedb(Utils.tmdbToken);
 
-class TMDB {
+class TMDB extends ALimitedApi {
 
     /**
      * Config object
      */
     public config: { images: { base_url: { base_url: string } } };
+
+    constructor() {
+        super(true);
+    }
 
     /**
      * Initialize lib
@@ -32,18 +35,14 @@ class TMDB {
         Movie.findOneByTMDBId(tmdbId)
             .then((movie: IMovie) => {
                 if (!movie) {
-                    // Create a new movie with all info
-                    MovieDB.movieInfo({
+                    // Fetch movie using API
+                    this.request(MovieDB.movieInfo, {
                         id: tmdbId,
                         language: 'fr',
                         append_to_response: 'credits,videos'
-                    }, (err, res) => {
-                        if (err || !res) {
-                            defer.reject(err || new EdError(EHTTPStatus.BadRequest));
-                        } else {
-                            defer.resolve(Movie.createFromTMDB(res, file));
-                        }
-                    });
+                    })
+                        .then(res => defer.resolve(Movie.createFromTMDB(res, file)))
+                        .catch(defer.reject);
                 } else {
                     file._movie = movie._id;
                     if (movie.files) {
@@ -63,12 +62,9 @@ class TMDB {
     public searchByTitle(title) {
         const defer = q.defer();
 
-        MovieDB.searchMovie({query: title, language: 'fr'}, (err, res: any) => {
-            if (err || !res) {
-                return defer.reject(err);
-            }
-            defer.resolve(res.results);
-        });
+        this.request(MovieDB.searchMovie, {query: title, language: 'fr'})
+            .then(res => defer.resolve(res.results))
+            .catch(defer.reject);
 
         return defer.promise;
     }

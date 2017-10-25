@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 
 import DB from '../modules/DB';
 import ASchema from './ASchema.schema';
+import Utils from "../config/Utils";
 
 const _schema: mongoose.Schema = DB.createSchema({
     filename: String,
@@ -37,6 +38,13 @@ const _schema: mongoose.Schema = DB.createSchema({
     parent: {type: String, ref: 'File'},
     episode: {type: String, ref: 'Movie'},
     movie: {type: String, ref: 'Movie'},
+});
+
+_schema.pre('save', function (next) {
+    if (this.isNew) {
+        this.normalized = Utils.normalize(this.filename);
+    }
+    next();
 });
 
 export class File extends ASchema {

@@ -81,19 +81,27 @@ abstract class ASchema {
    /**
     * Create new model instance
     * @param data
-    * @param user
+    * @param exclude
+    * @return {Promise<T>}
+    */
+   public create(data: any, exclude = null) {
+      return new this._model(this.formatData(data, exclude));
+   }
+
+   /**
+    * Create new model instance and save it
+    * @param data
     * @param exclude
     * @param populateOptions
     * @return {Promise<T>}
     */
    public add(data: any, exclude = null, populateOptions = null) {
-      return DB.createItem(new this._model(this.formatData(data, exclude)), populateOptions, this._model);
+      return DB.createItem(new this.create(data, exclude), populateOptions, this._model);
    }
 
    /**
     * Save model instance
     * @param item
-    * @param user
     * @param data
     * @param exclude
     * @param populateOptions
@@ -105,7 +113,6 @@ abstract class ASchema {
    /**
     * Find model instance by id and save it
     * @param id
-    * @param user
     * @param data
     * @param exclude
     * @param populateOptions

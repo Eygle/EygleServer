@@ -85,11 +85,11 @@ export class Movie extends ASchema {
     /**
      * Create movie from TMDB result
      * @param {ITMDBMovie} m
-     * @param {ILocalFile} file
+     * @param {IEygleFile} file
      * @returns {IMovie}
      */
-    public createFromTMDB(m: ITMDBMovie, file: ILocalFile = null) {
-        const movie: any = this.add({
+    public createFromTMDB(m: ITMDBMovie, file: IEygleFile = null) {
+        const movie: any = this.create({
             title: m.title,
             originalTitle: m.original_title,
             date: m.release_date ? new Date(m.release_date) : null,
