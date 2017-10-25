@@ -15,29 +15,32 @@ class Emails {
       this._siteURL = "https://www.mapui.fr";
    }
 
-   /**
-    * Send email
-    */
-   public sendEmail(email, subject, body) {
-      const smtpTransport = this._smtpConnect();
-      const from = "MaPUI.fr ✔ <contact@mapui.fr>";
+    /**
+     * TODO
+     */
+   public sendWelcome(dest: IUser) {
 
-      if (Utils.env !== EEnv.Prod) {
-         email = "dev@mapui.fr";
-      }
+   }
 
-      smtpTransport.sendMail({
-         from: from,
-         to: email,
-         subject: subject,
-         html: body
-      }, (error, response) => {
-         if (error) {
-            Utils.logger.error(`Error during email sending to ${email}`, error);
-         }
+    /**
+     * TODO
+     */
+   public sendPasswordRecovery(dest: IUser) {
 
-         smtpTransport.close();
-      });
+   }
+
+    /**
+     * TODO
+     */
+   public sendLockedAccount(dest: IUser) {
+
+   }
+
+    /**
+     * TODO
+     */
+   public sendUnlockedAccount(dest: IUser) {
+
    }
 
    /**

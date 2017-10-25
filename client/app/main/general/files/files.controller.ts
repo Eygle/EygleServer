@@ -50,7 +50,7 @@ class FilesController {
       let dir = this._current;
       while (dir) {
         this.bc.unshift(dir);
-        dir = this.fs.getFileById(dir._parent);
+        dir = this.fs.getFileById(dir.parent);
       }
       this.bc.unshift(null)
     } else {

@@ -110,7 +110,7 @@ class Utils {
         }
 
         this.appName = process.env.NODE_APP || 'EygleDownloads';
-        this.port = this.env === EEnv.Preprod ? 4746 : 4646;
+        this.port = this.env === EEnv.Preprod ? 4243 : 4242;
         this.dbName = this.env === EEnv.Preprod ? 'EygleDownloadsPreprod' : 'EygleDownloads';
 
         this.debug = false;
@@ -131,7 +131,7 @@ class Utils {
         this.loginAttemptsExpire = 24 * 3600 * 1000; // 24 hours
 
         this.tmdbToken = "22e2817ba73ca94f0b3971f847acefc6";
-        this.tvdbToken = "72FB8B2E308C7EE1"
+        this.tvdbToken = "72FB8B2E308C7EE1";
 
         if (this.env === EEnv.Prod || this.env === EEnv.Preprod) {
             this.logger = (<any>tracer).dailyfile({

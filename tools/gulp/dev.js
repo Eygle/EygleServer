@@ -19,6 +19,7 @@ conf.onServerTaskEnd = function () {
  */
 gulp.task('dev:serve', ['dev:build'], () => {
    watch();
+   console.log("dev serve");
    nodemon = $.nodemon({
       script: `${conf.paths.dev.root}/server/server.js`,
       watch: [`${conf.paths.dev.root}/server/server.js`],
@@ -42,8 +43,9 @@ gulp.task('dev:build', () => {
       inject(),
       common.generateIndexHTML(conf.paths.dev.client)
    ]).then(() => {
+       console.log("End of dev build");
       defer.resolve();
-   });
+   }).catch(err => console.error);
 
    return defer.promise;
 });

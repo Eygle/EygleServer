@@ -64,7 +64,7 @@ exports.log = {
     */
    error: (title) => {
       return (err) => {
-         gutil.log(gutil.colors.red(`[${title}]`), err.toString());
+         gutil.log(gutil.colors.red(`[${title}]`), err.toString(), err);
          gulp.emit('end');
       };
    }

@@ -1,11 +1,11 @@
 interface IUser extends IModel {
-   email: string;
-   userName: string;
-   password: string;
+    email: string;
+    userName: string;
 
-   emailCheckCode: string;
-   locked: boolean;
+    password: string;
+    validMail: string;
+    locked: boolean;
 
-   roles: Array<string>;
-   desc: string;
+    roles: Array<string>;
+    desc: string;
 }

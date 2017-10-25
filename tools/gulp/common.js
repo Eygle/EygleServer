@@ -180,7 +180,6 @@ exports.styles = (dest, reload = false) => {
     };
 
     const injectFiles = gulp.src([
-        `${conf.paths.client}/app/core/common.scss`,
         `${conf.paths.client}/app/**/*.scss`,
         `!${conf.paths.client}/app/app.scss`
     ], {read: false});

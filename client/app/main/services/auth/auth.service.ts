@@ -5,30 +5,17 @@
 class Auth {
   public user: IUser;
 
-  private _isLoggedIn: boolean;
-
   constructor(private $cookieStore: any) {
     this.init();
   }
 
   public init = () => {
-    const cookieUser = this.$cookieStore.get('ED-USER');
-    this.user = cookieUser || <IUser>{email: '', roles: ['public']};
-    this._isLoggedIn = !!cookieUser;
-    console.log(this.user);
-  };
-
-  public isLoggedIn = () => {
-    return this._isLoggedIn;
-  };
-
-  public authorise = (access) => {
-    return true;
+      this.user = this.$cookieStore.get('user') || <IUser>{ email: '', roleTitles: ["public"] };
+      this.$cookieStore.remove('user'); // Remove the cookie after reading it (then the user will be logged out if it's session expired)
   };
 
   public logout = () => {
-    this.$cookieStore.remove('ED-USER');
-    this._isLoggedIn = false;
+    this.$cookieStore.remove('user');
     this.user = null;
   };
 }

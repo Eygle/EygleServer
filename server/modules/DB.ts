@@ -147,7 +147,7 @@ class DB {
 	 * @return {any}
 	 */
 	public createItem(item: any, populateOptions = null, model = null) {
-		return this.saveItem(item, populateOptions, model);
+		return this.saveItem(item, null, populateOptions, model);
 	}
 
 	/**
