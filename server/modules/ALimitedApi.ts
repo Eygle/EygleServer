@@ -2,6 +2,11 @@ import * as q from "q"
 
 abstract class ALimitedApi {
     /**
+     * Api lib instance
+     */
+    protected api: any;
+
+    /**
      * Minimum interval (ms) between requests (see API limitation)
      */
     protected minRequestInterval: number;
@@ -101,7 +106,7 @@ abstract class ALimitedApi {
         if (this._useCB) {
             const defer = q.defer();
 
-            item.method.apply(item.method, [...item.args, (err, res) => {
+            this.api[item.method].apply(item.method, [...item.args, (err, res) => {
                 if (err) {
                     defer.reject(err);
                 } else {
@@ -110,7 +115,7 @@ abstract class ALimitedApi {
             }]);
             return defer.promise;
         }
-        return item.method.apply(item.method, item.args);
+        return  this.api[item.method].apply(item.method, item.args);
     }
 }
 

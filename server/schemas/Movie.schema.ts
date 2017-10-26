@@ -50,7 +50,7 @@ const _schema: mongoose.Schema = DB.createSchema({
     files: [{type: String, ref: 'File'}]
 });
 
-export class Movie extends ASchema {
+class Movie extends ASchema {
     /**
      * Find one by tmdbId
      * @param {number} tmdbId
@@ -68,6 +68,11 @@ export class Movie extends ASchema {
         return defer.promise;
     }
 
+    /**
+     * Find show linked to file id
+     * @param fid
+     * @return {Q.Promise<any>}
+     */
     public findWithFileId(fid) {
         const defer = q.defer();
 

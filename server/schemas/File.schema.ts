@@ -47,7 +47,7 @@ _schema.pre('save', function (next) {
     next();
 });
 
-export class File extends ASchema {
+class File extends ASchema {
 
     /**
      * Schema getter

@@ -6,8 +6,6 @@ import Utils from "../config/Utils";
 import Movie from "../schemas/Movie.schema";
 import ALimitedApi from "./ALimitedApi";
 
-const MovieDB = moviedb(Utils.tmdbToken);
-
 class TMDB extends ALimitedApi {
 
     /**
@@ -17,13 +15,14 @@ class TMDB extends ALimitedApi {
 
     constructor() {
         super(true);
+        this.api = moviedb(Utils.tmdbToken);
     }
 
     /**
      * Initialize lib
      */
     public init() {
-        MovieDB.configuration((err, res) => {
+        this.api.configuration((err, res) => {
             this.config = res;
         });
     }
@@ -36,7 +35,7 @@ class TMDB extends ALimitedApi {
             .then((movie: IMovie) => {
                 if (!movie) {
                     // Fetch movie using API
-                    this.request(MovieDB.movieInfo, {
+                    this.request('movieInfo', {
                         id: tmdbId,
                         language: 'fr',
                         append_to_response: 'credits,videos'
@@ -44,7 +43,7 @@ class TMDB extends ALimitedApi {
                         .then(res => defer.resolve(Movie.createFromTMDB(res, file)))
                         .catch(defer.reject);
                 } else {
-                    file._movie = movie._id;
+                    file.movie = movie._id;
                     if (movie.files) {
                         if (movie.files.indexOf(file._id) === -1)
                             movie.files.push(file._id);
@@ -62,7 +61,7 @@ class TMDB extends ALimitedApi {
     public searchByTitle(title) {
         const defer = q.defer();
 
-        this.request(MovieDB.searchMovie, {query: title, language: 'fr'})
+        this.request('searchMovie', {query: title, language: 'fr'})
             .then(res => defer.resolve(res.results))
             .catch(defer.reject);
 

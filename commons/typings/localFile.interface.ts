@@ -22,7 +22,7 @@ interface ILocalFile {
 
 interface ITorrentInfo {
     title: string;
-    year: string;
+    year: number;
     season: number;
     episode: number;
     resolution: string;

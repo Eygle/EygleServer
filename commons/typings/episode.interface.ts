@@ -8,8 +8,8 @@ interface IEpisode extends IModel {
   tvdbId: number,
   tvdbSeasonId: number,
 
-  _tvShow: ITVShow,
-  _file: IEygleFile,
+  tvShow: ITVShow,
+  files: Array<IEygleFile>,
 
   number: number,
   season: number,

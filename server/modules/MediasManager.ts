@@ -6,6 +6,12 @@ import * as ptn from "parse-torrent-name";
 
 import Utils from "../config/Utils"
 import File from "../schemas/File.schema"
+import TMDB, {ITMDBMovie} from "./TMDB";
+import Movie from "../schemas/Movie.schema";
+import Proposal from "../schemas/Proposal.schema";
+import TVDB, {ITVDBEpisode, ITVDBShow} from "./TVDB";
+import TVShow from "../schemas/TVShow.schema";
+import Episode from "../schemas/Episode.schema";
 
 class MediasManager {
     /**
@@ -14,9 +20,19 @@ class MediasManager {
     private _filesToAdd: Array<ILocalFile>;
 
     /**
-     * List of files tnot present anymore to remove from database
+     * List of files not present anymore to remove from database
      */
     private _filesToDelete: Array<ILocalFile>;
+
+    /**
+     * List of local files identified as movies
+     */
+    private _movies: Array<ILocalFile>;
+
+    /**
+     * List of local files identified as tv shows
+     */
+    private _tvShows: Array<ILocalFile>;
 
     /**
      * Number of movies added
@@ -86,6 +102,7 @@ class MediasManager {
         this._filesToDelete = previous;
         this._dump(files);
 
+        this._identifyMedias();
         q.allSettled([
             this._processFilesToAdd(),
             this._processFilesToDelete()
@@ -107,19 +124,18 @@ class MediasManager {
     }
 
     /**
-     * Add all new files to database and extract medias if possible
-     * Remove all files to delete
-     * @return {Q.Promise<any>}
+     * Identify medias and create IFiles
+     * @param {Array<ILocalFile>} list
+     * @param {IEygleFile} parent
+     * @return {any}
      * @private
      */
-    private _processFilesToAdd(list = this._filesToAdd, parent: IEygleFile = null) {
-        const promises = [];
-
+    private _identifyMedias(list = this._filesToAdd, parent: IEygleFile = null) {
         for (let f of list) {
             f.parent = parent ? parent._id.toString() : null;
             f.model = File.create(f);
             if (f.directory && f.children) {
-                this._processFilesToAdd(f.children, f.model);
+                return this._identifyMedias(f.children, f.model)
             } else {
                 if (this._isVideo(f.filename)) {
                     if (!f.mediaInfo) {
@@ -130,13 +146,34 @@ class MediasManager {
                     const fullPath = f.path ? `${f.path}/${f.filename}` : f.filename;
                     if (this._isTVShow(fullPath)) {
                         if (f.mediaInfo.hasOwnProperty('episode') && f.mediaInfo.hasOwnProperty('season')) {
-                            promises.push(this._addTVShowFromFile(f));
+                            this._tvShows.push(f);
                         }
                     }
                     else {
-                        promises.push(this._addMovieFromFile(f));
+                        this._movies.push(f);
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Add all new files to database and extract medias if possible
+     * Remove all files to delete
+     * @return {Q.Promise<any>}
+     * @private
+     */
+    private _processFilesToAdd() {
+        const promises = [];
+
+        for (let f of this._movies) {
+            promises.push(this._addMovieFromFile(f));
+        }
+
+        const tvShows = this._mergeTVShowList(this._tvShows);
+        for (let show in tvShows) {
+            if (tvShows.hasOwnProperty(show)) {
+                promises.push(this._addTVShow(show, tvShows[show]));
             }
         }
 
@@ -153,9 +190,30 @@ class MediasManager {
 
         for (let f of this._filesToDelete) {
             const defer = q.defer();
+            let movie, tvShow = null;
 
+            q.allSettled([
+                File.remove(f.model),
+                Movie.findWithFileId(f.model._id).then(res => {
+                    movie = res;
+                }),
+                TVShow.findWithFileId(f.model._id).then(res => {
+                    tvShow = res;
+                })
+            ]).then(() => {
+                if (movie) {
+                    Movie.setDeletedById(movie)
+                        .then(() => defer.resolve())
+                        .catch((err) => defer.reject(err));
+                } else if (tvShow) {
+                    TVShow.setDeletedById(movie)
+                        .then(() => defer.resolve())
+                        .catch((err) => defer.reject(err));
+                } else {
+                    defer.resolve();
+                }
+            }).catch((err) => defer.reject(err));
             this._nbrFilesDeleted++;
-            defer.resolve();
 
             promises.push(defer.promise);
         }
@@ -164,7 +222,32 @@ class MediasManager {
     }
 
     /**
-     *
+     * Merge tvshow episodes and seasons into shows
+     * @param {Array<ILocalFile>} files
+     * @return {{}}
+     * @private
+     */
+    private _mergeTVShowList(files: Array<ILocalFile>) {
+        const tvshows = {};
+
+        for (let f of files) {
+            const title = f.mediaInfo.title.toLowerCase();
+            if (!tvshows.hasOwnProperty(title)) {
+                tvshows[title] = {};
+            }
+            if (!tvshows[title].hasOwnProperty(f.mediaInfo.season))
+                tvshows[title][f.mediaInfo.season] = {};
+            if (!tvshows[title][f.mediaInfo.season].hasOwnProperty(f.mediaInfo.episode))
+                tvshows[title][f.mediaInfo.season][f.mediaInfo.episode] = [f.model];
+            else
+                tvshows[title][f.mediaInfo.season][f.mediaInfo.episode].push(f.model);
+        }
+
+        return tvshows;
+    }
+
+    /**
+     * Add movie from local file
      * @private
      * @param file
      */
@@ -172,22 +255,27 @@ class MediasManager {
         const defer = q.defer();
 
         if (file.mediaInfo.title) {
-            movies.searchMovieByTitle(file.mediaInfo.title).then(results => {
+            TMDB.searchByTitle(file.mediaInfo.title).then(results => {
                 if (results.length === 0) {
-                    callback();
+                    defer.resolve();
                 } else if (results.length === 1) {
-                    fetchInfoAndSave(file, results[0].id, callback);
+                    this._fetchMovieInfoAndSave(file, results[0].id)
+                        .then(defer.resolve)
+                        .catch(defer.reject);
                 } else {
                     if (file.mediaInfo.year) {
                         for (let m of results) {
                             if (m.release_date && new Date(m.release_date).getFullYear() === file.mediaInfo.year) {
-                                fetchInfoAndSave(file, m.id, callback);
-                                return;
+                                this._fetchMovieInfoAndSave(file, m.id)
+                                    .then(defer.resolve)
+                                    .catch(defer.reject);
+                                return defer.promise;
                             }
                         }
                     }
-
-                    saveProposals(results, file, callback);
+                    this._addMoviesProposals(results, file)
+                        .then(defer.resolve)
+                        .catch(defer.reject);
                 }
             }).catch(err => {
                 Utils.logger.error('[TMDB:searchByTitle] error', err);
@@ -201,6 +289,170 @@ class MediasManager {
         return defer.promise;
     }
 
+    /**
+     * Add TVShow
+     * @param {string} title
+     * @param show
+     * @return {Q.Promise<any>}
+     * @private
+     */
+    private _addTVShow(title: string, show: any) {
+        const defer = q.defer();
+
+        TVDB.searchByTitle(title)
+            .then((res: Array<ITVDBShow>) => {
+                if (res.length === 1) {
+                    // insert unique TVShow & all episodes
+                    Utils.logger.trace('TVShow found in TVDB. Fetching all info...');
+                    TVDB.get(res[0].id)
+                        .then(res => {
+                            TVShow.createOrUpdateFromTVDBResult(res)
+                                .then(item => {
+                                    TVShow.save(item)
+                                        .then(() => {
+                                            Utils.logger.log('Added/updated TVShow');
+                                            this._addAllEpisodes(item, res.episodes, show).then(() => {
+                                                defer.resolve();
+                                            });
+                                        })
+                                        .catch(err => {
+                                            Utils.logger.error(err);
+                                            defer.reject();
+                                        });
+                                });
+                        })
+                        .catch((err) => {
+                            Utils.logger.error(`Impossible to fetch TVShow id:${res[0].id} from TVDB`, err);
+                            defer.resolve();
+                        });
+                } else if (res.length > 1) {
+                    Utils.logger.log('Multiple results found');
+                    defer.resolve();
+                } else {
+                    Utils.logger.log('No result found in TVDB');
+                    defer.resolve();
+                }
+            })
+            .catch(err => {
+                Utils.logger.log('[TVDB] error:', err);
+                defer.reject();
+            });
+
+        return defer.promise;
+    }
+
+    /**
+     * Add all show episodes
+     * @param {ITVShow} show
+     * @param {Array<ITVDBEpisode>} episodesList
+     * @param localFilesPerSeasons
+     * @return {Q.Promise<Array<Q.PromiseState<any>>>}
+     * @private
+     */
+    private _addAllEpisodes(show: ITVShow, episodesList: Array<ITVDBEpisode>, localFilesPerSeasons: any) {
+        const promises = [];
+
+        for (let season in localFilesPerSeasons) {
+            if (localFilesPerSeasons.hasOwnProperty(season)) {
+                for (episode in localFilesPerSeasons[season]) {
+                    if (localFilesPerSeasons[season].hasOwnProperty(episode)) {
+                        const res = this._findEpisodeFromList(episodesList, parseInt(season), parseInt(episode));
+                        if (res) {
+                            const d = q.defer();
+                            promises.push(d.promise);
+
+                            Episode.createOrUpdateFromTVDBResult(show, res, localFilesPerSeasons[season][episode])
+                                .then(episode => {
+                                    Episode.save(episode)
+                                        .then(() => {
+                                            Utils.logger.log(`Added S${episode.season}E${episode.number}`);
+                                            d.resolve();
+                                        })
+                                        .catch(err => {
+                                            Utils.logger.error('Mongo', err);
+                                            d.resolve();
+                                        });
+                                })
+                                .catch(err => {
+                                    Utils.logger.error('Mongo', err);
+                                    d.resolve();
+                                });
+                        } else {
+                            Utils.logger.warn(`S${season}E${episode} not found in TVDB episodes list`);
+                        }
+                    }
+                }
+            }
+        }
+
+        return q.allSettled(promises);
+    }
+
+    /**
+     * Find episode from list
+     * @param {Array<ITVDBEpisode>} list
+     * @param {number} s
+     * @param {number} e
+     * @return {any}
+     * @private
+     */
+    private _findEpisodeFromList(list: Array<ITVDBEpisode>, s: number, e: number) {
+        for (let v of list) {
+            if (v.airedSeason === s && v.airedEpisodeNumber === e) {
+                return v;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Fetch movie info from TMDB and save in database
+     * @param {ILocalFile} file
+     * @param {number} tmdbId
+     * @return {Q.Promise<any>}
+     * @private
+     */
+    private _fetchMovieInfoAndSave(file: ILocalFile, tmdbId: number) {
+        const defer = q.defer();
+
+        TMDB.get(tmdbId, file.model).then((movie) => {
+            Movie.save(movie)
+                .then(() => {
+                    Utils.logger.log(movie._files.length === 1 ? 'Movie added' : `Linked to existed movie ${movie.title}`);
+                    defer.resolve();
+                })
+                .catch((err) => {
+                    Utils.logger.error('[Movie] save error', err);
+                    defer.reject();
+                });
+        });
+        return defer.promise;
+    }
+
+    /**
+     * Add all movies proposals
+     * @param {Array<ITMDBMovie>} results
+     * @param {ILocalFile} file
+     * @return {Q.Promise<Array<Q.PromiseState<any>>>}
+     * @private
+     */
+    private _addMoviesProposals(results: Array<ITMDBMovie>, file: ILocalFile) {
+        const promises = [];
+
+        for (let r of results) {
+            promises.push(Proposal.save(Proposal.createFromTMDBResult(r, file.model))
+                .then(proposal => Utils.logger.log(`Add proposal: ${proposal.title}${proposal.date ? ` (${proposal.date.getFullYear()})` : ''}`))
+                .catch(err => Utils.logger.error('[Proposal] save error', err)));
+        }
+
+        return q.allSettled(promises);
+    }
+
+    /**
+     * Save all new [[IFile]]s
+     * @return {Q.Promise<Array<Q.PromiseState<any>>>}
+     * @private
+     */
     private _saveNewFiles() {
         const promises = [];
 

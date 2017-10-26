@@ -106,7 +106,7 @@ _schema.post('save', function (doc) {
     Cache.remove(this._id.toString());
 });
 
-export class User extends ASchema {
+class User extends ASchema {
     /**
      * Get by id
      * @param {string} id
