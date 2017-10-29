@@ -1,17 +1,17 @@
 <md-toolbar layout="row" layout-align="center center">
-    <h1 class="md-toolbar-tools" translate="APP_NAME"></h1>
+   <h1 class="md-toolbar-tools" translate="APP_NAME"></h1>
 </md-toolbar>
 <ul>
-  <li ng-repeat="p in vm.parts | orderBy: 'weight'"
-      ng-class="{'selected': vm.$state.current.name.indexOf(p.name) === 0, 'separator': p.separator}">
-    <div class="user-info" ng-if="p.name === 'eygle.profile.my-account' && vm.Auth.isLoggedIn()"
-         layout="row" layout-align="space-between center">
-      <div class="username">{{vm.Auth.user.userName}}</div>
-      <div class="alerts">alerts</div>
-    </div>
-        <a ui-sref="{{p.name}}()" ng-if="!p.separator">
-            <md-icon md-font-icon="{{p.icon}}" aria-label="icon"></md-icon>
-            <span translate="{{p.translate}}"></span>
-        </a>
-    </li>
+   <li ng-repeat="p in vm.parts | orderBy: 'weight'"
+       ng-class="{'selected': vm.$state.current.name.indexOf(p.name) === 0, 'separator': p.separator}">
+      <div class="user-info" ng-if="p.name === 'eygle.profile.my-account' && vm.Auth.isLoggedIn()"
+           layout="row" layout-align="space-between center">
+         <div class="username">{{vm.Auth.user.userName}}</div>
+         <div class="alerts">alerts</div>
+      </div>
+      <a ui-sref="{{p.name}}()" ng-if="!p.separator">
+         <md-icon md-font-icon="{{p.icon}}" aria-label="icon"></md-icon>
+         <span translate="{{p.translate}}"></span>
+      </a>
+   </li>
 </ul>

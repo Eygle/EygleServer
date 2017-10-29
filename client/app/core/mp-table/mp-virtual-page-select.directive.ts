@@ -1,22 +1,22 @@
 class MpVirtualPageSelectDirective implements ng.IDirective {
 
-  public controller;
-  public controllerAs;
-  public require;
+   public controller;
+   public controllerAs;
+   public require;
 
-  constructor() {
-    this.controller = 'MpVirtualPageSelectController';
-    this.controllerAs = 'vm';
-    this.require = this.require = ['^mpTablePagination'];
-  }
+   constructor() {
+      this.controller = 'MpVirtualPageSelectController';
+      this.controllerAs = 'vm';
+      this.require = this.require = ['^mpTablePagination'];
+   }
 
-  static factory() {
-    const directive = () => new MpVirtualPageSelectDirective();
+   static factory() {
+      const directive = () => new MpVirtualPageSelectDirective();
 
-    directive.$inject = [];
-    return directive;
-  }
+      directive.$inject = [];
+      return directive;
+   }
 }
 
 angular.module('core')
-  .directive('mpVirtualPageSelect', MpVirtualPageSelectDirective.factory());
+   .directive('mpVirtualPageSelect', MpVirtualPageSelectDirective.factory());

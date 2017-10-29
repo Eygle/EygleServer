@@ -1,17 +1,31 @@
 <md-content layout="row" flex>
-    <md-card flex-gt-sm="50" flex-gt-md="50" flex="100">
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-              <h2 class="md-flex" translate="HOME.LAST_ADDED"></h2>
-            </div>
-        </md-toolbar>
-    </md-card>
+   <md-card flex-gt-sm="50" flex-gt-md="50" flex="100" ng-if="vm.Auth.authorize('seeLastAdded')">
+      <md-toolbar>
+         <div class="md-toolbar-tools">
+            <h2 class="md-flex" translate="HOME.LAST_ADDED"></h2>
+         </div>
+      </md-toolbar>
+   </md-card>
 
-    <md-card flex-gt-sm="50" flex-gt-md="50" flex="100">
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-              <h2 class="md-flex" translate="HOME.AWAITING_DELETION"></h2>
-            </div>
-        </md-toolbar>
-    </md-card>
+   <md-card flex-gt-sm="50" flex-gt-md="50" flex="100" ng-if="vm.Auth.authorize('seeSoonToBeRemoved')">
+      <md-toolbar>
+         <div class="md-toolbar-tools">
+            <h2 class="md-flex" translate="HOME.AWAITING_DELETION"></h2>
+         </div>
+      </md-toolbar>
+   </md-card>
+
+   <md-card flex="100" ng-if="!vm.Auth.authorize('seeLastAdded')">
+      <md-toolbar>
+         <div class="md-toolbar-tools">
+            <h2 class="md-flex" translate="HOME.WELCOME.TITLE"></h2>
+         </div>
+      </md-toolbar>
+      <md-content>
+         <h3 translate="HOME.WELCOME.SUBTITLE"></h3>
+         <p translate="HOME.WELCOME.DESC1"></p>
+         <p translate="HOME.WELCOME.DESC2"></p>
+         <p translate="HOME.WELCOME.DESC3"></p>
+      </md-content>
+   </md-card>
 </md-content>

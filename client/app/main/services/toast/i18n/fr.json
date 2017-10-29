@@ -6,9 +6,8 @@
     "NO_RESULT": "Aucun résultat",
     "ACCESS": "Vous ne pouvez pas accéder à cette page",
     "LOGIN": {
-      "CAPTCHA_FAIL": "Par sécurité, confirmez la case 'je ne suis pas un robot', si elle n'est pas visible, contacter nous via contact@mapui.fr",
       "LOGIN_FAIL": "Login et/ou mot de passe incorrect",
-      "EMAIL_NOT_VERIFIED": "Votre compte n'a pas encore été validé par MaPUI"
+      "EMAIL_NOT_VERIFIED": "Votre compte n'a pas encore été validé par Johan"
     }
   }
 }

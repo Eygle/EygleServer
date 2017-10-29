@@ -3,31 +3,31 @@
  */
 
 interface ILocalFile {
-    filename: string;
-    directory: boolean;
-    parent: string;
-    children: Array<ILocalFile>;
+   filename: string;
+   directory: boolean;
+   parent: string;
+   children: Array<ILocalFile>;
 
-    movie: string
-    tvshow: string
+   movie: string
+   tvshow: string
 
-    ext?: string;
-    path?:string;
-    size?: number;
-    mtime?: Date;
-    mediaInfo: ITorrentInfo;
+   ext?: string;
+   path?: string;
+   size?: number;
+   mtime?: Date;
+   mediaInfo: ITorrentInfo;
 
-    model: IEygleFile;
+   model: IEygleFile;
 }
 
 interface ITorrentInfo {
-    title: string;
-    year: number;
-    season: number;
-    episode: number;
-    resolution: string;
-    quality: string;
-    codec: string;
-    group: string;
-    hardcoded: boolean;
+   title: string;
+   year: number;
+   season: number;
+   episode: number;
+   resolution: string;
+   quality: string;
+   codec: string;
+   group: string;
+   hardcoded: boolean;
 }

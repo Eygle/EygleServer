@@ -3,19 +3,20 @@
  */
 
 angular
-    .module('eygle.home', ['ui.router'])
-    .config(($stateProvider) => {
-        $stateProvider.state('eygle.home', {
-            url: '/',
-            icon: 'icon-home',
-            translate: 'HOME.TITLE',
-            weight: 1,
-            views: {
-                'content@eygle': {
-                    template: '<home></home>',
-                }
-            },
-            resolve: {},
-            bodyClass: 'home'
-        });
-    });
+   .module('eygle.home', ['ui.router'])
+   .config(($stateProvider) => {
+      $stateProvider.state('eygle.home', {
+         url: '/',
+         icon: 'icon-home',
+         translate: 'HOME.TITLE',
+         weight: 1,
+         views: {
+            'content@eygle': {
+               template: '<home></home>',
+            }
+         },
+         access: EPermission.SeeHome,
+         resolve: {},
+         bodyClass: 'home'
+      });
+   });

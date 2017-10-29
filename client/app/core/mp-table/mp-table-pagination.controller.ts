@@ -1,16 +1,16 @@
 class MpTablePaginationController {
 
-  public columns;
+   public columns;
 
-  constructor() {
-  }
+   constructor() {
+   }
 
-  public totalPages = (totalItemCount, stItemsByPage) => {
-    console.log("inside total pages")
-    console.log(totalItemCount, stItemsByPage);
-    return Math.ceil(totalItemCount / stItemsByPage);
-  }
+   public totalPages = (totalItemCount, stItemsByPage) => {
+      console.log("inside total pages")
+      console.log(totalItemCount, stItemsByPage);
+      return Math.ceil(totalItemCount / stItemsByPage);
+   }
 }
 
 angular.module('core')
-  .controller('MpTablePaginationController', MpTablePaginationController);
+   .controller('MpTablePaginationController', MpTablePaginationController);

@@ -1,110 +1,111 @@
 <div id="files" layout="column">
-  <!-- HEADER -->
-  <div class="header md-accent-bg" layout="column">
-    <div layout="row" layout-align="space-between center" flex>
-      <div class="white-fg" layout="column" layout-align="start start">
-        <div class="h1" layout="row" layout-align="start center">
-          <span translate="FILES.TITLE" translate-values="{ selectedTabName: vm.selectedTabName }"></span>
-        </div>
+   <!-- HEADER -->
+   <div class="header md-accent-bg" layout="column">
+      <div layout="row" layout-align="space-between center" flex>
+         <div class="white-fg" layout="column" layout-align="start start">
+            <div class="h1" layout="row" layout-align="start center">
+               <span translate="FILES.TITLE" translate-values="{ selectedTabName: vm.selectedTabName }"></span>
+            </div>
+         </div>
+
+         <div class="search-input-wrapper" layout="row" layout-align="start center">
+            <label for="mp-table-search">
+               <md-icon md-font-icon="icon-magnify"></md-icon>
+            </label>
+            <md-input-container md-no-float class="m-0">
+               <input id="mp-table-search" ng-model="vm.tableSearch" class="search-input" placeholder="Search"
+                      type="text"
+                      translate
+                      translate-attr-placeholder="SEARCH">
+            </md-input-container>
+         </div>
       </div>
 
-      <div class="search-input-wrapper" layout="row" layout-align="start center">
-        <label for="mp-table-search">
-          <md-icon md-font-icon="icon-magnify"></md-icon>
-        </label>
-        <md-input-container md-no-float class="m-0">
-          <input id="mp-table-search" ng-model="vm.tableSearch" class="search-input" placeholder="Search" type="text"
-                 translate
-                 translate-attr-placeholder="SEARCH">
-        </md-input-container>
+      <div class="breadcrumbs" layout="row" layout-align="start center">
+         <div class="breadcrumb" ng-repeat="b in vm.bc">
+            <a ui-sref="eygle.files.file({id: b._id})" ng-if="b">{{b.filename}}</a>
+            <a ui-sref="eygle.files()" ng-if="!b">
+               <md-icon md-font-icon="icon-server"></md-icon>
+               <md-tooltip><span translate="FILES.ROOT"></span></md-tooltip>
+            </a>
+         </div>
       </div>
-    </div>
 
-    <div class="breadcrumbs" layout="row" layout-align="start center">
-      <div class="breadcrumb" ng-repeat="b in vm.bc">
-        <a ui-sref="eygle.files.file({id: b._id})" ng-if="b">{{b.filename}}</a>
-        <a ui-sref="eygle.files()" ng-if="!b">
-          <md-icon md-font-icon="icon-server"></md-icon>
-          <md-tooltip><span translate="FILES.ROOT"></span></md-tooltip>
-        </a>
+      <div class="actions" layout="row" layout-align="end center">
+         <a ui-sref="eygle.movies.details({id: vm.fs.selected[0]._movie})"
+            ng-if="vm.fs.selected.length === 1 && vm.fs.selected[0]._movie">
+            <md-button class="action" aria-label="See">
+               <md-icon md-font-icon="icon-eye"></md-icon>
+               <md-tooltip>
+                  <span translate="FILES.ACTIONS.SEE"></span>
+               </md-tooltip>
+            </md-button>
+         </a>
+         <md-button class="action" aria-label="get all links" ng-if="::f.directory">
+            <md-icon md-font-icon="icon-link-variant"></md-icon>
+            <md-tooltip>
+               <span translate="FILES.ACTIONS.ALL_LINKS"></span>
+            </md-tooltip>
+         </md-button>
+         <md-button class="action" aria-label="Identify"
+                    ng-if="vm.fs.selected.length === 1 && !vm.fs.selected[0].directory"
+                    ng-click="vm.fs.identify($event)">
+            <md-icon md-font-icon="icon-pencil"></md-icon>
+            <md-tooltip>
+               <span translate="FILES.ACTIONS.IDENTIFY"></span>
+            </md-tooltip>
+         </md-button>
+         <md-button class="action" aria-label="Delete" ng-if="vm.fs.selected.length">
+            <md-icon md-font-icon="icon-trash"></md-icon>
+            <md-tooltip>
+               <span translate="FILES.ACTIONS.DELETE"></span>
+            </md-tooltip>
+         </md-button>
       </div>
-    </div>
+   </div>
+   <!-- / HEADER -->
 
-    <div class="actions" layout="row" layout-align="end center">
-      <a ui-sref="eygle.movies.details({id: vm.fs.selected[0]._movie})"
-         ng-if="vm.fs.selected.length === 1 && vm.fs.selected[0]._movie">
-        <md-button class="action" aria-label="See">
-          <md-icon md-font-icon="icon-eye"></md-icon>
-          <md-tooltip>
-            <span translate="FILES.ACTIONS.SEE"></span>
-          </md-tooltip>
-        </md-button>
-      </a>
-      <md-button class="action" aria-label="get all links" ng-if="::f.directory">
-        <md-icon md-font-icon="icon-link-variant"></md-icon>
-        <md-tooltip>
-          <span translate="FILES.ACTIONS.ALL_LINKS"></span>
-        </md-tooltip>
-      </md-button>
-      <md-button class="action" aria-label="Identify"
-                 ng-if="vm.fs.selected.length === 1 && !vm.fs.selected[0].directory"
-                 ng-click="vm.fs.identify($event)">
-        <md-icon md-font-icon="icon-pencil"></md-icon>
-        <md-tooltip>
-          <span translate="FILES.ACTIONS.IDENTIFY"></span>
-        </md-tooltip>
-      </md-button>
-      <md-button class="action" aria-label="Delete" ng-if="vm.fs.selected.length">
-        <md-icon md-font-icon="icon-trash"></md-icon>
-        <md-tooltip>
-          <span translate="FILES.ACTIONS.DELETE"></span>
-        </md-tooltip>
-      </md-button>
-    </div>
-  </div>
-  <!-- / HEADER -->
-
-  <md-content ed-scroll flex>
-    <table
-      class="table md-whiteframe-2dp mp-table-striped"
-      st-table="vm.displayedFiles" st-safe-src="vm.files"
-      mp-table-search="filename|_id"
-      mp-table mp-progress="vm.loading">
-      <thead>
-      <tr class="noselect">
-        <th class="icon"></th>
-        <th st-sort="filename">
-          <span class="column-title" translate="FILES.LABELS.FILENAME"></span>
-        </th>
-        <th st-sort="typeLabel">
-          <span class="column-title" translate="FILES.LABELS.TYPE"></span>
-        </th>
-        <th class=size" st-sort="size">
-          <span class="column-title" translate="FILES.LABELS.SIZE"></span>
-        </th>
-        <th st-sort="mtime" st-sort-default="reverse">
-          <span class="column-title" translate="FILES.LABELS.MODIFIED"></span>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="f in vm.displayedFiles" ng-click="vm.fs.select(f)" ng-dblclick="vm.fs.open(f)"
-          ng-class="{selected: f.selected}" class="noselect">
-        <td>
-          <md-icon md-font-icon="{{::f.icon}}" ng-class="::{'highlight': f._movie || f._tvshow}"></md-icon>
-        </td>
-        <td class="title">
+   <md-content ed-scroll flex>
+      <table
+            class="table md-whiteframe-2dp mp-table-striped"
+            st-table="vm.displayedFiles" st-safe-src="vm.files"
+            mp-table-search="filename|_id"
+            mp-table mp-progress="vm.loading">
+         <thead>
+         <tr class="noselect">
+            <th class="icon"></th>
+            <th st-sort="filename">
+               <span class="column-title" translate="FILES.LABELS.FILENAME"></span>
+            </th>
+            <th st-sort="typeLabel">
+               <span class="column-title" translate="FILES.LABELS.TYPE"></span>
+            </th>
+            <th class=size" st-sort="size">
+               <span class="column-title" translate="FILES.LABELS.SIZE"></span>
+            </th>
+            <th st-sort="mtime" st-sort-default="reverse">
+               <span class="column-title" translate="FILES.LABELS.MODIFIED"></span>
+            </th>
+         </tr>
+         </thead>
+         <tbody>
+         <tr ng-repeat="f in vm.displayedFiles" ng-click="vm.fs.select(f)" ng-dblclick="vm.fs.open(f)"
+             ng-class="{selected: f.selected}" class="noselect">
+            <td>
+               <md-icon md-font-icon="{{::f.icon}}" ng-class="::{'highlight': f._movie || f._tvshow}"></md-icon>
+            </td>
+            <td class="title">
           <span>
             {{::f.filename}}
           <md-tooltip><span>{{::f.filename}}</span></md-tooltip>
           </span>
-        </td>
-        <td translate="{{::f.typeLabel}}"></td>
-        <td>{{::f.size | formatSize}}</td>
-        <td>{{::f.mtime | date}}</td>
-      </tr>
-      </tbody>
-      <tfoot mp-table-pagination st-items-by-page="25"></tfoot>
-    </table>
-  </md-content>
+            </td>
+            <td translate="{{::f.typeLabel}}"></td>
+            <td>{{::f.size | formatSize}}</td>
+            <td>{{::f.mtime | date}}</td>
+         </tr>
+         </tbody>
+         <tfoot mp-table-pagination st-items-by-page="25"></tfoot>
+      </table>
+   </md-content>
 </div>

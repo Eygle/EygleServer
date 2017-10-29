@@ -3,16 +3,16 @@
  */
 
 interface IEpisode extends IModel {
-  title: string,
+   title: string,
 
-  tvdbId: number,
-  tvdbSeasonId: number,
+   tvdbId: number,
+   tvdbSeasonId: number,
 
-  tvShow: ITVShow,
-  files: Array<IEygleFile>,
+   tvShow: ITVShow,
+   files: Array<IEygleFile>,
 
-  number: number,
-  season: number,
+   number: number,
+   season: number,
 
-  overview: string,
+   overview: string,
 }

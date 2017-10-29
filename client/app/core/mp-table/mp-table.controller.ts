@@ -1,27 +1,28 @@
 class MpTableController {
 
-  private _columns;
+   private _columns;
 
-  public loading;
-  public get columns() {
-    if (!this._columns)
-      this._countColumns();
-    return this._columns;
-  }
+   public loading;
 
-  /** @ngInject */
-  constructor(private $element: any) {
-  }
+   public get columns() {
+      if (!this._columns)
+         this._countColumns();
+      return this._columns;
+   }
 
-  private _countColumns = () => {
-    this._columns = Array.prototype.filter.call(this.$element[0].rows, (row) => {
-      return !row.classList.contains('ng-leave');
-    })
-      .reduce((acc, current) => {
-        return current.cells.length > acc ? current.cells.length : acc;
-      }, 1);
-  };
+   /** @ngInject */
+   constructor(private $element: any) {
+   }
+
+   private _countColumns = () => {
+      this._columns = Array.prototype.filter.call(this.$element[0].rows, (row) => {
+         return !row.classList.contains('ng-leave');
+      })
+         .reduce((acc, current) => {
+            return current.cells.length > acc ? current.cells.length : acc;
+         }, 1);
+   };
 }
 
 angular.module('core')
-  .controller('MpTableController', MpTableController);
+   .controller('MpTableController', MpTableController);

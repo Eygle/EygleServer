@@ -9,19 +9,19 @@
                  md-no-cache="true"
                  md-item-text="item.title"
                  md-delay="500">
-  <md-item-template>
-    <div class="movie-search-result" layout="row" layout-align="start center">
-      <img ng-if="item.poster" ng-src="{{item.poster}}"/>
-      <div ng-if="!item.poster" class="placeholder" layout="row">
-        <md-icon md-font-icon="icon-movie"></md-icon>
+   <md-item-template>
+      <div class="movie-search-result" layout="row" layout-align="start center">
+         <img ng-if="item.poster" ng-src="{{item.poster}}"/>
+         <div ng-if="!item.poster" class="placeholder" layout="row">
+            <md-icon md-font-icon="icon-movie"></md-icon>
+         </div>
+         <div>
+            <div class="title">{{item.title}}</div>
+            <div class="subtitle">
+               <span ng-if="item.originalTitle && item.originalTitle != item.title">{{item.originalTitle}}, </span>
+               <span>{{item.date | date: 'yyyy'}}</span>
+            </div>
+         </div>
       </div>
-      <div>
-        <div class="title">{{item.title}}</div>
-        <div class="subtitle">
-          <span ng-if="item.originalTitle && item.originalTitle != item.title">{{item.originalTitle}}, </span>
-          <span>{{item.date | date: 'yyyy'}}</span>
-        </div>
-      </div>
-    </div>
-  </md-item-template>
+   </md-item-template>
 </md-autocomplete>

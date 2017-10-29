@@ -3,20 +3,20 @@
  */
 
 class MovieSearchComponent {
-  public controller: string;
-  public controllerAs: string;
-  public templateUrl: string;
-  public bindings: any;
+   public controller: string;
+   public controllerAs: string;
+   public templateUrl: string;
+   public bindings: any;
 
-  constructor() {
-    this.controller = 'MovieSearchController';
-    this.controllerAs = 'vm';
-    this.templateUrl = 'app/main/services/movies/movie-search/movie-search.html';
-    this.bindings = {
-      onSelect: '&'
-    };
-  }
+   constructor() {
+      this.controller = 'MovieSearchController';
+      this.controllerAs = 'vm';
+      this.templateUrl = 'app/main/services/movies/movie-search/movie-search.html';
+      this.bindings = {
+         onSelect: '&'
+      };
+   }
 }
 
 angular.module('eygle.services.movies')
-  .component('movieSearch', new MovieSearchComponent);
+   .component('movieSearch', new MovieSearchComponent);

@@ -1,33 +1,33 @@
 <form name="identifyFileForm" ng-submit="vm.submit()">
-  <md-toolbar>
-    <div class="md-toolbar-tools">
-      <h2 translate="FILES.MODALS.IDENTIFY.TITLE"></h2>
-      <span flex></span>
-      <md-button class="md-icon-button" ng-click="vm.cancel()">
-        <md-icon md-font-icon="icon-magnify" class="icon icon-window-close" aria-label="Close dialog"></md-icon>
+   <md-toolbar>
+      <div class="md-toolbar-tools">
+         <h2 translate="FILES.MODALS.IDENTIFY.TITLE"></h2>
+         <span flex></span>
+         <md-button class="md-icon-button" ng-click="vm.cancel()">
+            <md-icon md-font-icon="icon-magnify" class="icon icon-window-close" aria-label="Close dialog"></md-icon>
+         </md-button>
+      </div>
+   </md-toolbar>
+   <md-dialog-content>
+      <h2>{{vm.file.filename}}</h2>
+
+      <md-input-container flex class="md-block">
+         <label translate="FILES.MODALS.IDENTIFY.INPUTS.MEDIA_TYPE"></label>
+         <md-select type="text" name="mediaType" ng-model="vm.mediaType">
+            <md-option ng-value="::media.value" ng-repeat="media in vm.mediaTypes">
+               <span translate="{{::media.label}}"></span>
+            </md-option>
+         </md-select>
+      </md-input-container>
+
+      <movie-search flex class="md-block" ng-if="vm.mediaType === vm.mediaTypes[0].value"
+                    on-select="vm.saveMovie(movie)"></movie-search>
+
+   </md-dialog-content>
+   <md-dialog-actions layout="row">
+      <md-button type="submit" class="md-raised md-accent" translate aria-label="Submit"
+                 ng-disabled="identifyFileForm.$invalid || identifyFileForm.$pristine || (!vm.movie && !vm.tvShow)">
+         <span translate="FORMS.ACTIONS.SAVE"></span>
       </md-button>
-    </div>
-  </md-toolbar>
-  <md-dialog-content>
-    <h2>{{vm.file.filename}}</h2>
-
-    <md-input-container flex class="md-block">
-      <label translate="FILES.MODALS.IDENTIFY.INPUTS.MEDIA_TYPE"></label>
-      <md-select type="text" name="mediaType" ng-model="vm.mediaType">
-        <md-option ng-value="::media.value" ng-repeat="media in vm.mediaTypes">
-          <span translate="{{::media.label}}"></span>
-        </md-option>
-      </md-select>
-    </md-input-container>
-
-    <movie-search flex class="md-block" ng-if="vm.mediaType === vm.mediaTypes[0].value"
-                  on-select="vm.saveMovie(movie)"></movie-search>
-
-  </md-dialog-content>
-  <md-dialog-actions layout="row">
-    <md-button type="submit" class="md-raised md-accent" translate aria-label="Submit"
-               ng-disabled="identifyFileForm.$invalid || identifyFileForm.$pristine || (!vm.movie && !vm.tvShow)">
-      <span translate="FORMS.ACTIONS.SAVE"></span>
-    </md-button>
-  </md-dialog-actions>
+   </md-dialog-actions>
 </form>

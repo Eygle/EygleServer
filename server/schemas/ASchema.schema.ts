@@ -96,7 +96,7 @@ abstract class ASchema {
     * @return {Promise<T>}
     */
    public add(data: any, exclude = null, populateOptions = null) {
-      return DB.createItem(new this.create(data, exclude), populateOptions, this._model);
+      return DB.createItem(this.create(data, exclude), populateOptions, this._model);
    }
 
    /**
@@ -178,7 +178,7 @@ abstract class ASchema {
     * @param item
     * @return {Promise<T>}
     */
-   public remove(item) {
+   public remove(item): q.Promise<any> {
       const defer = q.defer();
 
       if (!item) {

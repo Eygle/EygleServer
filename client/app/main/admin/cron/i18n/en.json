@@ -1,0 +1,33 @@
+{
+  "ADMIN": {
+    "CRON": {
+      "TITLE": "CRON Manager",
+      "LABEL": {
+        "JOB": "Job",
+        "STATUS": "Status",
+        "LAST_RUN": "Last run",
+        "SCHEDULE": "Schedule rules",
+        "ACTIONS": "Actions"
+      },
+      "ACTIONS": {
+        "DETAILS": "Details",
+        "TITLE": "Actions",
+        "RUN": "Run task once",
+        "SCHEDULE": "(Re)schedule task",
+        "UN_SCHEDULE": "Unschedule task"
+      },
+      "STATUS": {
+        "RUNNING": "Running",
+        "SCHEDULED": "Scheduled",
+        "UN_SCHEDULED": "Un-scheduled"
+      },
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Confirmation needed",
+          "RUN": "Do you really want to run this task?",
+          "UN_SCHEDULE": "Do you really want to unschedule this task?"
+        }
+      }
+    }
+  }
+}

@@ -3,9 +3,9 @@
 // import XLSX = require('@types/xlsx')
 
 declare global {
-  const angular: angular.IAngularStatic;
-  const moment;
-  const perfectScrollbar;
-  const PerfectScrollbar;
+   const angular: angular.IAngularStatic;
+   const moment;
+   const perfectScrollbar;
+   const PerfectScrollbar;
 }
 export {};

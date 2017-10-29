@@ -1,2 +1,2 @@
 angular
-  .module('eygle.services.toast', []);
+   .module('eygle.services.toast', []);

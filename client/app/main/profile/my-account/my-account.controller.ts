@@ -3,15 +3,15 @@
  */
 
 class MyAccountController {
-  constructor(private Auth: Auth,
-              private $state: any) {
-  }
+   constructor(private Auth: Auth,
+               private $state: any) {
+   }
 
-  public logout = () => {
-    this.Auth.logout();
-    this.$state.go('eygle.login');
-  };
+   public logout = () => {
+      this.Auth.logout();
+      this.$state.go('eygle.login');
+   };
 }
 
 angular.module('eygle.profile.my-account')
-  .controller('MyAccountController', MyAccountController);
+   .controller('MyAccountController', MyAccountController);

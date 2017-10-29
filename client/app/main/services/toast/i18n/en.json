@@ -6,9 +6,8 @@
     "NO_RESULT": "No result",
     "ACCESS": "You don't have the access to this page",
     "LOGIN": {
-      "CAPTCHA_FAIL": "For safety measures check the 'I am not a robot' case. If it is not visible please contact us at contact@mapui.fr",
       "LOGIN_FAIL": "Authentication error",
-      "EMAIL_NOT_VERIFIED": "Your account is not yet validated by MaPUI"
+      "EMAIL_NOT_VERIFIED": "Your account is not yet validated by Johan"
     }
   }
 }

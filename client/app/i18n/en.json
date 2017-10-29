@@ -3,7 +3,6 @@
   "SEARCH": "Search",
   "REGISTER": "Register",
   "LOGIN": "Log In",
-
   "REGISTER_LINK_LABEL": "No account yet? Register!",
   "LOGIN_LINK_LABEL": "You already have an account? Log in!",
   "RETURN_HOME": "Return to homepage",
@@ -22,7 +21,6 @@
       "LABEL": "Je vérifie et j'approuve personnelement chaque demande d'inscription. Tu seras prévenue par email quand ton compte aura été validé et tu pourras alors accéder aux tléchargements."
     }
   },
-
   "MEDIAS": {
     "MOVIE": "Movie",
     "TV_SHOW": "TV Show",

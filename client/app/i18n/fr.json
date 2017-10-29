@@ -3,7 +3,6 @@
   "SEARCH": "Rechercher",
   "REGISTER": "Créer un compte",
   "LOGIN": "Se connecter",
-
   "REGISTER_LINK_LABEL": "Vous n'avez pas de compte ? Inscrivez-vous !",
   "LOGIN_LINK_LABEL": "Vous avez déjà un compte ? Connectez-vous !",
   "RETURN_HOME": "Retour à la page d'accueil",
@@ -22,7 +21,6 @@
       "LABEL": "I will personally approve each account. You will be notify by email when you will be approved then you'll have access to the downloads."
     }
   },
-
   "MEDIAS": {
     "MOVIE": "Film",
     "TV_SHOW": "Série",

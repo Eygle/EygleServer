@@ -3,11 +3,12 @@
  */
 
 class HomeController {
-    constructor() {
-    }
+   constructor() {
+   }
 
-    $onInit() {}
+   $onInit() {
+   }
 }
 
 angular.module('eygle.home')
-    .controller('HomeController', HomeController);
+   .controller('HomeController', HomeController);

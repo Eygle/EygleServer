@@ -3,11 +3,12 @@
  */
 
 class SettingsController {
-    constructor() {
-    }
+   constructor() {
+   }
 
-    $onInit() {}
+   $onInit() {
+   }
 }
 
 angular.module('eygle.profile.settings')
-    .controller('SettingsController', SettingsController);
+   .controller('SettingsController', SettingsController);

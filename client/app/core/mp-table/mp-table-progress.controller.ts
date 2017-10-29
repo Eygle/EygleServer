@@ -1,12 +1,12 @@
 class MpTableProgressController {
 
-  public display;
-  public columns;
+   public display;
+   public columns;
 
-  /** @ngInject */
-  constructor() {
-  }
+   /** @ngInject */
+   constructor() {
+   }
 }
 
 angular.module('core')
-  .controller('MpTableProgressController', MpTableProgressController);
+   .controller('MpTableProgressController', MpTableProgressController);

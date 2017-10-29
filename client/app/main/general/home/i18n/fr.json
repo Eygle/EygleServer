@@ -2,6 +2,13 @@
   "HOME": {
     "TITLE": "Accueil",
     "LAST_ADDED": "Derniers ajouts",
-    "AWAITING_DELETION": "Bientôt supprimés"
+    "AWAITING_DELETION": "Bientôt supprimés",
+    "WELCOME": {
+      "TITLE": "Bienvenue",
+      "SUBTITLE": "Bienvenue sur le serveur privé de Johan !",
+      "DESC1": "Tu n'as pas encore accès aux films et séries tant que je n'ai pas validé ton compte.",
+      "DESC2": "N'hésite pas à me contacter pour accélrer les choses ;)",
+      "DESC3": "Enjoy !"
+    }
   }
 }

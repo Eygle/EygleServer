@@ -1,3 +1,2 @@
-
 angular
-  .module('eygle.services.auth', []);
+   .module('eygle.services.auth', []);

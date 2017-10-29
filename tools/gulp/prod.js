@@ -40,7 +40,7 @@ const partials = () => {
          removeComments: true
       }))
       .pipe($.angularTemplatecache('templateCacheHtml.js', {
-         module: 'mapui',
+         module: 'eygle',
          root: 'app'
       }))
       .pipe(gulp.dest(`${conf.paths.dev.client}/partials/`))

@@ -7,20 +7,20 @@ import {EPermission} from "../../typings/enums";
  */
 class Resource extends ARoute {
 
-    constructor() {
-        super(EPermission.Admin);
-    }
+   constructor() {
+      super(EPermission.SeeTVShows);
+   }
 
-    /**
-     * Resource PUT Route - Choose a given proposal
-     * @param id
-     * @param next
-     */
-    public get(id: string, next: RestyCallback): void {
-        TVShow.getFull(id)
-            .then(next)
-            .catch(next);
-    }
+   /**
+    * Resource PUT Route - Choose a given proposal
+    * @param id
+    * @param next
+    */
+   public get(id: string, next: RestyCallback): void {
+      TVShow.getFull(id)
+         .then(next)
+         .catch(next);
+   }
 }
 
 /**
@@ -28,19 +28,19 @@ class Resource extends ARoute {
  */
 class Collection extends ARoute {
 
-    constructor() {
-        super(EPermission.Admin);
-    }
+   constructor() {
+      super(EPermission.SeeTVShows);
+   }
 
-    /**
-     * Collection GET Route
-     * @param next
-     */
-    public get(next: RestyCallback): void {
-        TVShow.getAll()
-            .then(next)
-            .catch(next);
-    }
+   /**
+    * Collection GET Route
+    * @param next
+    */
+   public get(next: RestyCallback): void {
+      TVShow.getAll()
+         .then(next)
+         .catch(next);
+   }
 }
 
 module.exports.Resource = Resource;

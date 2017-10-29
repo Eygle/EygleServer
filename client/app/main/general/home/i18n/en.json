@@ -2,6 +2,13 @@
   "HOME": {
     "TITLE": "Home",
     "LAST_ADDED": "Last added",
-    "AWAITING_DELETION": "Soon to be removed"
+    "AWAITING_DELETION": "Soon to be removed",
+    "WELCOME": {
+      "TITLE": "Welcome",
+      "SUBTITLE": "Welcome on Johan's private media server!",
+      "DESC1": "You don't have access to medias yet, you have to wait until I validate your account.",
+      "DESC2": "Feel free to contact me to boost up things ;)",
+      "DESC3": "Enjoy!"
+    }
   }
 }

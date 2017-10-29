@@ -1,40 +1,40 @@
 class MpTableProgressDirective implements ng.IDirective {
 
-  public require;
-  public controller;
-  public controllerAs;
-  public templateUrl;
-  public restrict;
-  public scope;
+   public require;
+   public controller;
+   public controllerAs;
+   public templateUrl;
+   public restrict;
+   public scope;
 
-  constructor() {
-    this.restrict = 'A';
-    this.require = ['^mpTable'];
-    this.controller = 'MpTableProgressController';
-    this.controllerAs = 'vm';
-    this.templateUrl = 'app/core/mp-table/templates/mp-table-progress.html';
-    this.scope = {};
+   constructor() {
+      this.restrict = 'A';
+      this.require = ['^mpTable'];
+      this.controller = 'MpTableProgressController';
+      this.controllerAs = 'vm';
+      this.templateUrl = 'app/core/mp-table/templates/mp-table-progress.html';
+      this.scope = {};
 
-  }
+   }
 
-  public compile = (tElement) => {
-    const postLink = (scope, iElement, iAttrs, ctrls) => {
-      const mpTableCtrl = ctrls[0];
+   public compile = (tElement) => {
+      const postLink = (scope, iElement, iAttrs, ctrls) => {
+         const mpTableCtrl = ctrls[0];
 
-      scope.vm.columns = mpTableCtrl.columns;
-      scope.vm.loading = mpTableCtrl.loading;
-    };
+         scope.vm.columns = mpTableCtrl.columns;
+         scope.vm.loading = mpTableCtrl.loading;
+      };
 
-    return postLink;
-  };
+      return postLink;
+   };
 
-  static factory = () => {
-    const directive = () => new MpTableProgressDirective();
+   static factory = () => {
+      const directive = () => new MpTableProgressDirective();
 
-    directive.$inject = [];
-    return directive;
-  }
+      directive.$inject = [];
+      return directive;
+   }
 }
 
 angular.module('core')
-  .directive('mpTableProgress', MpTableProgressDirective.factory());
+   .directive('mpTableProgress', MpTableProgressDirective.factory());

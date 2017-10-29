@@ -3,28 +3,28 @@
  */
 
 class MovieSearchController {
-  public onSelect: any;
+   public onSelect: any;
 
-  public label: string;
+   public label: string;
 
-  constructor(private Api: Api,
-              private $q: any,
-              $translate: any) {
-    this.label = $translate.instant('MOVIES.SEARCH');
-  }
+   constructor(private Api: Api,
+               private $q: any,
+               $translate: any) {
+      this.label = $translate.instant('MOVIES.SEARCH');
+   }
 
-  public search = (term: string) => {
-    const defer = this.$q.defer();
+   public search = (term: string) => {
+      const defer = this.$q.defer();
 
-    this.Api.movies.byTitle.search({term: term}, (res: Array<IAutocompleteMovie>) => {
-      defer.resolve(res);
-    }, err => {
-      defer.reject(err);
-    });
+      this.Api.movies.byTitle.search({term: term}, (res: Array<IAutocompleteMovie>) => {
+         defer.resolve(res);
+      }, err => {
+         defer.reject(err);
+      });
 
-    return defer.promise;
-  };
+      return defer.promise;
+   };
 }
 
 angular.module('eygle.services.movies')
-  .controller('MovieSearchController', MovieSearchController);
+   .controller('MovieSearchController', MovieSearchController);

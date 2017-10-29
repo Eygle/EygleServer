@@ -1,19 +1,19 @@
 class ModalConfirmController {
 
-  public data;
+   public data;
 
-  constructor(private ModalService: any) {
-  };
+   constructor(private ModalService: any) {
+   };
 
-  public ok = () => {
-    this.ModalService.close();
-  };
+   public ok = () => {
+      this.ModalService.close();
+   };
 
-  public cancel = () => {
-    this.ModalService.cancel();
-  };
+   public cancel = () => {
+      this.ModalService.cancel();
+   };
 }
 
 
 angular.module('eygle.services.modal')
-  .controller('ModalConfirmController', ModalConfirmController);
+   .controller('ModalConfirmController', ModalConfirmController);

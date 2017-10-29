@@ -1,21 +1,21 @@
 <div class="padding-content">
-  <h2><span translate="MOVIES.TITLE"></span> <span class="nb-items">({{vm.movies.length}})</span></h2>
-  <div class="medias-container" layout="row" layout-wrap>
-    <div class="media" ng-repeat="m in vm.movies">
-      <a ui-sref="eygle.movies.details({id: m._id})">
-        <div class="image-crop">
-          <img ng-src="{{m.posterThumb}}" alt="m.title"/>
-          <div class="image-hover">
-            <div layout="row">
-              <md-icon md-font-icon="icon-magnify"></md-icon>
+   <h2><span translate="MOVIES.TITLE"></span> <span class="nb-items">({{vm.movies.length}})</span></h2>
+   <div class="medias-container" layout="row" layout-wrap>
+      <div class="media" ng-repeat="m in vm.movies">
+         <a ui-sref="eygle.movies.details({id: m._id})">
+            <div class="image-crop">
+               <img ng-src="{{m.posterThumb}}" alt="m.title"/>
+               <div class="image-hover">
+                  <div layout="row">
+                     <md-icon md-font-icon="icon-magnify"></md-icon>
+                  </div>
+               </div>
             </div>
-          </div>
-        </div>
-        <div class="info">
-          <div class="title">{{m.title}}</div>
-          <div class="subtitle">{{m.date.getFullYear()}}</div>
-        </div>
-      </a>
-    </div>
-  </div>
+            <div class="info">
+               <div class="title">{{m.title}}</div>
+               <div class="subtitle">{{m.date.getFullYear()}}</div>
+            </div>
+         </a>
+      </div>
+   </div>
 </div>

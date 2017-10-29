@@ -1,0 +1,33 @@
+{
+  "ADMIN": {
+    "CRON": {
+      "TITLE": "CRON Manager",
+      "LABEL": {
+        "JOB": "Nom",
+        "STATUS": "Status",
+        "LAST_RUN": "Dernière exécution",
+        "SCHEDULE": "Règle de réccurence",
+        "ACTIONS": "Actions"
+      },
+      "ACTIONS": {
+        "DETAILS": "Détails",
+        "TITLE": "Actions",
+        "RUN": "Lancer la tâche une fois",
+        "SCHEDULE": "(Re)programmer la tâche",
+        "UN_SCHEDULE": "Déprogrammer la tâche"
+      },
+      "STATUS": {
+        "RUNNING": "En cours...",
+        "SCHEDULED": "Programmé",
+        "UN_SCHEDULED": "Déprogrammé"
+      },
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Demande de confirmation",
+          "RUN": "Voulez vous vraiment lancer cette tâche ?",
+          "UN_SCHEDULE": "Voulez vous vraiment déprogrammer cette tâche ?"
+        }
+      }
+    }
+  }
+}

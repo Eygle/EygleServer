@@ -1,2 +1,2 @@
 angular
-  .module('eygle.services.modal', []);
+   .module('eygle.services.modal', []);

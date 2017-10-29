@@ -12,33 +12,33 @@ class Emails {
    private _siteURL: string;
 
    constructor() {
-      this._siteURL = "https://www.mapui.fr";
+      this._siteURL = "https://www.dl.eygle.fr";
    }
 
-    /**
-     * TODO
-     */
+   /**
+    * TODO
+    */
    public sendWelcome(dest: IUser) {
 
    }
 
-    /**
-     * TODO
-     */
+   /**
+    * TODO
+    */
    public sendPasswordRecovery(dest: IUser) {
 
    }
 
-    /**
-     * TODO
-     */
+   /**
+    * TODO
+    */
    public sendLockedAccount(dest: IUser) {
 
    }
 
-    /**
-     * TODO
-     */
+   /**
+    * TODO
+    */
    public sendUnlockedAccount(dest: IUser) {
 
    }
@@ -65,7 +65,7 @@ class Emails {
       });
 
       if (Utils.env !== EEnv.Prod) {
-         locals.email = "dev@mapui.fr";
+         locals.email = "dev@eygle.fr";
          locals.bccmail = '';
       }
 
@@ -77,14 +77,14 @@ class Emails {
          else {
             if (Utils.env === EEnv.Dev || Utils.env === EEnv.Test) {
                smtpTransport.use('stream', require('nodemailer-dkim').signer({
-                  domainName: 'mapui.fr',
+                  domainName: 'eygle.fr',
                   keySelector: 'key1',
-                  privateKey: fs.readFileSync(`${Utils.root}/server/misc/key1.mapui.fr.pem`)
+                  privateKey: fs.readFileSync(`${Utils.root}/server/misc/key1.eygle.fr.pem`)
                }));
             }
 
             const optSendMail: any = {
-               from: "MaPUI.fr ✔ <no-reply@mapui.fr>",
+               from: "Eygle.fr ✔ <no-reply@eygle.fr>",
                to: locals.email,
                bcc: locals.bccmail,
                subject: locals.subject,

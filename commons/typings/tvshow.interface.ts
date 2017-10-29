@@ -3,23 +3,23 @@
  */
 
 interface ITVShow extends IModel {
-  title: string,
+   title: string,
 
-  tvdbId: number,
-  imdbId: number,
+   tvdbId: number,
+   imdbId: number,
 
-  banner: string,
-  poster: string,
-  genres: [{ type: string }],
-  overview: string,
+   banner: string,
+   poster: string,
+   genres: [{ type: string }],
+   overview: string,
 
-  actors: [string], // TODO change
+   actors: [string], // TODO change
 
-  seasons: number,
-  episodes: number,
-  start: Date,
-  end: Date,
-  network: string,
+   seasons: number,
+   episodes: number,
+   start: Date,
+   end: Date,
+   network: string,
 
-  episodesList: Array<IEpisode>
+   episodesList: Array<IEpisode>
 }

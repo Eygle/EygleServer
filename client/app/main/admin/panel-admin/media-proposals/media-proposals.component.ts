@@ -3,16 +3,16 @@
  */
 
 class MediaProposalsComponent {
-  public controller: string;
-  public controllerAs: string;
-  public templateUrl: string;
+   public controller: string;
+   public controllerAs: string;
+   public templateUrl: string;
 
-  constructor() {
-    this.controller = 'MediaProposalsController';
-    this.controllerAs = 'vm';
-    this.templateUrl = 'app/main/admin/panel-admin/media-proposals/media-proposals.html';
-  }
+   constructor() {
+      this.controller = 'MediaProposalsController';
+      this.controllerAs = 'vm';
+      this.templateUrl = 'app/main/admin/panel-admin/media-proposals/media-proposals.html';
+   }
 }
 
 angular.module('eygle.admin.panel-admin')
-  .component('mediaProposals', new MediaProposalsComponent());
+   .component('mediaProposals', new MediaProposalsComponent());

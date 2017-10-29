@@ -3,4 +3,4 @@
  */
 
 angular
-  .module('eygle.services.api', ['ngResource']);
+   .module('eygle.services.api', ['ngResource']);

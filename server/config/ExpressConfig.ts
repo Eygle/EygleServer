@@ -83,11 +83,11 @@ class ExpressConfig {
       app.use(function (err, req, res, next) {
          if (err.code !== 'EBADCSRFTOKEN') return next(err);
 
-			// handle CSRF token errors here
-			const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
-			Utils.logger.error(`Error with CSRF token: HTTP ${req.method.toUpperCase()} ${req.url} [${ip}]`);
-			res.status(403).send('Form tampered with');
-		});
+         // handle CSRF token errors here
+         const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
+         Utils.logger.error(`Error with CSRF token: HTTP ${req.method.toUpperCase()} ${req.url} [${ip}]`);
+         res.status(403).send('Form tampered with');
+      });
 
    }
 }

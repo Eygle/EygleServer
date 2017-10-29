@@ -3,52 +3,52 @@
  */
 
 class MediaProposalsController {
-  public movies: Array<IMovie>;
+   public movies: Array<IMovie>;
 
-  constructor(private Api: Api,
-              private ToastService: ToastService) {
-  }
+   constructor(private Api: Api,
+               private ToastService: ToastService) {
+   }
 
-  $onInit() {
-    this.Api.proposals.get(res => {
-      this.movies = _.map(res, (v: any) => {
-        v.mtime = new Date(v.mtime);
-        for (let p of v.proposals) {
-          p.date = new Date(p.date);
-        }
-        return v;
+   $onInit() {
+      this.Api.proposals.get(res => {
+         this.movies = _.map(res, (v: any) => {
+            v.mtime = new Date(v.mtime);
+            for (let p of v.proposals) {
+               p.date = new Date(p.date);
+            }
+            return v;
+         });
       });
-    });
-  }
+   }
 
-  public deleteProposals = (file: IEygleFile): void => {
-    file.loading = true;
-    this.Api.proposals.remove({id: file._id}, () => {
-      this.movies.splice(_.findIndex(this.movies, (v: IMovie) => {
-        return v._id === file._id;
-      }), 1);
-      this.ToastService.show(EStatus.Ok);
-    }, err => {
-      file.loading = false;
-      console.error(err);
-      this.ToastService.show(EStatus.RejectByServer);
-    });
-  };
+   public deleteProposals = (file: IEygleFile): void => {
+      file.loading = true;
+      this.Api.proposals.remove({id: file._id}, () => {
+         this.movies.splice(_.findIndex(this.movies, (v: IMovie) => {
+            return v._id === file._id;
+         }), 1);
+         this.ToastService.show(EStatus.Ok);
+      }, err => {
+         file.loading = false;
+         console.error(err);
+         this.ToastService.show(EStatus.RejectByServer);
+      });
+   };
 
-  public choose = (file, proposal): void => {
-    file.loading = true;
-    this.Api.proposals.choose({id: proposal._id}, () => {
-      this.movies.splice(_.findIndex(this.movies, (v) => {
-        return v._id === file._id;
-      }), 1);
-      this.ToastService.show(EStatus.Ok);
-    }, err => {
-      file.loading = false;
-      console.error(err);
-      this.ToastService.show(EStatus.RejectByServer);
-    });
-  };
+   public choose = (file, proposal): void => {
+      file.loading = true;
+      this.Api.proposals.choose({id: proposal._id}, () => {
+         this.movies.splice(_.findIndex(this.movies, (v) => {
+            return v._id === file._id;
+         }), 1);
+         this.ToastService.show(EStatus.Ok);
+      }, err => {
+         file.loading = false;
+         console.error(err);
+         this.ToastService.show(EStatus.RejectByServer);
+      });
+   };
 }
 
 angular.module('eygle.admin.panel-admin')
-  .controller('MediaProposalsController', MediaProposalsController);
+   .controller('MediaProposalsController', MediaProposalsController);

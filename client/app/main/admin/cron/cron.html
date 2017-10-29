@@ -1,0 +1,50 @@
+<div id="cron" class="simple-table-container md-whiteframe-4dp m-20" flex id="ght">
+   <div class="table-title">
+      <span translate="ADMIN.CRON.TITLE"></span>
+   </div>
+   <table class="simple" ms-responsive-table>
+      <thead>
+      <tr>
+         <th translate="ADMIN.CRON.LABEL.JOB"></th>
+         <th translate="ADMIN.CRON.LABEL.STATUS"></th>
+         <th translate="ADMIN.CRON.LABEL.LAST_RUN"></th>
+         <th translate="ADMIN.CRON.LABEL.SCHEDULE"></th>
+         <th translate="ADMIN.CRON.LABEL.ACTIONS"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="j in vm.jobs | orderBy: ['-isRunning', '-isScheduled', '+name']"
+          ng-class="{'un-scheduled': !j.isScheduled && !j.isRunning, running: j.isRunning}">
+         <td>{{j.name}}</td>
+         <td><span translate="{{vm.getStatusLabel(j)}}"></span></td>
+         <td><span class="logs-link"
+                   ng-click="vm.openLogs(j)">{{j.lastRun | date}} {{j.lastRun | date : 'shortTime'}}</span>
+         </td>
+         <td>{{j.scheduleRule}}</td>
+         <td class="actions">
+            <md-button aria-label="more" class="md-icon-button"
+                       ng-click="vm.runJob(j.name)" ng-if="!j.isRunning">
+               <md-icon md-font-icon="icon-run"></md-icon>
+               <md-tooltip>
+                  <span translate="ADMIN.CRON.ACTIONS.RUN"></span>
+               </md-tooltip>
+            </md-button>
+            <md-button aria-label="more" class="md-icon-button"
+                       ng-click="vm.scheduleJob(j.name)" ng-if="!j.isScheduled">
+               <md-icon md-font-icon="icon-calendar-clock"></md-icon>
+               <md-tooltip>
+                  <span translate="ADMIN.CRON.ACTIONS.SCHEDULE"></span>
+               </md-tooltip>
+            </md-button>
+            <md-button aria-label="more" class="md-icon-button"
+                       ng-click="vm.unScheduleJob(j.name)" ng-if="j.isScheduled">
+               <md-icon md-font-icon="icon-timer-off"></md-icon>
+               <md-tooltip>
+                  <span translate="ADMIN.CRON.ACTIONS.UN_SCHEDULE"></span>
+               </md-tooltip>
+            </md-button>
+         </td>
+      </tr>
+      </tbody>
+   </table>
+</div>
