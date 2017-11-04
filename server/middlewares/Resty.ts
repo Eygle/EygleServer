@@ -111,7 +111,16 @@ class Resty {
          }
       }
 
-      ret.resource = collection ? new ret.resource._main.Collection() : new ret.resource._main.Resource();
+      if (!ret.resource) {
+         ret.error = new CustomEdError('Resource not found', EHTTPStatus.NotFound);
+         return ret;
+      }
+
+      if (collection && ret.resource._main.Collection) {
+         ret.resource = new ret.resource._main.Collection();
+      } else if (!collection && ret.resource._main.Resource) {
+         ret.resource = new ret.resource._main.Resource();
+      }
 
       if (!ret.resource || !ret.resource[method]) {
          ret.error = new CustomEdError('Method not found', EHTTPStatus.NotFound);

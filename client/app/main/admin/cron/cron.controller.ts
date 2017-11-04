@@ -32,7 +32,7 @@ class CronController {
     */
    public runJob = (name: string): void => {
       this.ModalService.show({
-         component: 'mp-modal-confirm',
+         component: 'modal-confirm',
          bindings: {
             data: {
                title: "ADMIN.CRON.MODAL.CONFIRM.TITLE",
