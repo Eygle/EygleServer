@@ -197,12 +197,12 @@ class Utils {
     */
    public static compareIds(obj1: any, obj2: any) {
       if (Utils.isString(obj2)) {
-         return Utils.isString(obj1) ? obj1 === obj2 : Utils.hasId(obj1) && obj1._id === obj2;
+         return Utils.isString(obj1) ? obj1 === obj2 : Utils.hasId(obj1) && obj1._id.toString() === obj2;
       }
       if (Utils.isString(obj1)) {
-         return Utils.isString(obj2) ? obj1 === obj2 : Utils.hasId(obj2) && obj2._id === obj1;
+         return Utils.isString(obj2) ? obj1 === obj2 : Utils.hasId(obj2) && obj2._id.toString() === obj1;
       }
-      return Utils.hasId(obj1) && Utils.hasId(obj2) && obj1._id === obj2._id;
+      return Utils.hasId(obj1) && Utils.hasId(obj2) && obj1._id.toString() === obj2._id.toString();
    }
 
    /**

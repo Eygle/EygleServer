@@ -9,8 +9,14 @@ $color-invert-bg: #999;
 $color-invert-bg-dark: #fff;
 
 $color-bg-light: #37474F;
-$color-bg: darken($color-bg-light, 10%);
-$color-bg-dark: darken($color-bg, 5%);
+$color-bg: rgba(0, 0, 0, 0.15);
+$color-bg-dark: rgba(0, 0, 0, 0.3);
+
+$color: rgba(255, 255, 255, 0.7);
+$color-fade-2: rgba(255, 255, 255, 0.45);
+$color-fade: rgba(255, 255, 255, 0.298);
+$color-light: rgb(255, 255, 255);
+
 
 $color-h1: #000;
 $color-h2: #666;

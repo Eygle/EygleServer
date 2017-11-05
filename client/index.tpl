@@ -37,6 +37,11 @@
 <body md-theme="default" ng-controller="AppController as vm"
       class="{{state.current.bodyClass || ''}}" ondrop="return false">
 
+<div class="background-container">
+    <div class="background-img"></div>
+    <div class="background-noise"></div>
+</div>
+
 <div id="main" ng-class="'animate-slide-up'" ui-view="main" layout="column"></div>
 
 <!-- build:js(client) scripts/vendor.js -->

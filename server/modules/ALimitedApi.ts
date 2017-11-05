@@ -75,7 +75,6 @@ abstract class ALimitedApi {
          this._isProcessing = true;
          const diff = Date.now() - this._lastCalls;
          if (diff > this.minRequestInterval) {
-            this._lastCalls = Date.now();
             const item = this._queue.shift();
 
             this._callMethod(item)
@@ -83,17 +82,21 @@ abstract class ALimitedApi {
                   if (res) {
                      item.defer.resolve(res);
                   } else {
-                     item.defer.reject(Error("No result"));
+                     item.defer.reject(new Error("No result"));
                   }
-
+               })
+               .catch(err => {
+                  item.defer.reject(err);
+               })
+               .finally(() => {
                   if (this._queue.length > 0) {
                      this._processQueue(true);
                   } else {
                      this._isProcessing = false;
                   }
-               })
-               .catch(err => item.defer.reject);
+               });
          } else {
+            console.log('next call: ', this.minRequestInterval - diff);
             setTimeout(() => this._processQueue(true), this.minRequestInterval - diff);
          }
       }
@@ -106,9 +109,10 @@ abstract class ALimitedApi {
     * @private
     */
    private _callMethod(item: IApiQueueItem) {
-      if (this._useCB) {
-         const defer = q.defer();
+      const defer = q.defer();
 
+      this._lastCalls = Date.now();
+      if (this._useCB) {
          this.api[item.method].apply(this.api, [...item.args, (err, res) => {
             if (err) {
                defer.reject(err);
@@ -116,9 +120,12 @@ abstract class ALimitedApi {
                defer.resolve(res);
             }
          }]);
-         return defer.promise;
+      } else {
+         this.api[item.method].apply(this.api, item.args)
+            .then(res => defer.resolve(res))
+            .catch(err => defer.reject(err));
       }
-      return this.api[item.method].apply(this.api, item.args);
+      return defer.promise;
    }
 }
 

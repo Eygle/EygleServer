@@ -38,6 +38,11 @@ class SynchronizeMedias extends AJob {
    private _tvShows: Array<ILocalFile>;
 
    /**
+    * List of local tvshows files grouped by show and season
+    */
+   private _tvShowsGrouped: any;
+
+   /**
     * Number of movies added
     */
    private _nbrMoviesAdded: number;
@@ -122,22 +127,19 @@ class SynchronizeMedias extends AJob {
       this._filesToDelete = previous;
 
       this._identifyMedias();
-      q.allSettled([
-         this._processFilesToAdd(),
-         this._processFilesToDelete()
-      ])
-         .then(() => {
-            this._saveNewFiles()
+      this._tvShowsGrouped = this._mergeTVShowList(this._tvShows);
+      this._processFilesToAddSynchronously()
+         .then(() => this._processFilesToDelete()
+            .then(() => this._saveNewFiles()
                .then(() => {
-                  Utils.logger.log(`${this._nbrMoviesAdded} movies added`);
-                  Utils.logger.log(`${this._nbrTVShowsAdded} tv shows added`);
-                  Utils.logger.log(`${this._nbrFilesAdded} files added`);
-                  Utils.logger.log(`${this._nbrFilesDeleted} files deleted`);
+                  this.logger.info(`${this._nbrMoviesAdded} movies added`);
+                  this.logger.info(`${this._nbrTVShowsAdded} tv shows added`);
+                  this.logger.info(`${this._nbrFilesAdded} files added`);
+                  this.logger.info(`${this._nbrFilesDeleted} files deleted`);
                   defer.resolve();
-               })
-               .catch(defer.reject)
-         })
-         .catch(defer.reject);
+               }).catch(defer.reject)
+            ).catch(defer.reject)
+         ).catch(defer.reject);
 
       return defer.promise;
    }
@@ -182,21 +184,25 @@ class SynchronizeMedias extends AJob {
     * @return {Q.Promise<any>}
     * @private
     */
-   private _processFilesToAdd() {
-      const promises = [];
-
-      for (let f of this._movies) {
-         promises.push(this._addMovieFromFile(f));
+   private _processFilesToAddSynchronously(defer = null) {
+      if (!defer) {
+         defer = q.defer();
       }
 
-      const tvShows = this._mergeTVShowList(this._tvShows);
-      for (let show in tvShows) {
-         if (tvShows.hasOwnProperty(show)) {
-            promises.push(this._addTVShow(show, tvShows[show]));
-         }
+      if (this._movies.length) {
+         this._addMovieFromFile(this._movies.shift())
+            .finally(() => this._processFilesToAddSynchronously(defer));
+      } else
+         if (this._tvShowsGrouped.length) {
+         const show = this._tvShowsGrouped.shift();
+         const k = Object.keys(show)[0];
+            this._addTVShow(k, show[k])
+               .finally(() => this._processFilesToAddSynchronously(defer));
+      } else {
+         defer.resolve();
       }
 
-      return q.allSettled(promises);
+      return defer.promise;
    }
 
    /**
@@ -248,11 +254,15 @@ class SynchronizeMedias extends AJob {
     */
    private _mergeTVShowList(files: Array<ILocalFile>) {
       const tvshows = {};
+      const res = [];
 
       for (let f of files) {
          const title = f.mediaInfo.title.toLowerCase();
          if (!tvshows.hasOwnProperty(title)) {
+            const r = {};
             tvshows[title] = {};
+            r[title] = tvshows[title];
+            res.push(r)
          }
          if (!tvshows[title].hasOwnProperty(f.mediaInfo.season))
             tvshows[title][f.mediaInfo.season] = {};
@@ -262,7 +272,7 @@ class SynchronizeMedias extends AJob {
             tvshows[title][f.mediaInfo.season][f.mediaInfo.episode].push(f.model);
       }
 
-      return tvshows;
+      return res;
    }
 
    /**
@@ -273,6 +283,7 @@ class SynchronizeMedias extends AJob {
    private _addMovieFromFile(file: ILocalFile) {
       const defer = q.defer();
 
+      this.logger.log(`Process movie from file ${file.filename}`);
       if (file.mediaInfo.title) {
          TMDB.searchByTitle(file.mediaInfo.title).then((results: Array<ITMDBMovie>) => {
             if (results.length === 0) {
@@ -297,11 +308,11 @@ class SynchronizeMedias extends AJob {
                   .catch(defer.reject);
             }
          }).catch(err => {
-            Utils.logger.error('[TMDB:searchByTitle] error', err);
+            this.logger.error('[TMDB:searchByTitle] error', err);
             defer.reject();
          });
       } else {
-         Utils.logger.warn(`Skipped ${file.filename}: no exploitable title`);
+         this.logger.warn(`Skipped ${file.filename}: no exploitable title`);
          defer.reject();
       }
 
@@ -318,42 +329,43 @@ class SynchronizeMedias extends AJob {
    private _addTVShow(title: string, show: any) {
       const defer = q.defer();
 
+      this.logger.log(`Process tv show with title ${title}`);
       TVDB.searchByTitle(title)
          .then((res: Array<ITVDBShow>) => {
             if (res.length === 1) {
                // insert unique TVShow & all episodes
-               Utils.logger.trace('TVShow found in TVDB. Fetching all info...');
                TVDB.get(res[0].id)
                   .then(res => {
                      TVShow.createOrUpdateFromTVDBResult(res)
                         .then((item: ITVShow) => {
                            TVShow.save(item)
                               .then(() => {
-                                 Utils.logger.log('Added/updated TVShow');
+                                 this.logger.log(`Added/updated TVShow: ${item.title}`);
+                                 this._nbrTVShowsAdded++;
                                  this._addAllEpisodes(item, res.episodes, show).then(() => {
                                     defer.resolve();
                                  });
                               })
                               .catch(err => {
-                                 Utils.logger.error(err);
+                                 this.logger.error(err);
                                  defer.reject();
                               });
                         });
                   })
                   .catch((err) => {
-                     Utils.logger.error(`Impossible to fetch TVShow id:${res[0].id} from TVDB`, err);
+                     this.logger.error(`Impossible to fetch TVShow id:${res[0].id} from TVDB`, err);
                      defer.resolve();
                   });
             } else if (res.length > 1) {
-               Utils.logger.log('Multiple results found');
+               this.logger.log(`Multiple TVShows results found for title: ${title}`);
                defer.resolve();
             } else {
-               Utils.logger.log('No result found in TVDB');
+               this.logger.log(`[TVDB] No result found for title: ${title}`);
                defer.resolve();
             }
          })
          .catch(err => {
-            Utils.logger.log('[TVDB] error:', err);
+            this.logger.log('[TVDB] error:', err);
             defer.reject();
          });
 
@@ -384,20 +396,20 @@ class SynchronizeMedias extends AJob {
                         .then((episode: IEpisode) => {
                            Episode.save(episode)
                               .then(() => {
-                                 Utils.logger.log(`Added S${episode.season}E${episode.number}`);
+                                 this.logger.log(`Added S${episode.season}E${episode.number}`);
                                  d.resolve();
                               })
                               .catch(err => {
-                                 Utils.logger.error('Mongo', err);
+                                 this.logger.error('Mongo', err);
                                  d.resolve();
                               });
                         })
                         .catch(err => {
-                           Utils.logger.error('Mongo', err);
+                           this.logger.error('Mongo', err);
                            d.resolve();
                         });
                   } else {
-                     Utils.logger.warn(`S${season}E${episode} not found in TVDB episodes list`);
+                     this.logger.warn(`S${season}E${episode} not found in TVDB episodes list`);
                   }
                }
             }
@@ -437,11 +449,12 @@ class SynchronizeMedias extends AJob {
       TMDB.get(tmdbId, file.model).then((res: ITMDBMovie) => {
          Movie.save(res)
             .then((movie: IMovie) => {
-               Utils.logger.log(movie.files.length === 1 ? 'Movie added' : `Linked to existed movie ${movie.title}`);
+               this.logger.log((movie.files.length === 1 ? 'Movie added' : 'Linked to existed movie') + ` ${movie.title}`);
+               this._nbrMoviesAdded++;
                defer.resolve();
             })
             .catch((err) => {
-               Utils.logger.error('[Movie] save error', err);
+               this.logger.error('[Movie] save error', err);
                defer.reject();
             });
       });
@@ -460,8 +473,8 @@ class SynchronizeMedias extends AJob {
 
       for (let r of results) {
          promises.push(Proposal.save(Proposal.createFromTMDBResult(r, file.model))
-            .then((proposal: IProposal) => Utils.logger.log(`Add proposal: ${proposal.title}${proposal.date ? ` (${proposal.date.getFullYear()})` : ''}`))
-            .catch(err => Utils.logger.error('[Proposal] save error', err)));
+            .then((proposal: IProposal) => this.logger.log(`Add proposal: ${proposal.title}${proposal.date ? ` (${proposal.date.getFullYear()})` : ''}`))
+            .catch(err => this.logger.error('[Proposal] save error', err)));
       }
 
       return q.allSettled(promises);
@@ -472,13 +485,16 @@ class SynchronizeMedias extends AJob {
     * @return {Q.Promise<Array<Q.PromiseState<any>>>}
     * @private
     */
-   private _saveNewFiles() {
+   private _saveNewFiles(files = this._filesToAdd) {
       const promises = [];
 
-      for (let f of this._filesToAdd) {
+      for (let f of files) {
          if (f.model) {
             promises.push(File.save(f.model));
             this._nbrFilesAdded++;
+         }
+         if (f.children) {
+            promises.push(this._saveNewFiles(f.children));
          }
       }
 
